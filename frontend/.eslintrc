@@ -1,0 +1,25 @@
+{
+  "plugins": ["prettier"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "react-app"],
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "node": true
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "postcss.config.js",
+    ".prettierrc",
+    "tailwind.config.js"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/jsx-filename-extension": 0,
+    "no-unused-vars": 1
+  }
+}
