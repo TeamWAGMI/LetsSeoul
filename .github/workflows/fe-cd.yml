@@ -1,0 +1,68 @@
+## env: 현 위치의 env는 이 파일의 글로벌 변수
+env: 
+  BE_PROJ_NM: letsSeoul
+
+## name: 이 workflow의 이름
+name: LetsSeoul fe deploy
+
+## on: 이 workflow가 언제 실행될 건지
+on:
+  pull_request:
+    branches: "fe"
+  push:
+    branches: "fe"
+
+## jobs: 이 workflow 안에서 실행되는 작업들의 단위
+jobs:
+  
+  frontend:
+  
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      ## node modules 캐싱
+#       - name: Cache node modules
+#         uses: actions/cache@v3
+#         env:
+#           cache-name: cache-node-modules
+#         with:
+#           path: ~/.npm
+#           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-build-${{ env.cache-name }}-
+#             ${{ runner.os }}-build-
+#             ${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: npm install 
+
+      - name: Build
+        run: npm run build
+        
+      - name: pwd & ls -al
+        run: |
+          pwd
+          ls -al
+          
+      - name: scp-ssh-pipelines
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          user: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          scp: ./frontend/build/* => ${{ secrets.SERVER_BUILD_PATH_WEB }}
+          last_ssh: |
+            cd frontend
+            echo "FE 배포 결과 확인 "
+            ls -al
