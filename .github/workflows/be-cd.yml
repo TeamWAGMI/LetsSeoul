@@ -3,7 +3,7 @@ env:
   BE_PROJ_NM: letsSeoul
 
 ## name: 이 workflow의 이름
-name: LetsSeoul main/dev CI/CD
+name: LetsSeoul be deploy
 
 ## on: 이 workflow가 언제 실행될 건지
 on:
