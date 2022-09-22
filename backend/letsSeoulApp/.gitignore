@@ -1,5 +1,5 @@
 HELP.md
-.gradle
+.gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
@@ -43,5 +43,4 @@ out/
 *.pdf
 
 application-oauth.yml
-application-real.yml
 application-db.yml

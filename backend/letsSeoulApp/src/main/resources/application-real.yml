@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  profiles:
+    include: oauth,db
+  session:
+    store-type: jdbc
