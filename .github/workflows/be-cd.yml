@@ -66,6 +66,7 @@ jobs:
         key: ${{ secrets.SERVER_KEY }}
         port: ${{ secrets.SERVER_PORT }}
         scp: ./backend/$BE_PROJ_NM/build/libs/* => ${{ secrets.SERVER_BUILD_PATH_APP }}
+        first_ssh: echo "BE 배포 시작"
         last_ssh: |
           cd backend
           ./deploy.sh
