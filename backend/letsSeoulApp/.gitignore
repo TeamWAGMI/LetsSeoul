@@ -42,5 +42,5 @@ out/
 *.xlsx
 *.pdf
 
-application-oauth.yml
-application-db.yml
+application.yml
+application-*.yml
