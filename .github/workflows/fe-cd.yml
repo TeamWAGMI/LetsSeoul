@@ -1,15 +1,9 @@
-## env: 현 위치의 env는 이 파일의 글로벌 변수
-env: 
-  BE_PROJ_NM: letsSeoul
-
 ## name: 이 workflow의 이름
 name: LetsSeoul fe deploy
 
 ## on: 이 workflow가 언제 실행될 건지
 on:
   pull_request:
-    branches: "fe"
-  push:
     branches: "fe"
 
 ## jobs: 이 workflow 안에서 실행되는 작업들의 단위
