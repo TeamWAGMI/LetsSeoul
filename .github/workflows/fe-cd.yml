@@ -5,8 +5,6 @@ name: LetsSeoul fe deploy
 on:
   pull_request:
     branches: "fe"
-  push:
-    branches: "fe"
 
 ## jobs: 이 workflow 안에서 실행되는 작업들의 단위
 jobs:
