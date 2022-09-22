@@ -66,6 +66,7 @@ jobs:
         key: ${{ secrets.SERVER_KEY }}
         port: ${{ secrets.SERVER_PORT }}
         scp: ./backend/$BE_PROJ_NM/build/libs/* => ${{ secrets.SERVER_BUILD_PATH_APP }}
+        first_ssh: "BE 배포 시작"
         last_ssh: |
           cd backend
           ./deploy.sh
@@ -119,6 +120,7 @@ jobs:
           user: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
+          first_ssh: echo "FE 배포 시작"
           scp: ./frontend/build/* => ${{ secrets.SERVER_BUILD_PATH_WEB }}
           last_ssh: |
             cd frontend
