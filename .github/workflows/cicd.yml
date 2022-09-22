@@ -1,6 +1,6 @@
 ## env: 현 위치의 env는 이 파일의 글로벌 변수
 env: 
-  BE_PROJ_NM: letsSeoul
+  BE_PROJ_NM: letsSeoulApp
 
 ## name: 이 workflow의 이름
 name: LetsSeoul main/dev CI/CD
@@ -9,8 +9,6 @@ name: LetsSeoul main/dev CI/CD
 on:
   pull_request:
     branches: [ "main", "dev" ]
-  push:
-    branches: [ "dev" ]
 
 ## jobs: 이 workflow 안에서 실행되는 작업들의 단위
 jobs:
