@@ -1,1 +1,9 @@
-
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  profiles:
+    include: oauth,db
+  session:
+    store-type: jdbc

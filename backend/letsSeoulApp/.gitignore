@@ -43,3 +43,5 @@ out/
 *.pdf
 
 application-oauth.yml
+application-real.yml
+application-db.yml
