@@ -50,7 +50,7 @@ jobs:
     - name: Execute gradle bootJar
       run: |
         chmod +x ./gradlew
-        ./gradlew bootJar
+        ./gradlew build -x test
       
     - name: move to build/libs
       run: |
