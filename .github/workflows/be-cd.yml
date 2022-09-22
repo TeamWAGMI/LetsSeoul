@@ -1,15 +1,9 @@
-## env: 현 위치의 env는 이 파일의 글로벌 변수
-env: 
-  BE_PROJ_NM: letsSeoul
-
 ## name: 이 workflow의 이름
 name: LetsSeoul be deploy
 
 ## on: 이 workflow가 언제 실행될 건지
 on:
   pull_request:
-    branches: "be"
-  push:
     branches: "be"
 
 ## jobs: 이 workflow 안에서 실행되는 작업들의 단위
@@ -24,7 +18,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: backend/$BE_PROJ_NM
+        working-directory: backend/letsSeoulApp
 
     steps:
     - name: Checkout
@@ -66,7 +60,7 @@ jobs:
         key: ${{ secrets.SERVER_KEY }}
         port: ${{ secrets.SERVER_PORT }}
         first_ssh: echo "BE 배포 시작"
-        scp: ./backend/$BE_PROJ_NM/build/libs/* => ${{ secrets.SERVER_BUILD_PATH_APP }}
+        scp: ./backend/letsSeoulApp/build/libs/* => ${{ secrets.SERVER_BUILD_PATH_APP }}
         last_ssh: |
           cd backend
           ./deploy.sh
