@@ -4,12 +4,12 @@ function Button({
   name = null,
   emoji = null,
   icon = null,
-  handleClick,
+  handleButtonClick,
 }) {
   // svg icon button
   if (icon) {
     return (
-      <button className={style}>
+      <button className={style} onClick={handleButtonClick}>
         <img
           className={icon !== "hamburger" ? "inline" : null}
           src={`images/${icon}.svg`}
@@ -23,7 +23,7 @@ function Button({
   return (
     <button
       className={`${style} ${isFull && "w-[100%]"}`}
-      onClick={handleClick}
+      onClick={handleButtonClick}
     >
       <span>{name}</span>
       {emoji && <span className="ml-2">{emoji}</span>}

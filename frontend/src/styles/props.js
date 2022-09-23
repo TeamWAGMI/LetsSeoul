@@ -21,6 +21,6 @@ export const buttonStyles = {
   backButton: "pr-[18px]",
   searchButton: "p-[13px] m-[-13px]",
   kakaoLoginButton:
-    "flex items-center w-[100%] py-3 px-5 rounded-lg bg-[#fbe64d] mt-8",
+    "flex items-center w-[100%] py-3 px-5 rounded-lg bg-[#fbe64d]",
   hamburgerButton: "",
 };
