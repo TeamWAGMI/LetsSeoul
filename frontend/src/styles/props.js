@@ -24,3 +24,12 @@ export const buttonStyles = {
     "flex items-center w-[100%] py-3 px-5 rounded-lg bg-[#fbe64d]",
   hamburgerButton: "",
 };
+
+export const cardStyles = {
+  fixedThemeCard:
+    "flex flex-col items-center justify-center shrink-0 w-[162px] h-[120px] bg-white rounded-lg p-3 mr-2",
+  lgThemeCard: "h-[100px] bg-white rounded-lg p-3 text-center mb-3",
+  gridThemeCard: "bg-white rounded-lg min-h-[120px] w-full",
+  oneLineLongCard: "bg-white p-3 rounded-lg",
+  oneLineShortCard: "bg-white inline-block p-3 rounded-lg",
+};
