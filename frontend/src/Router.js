@@ -9,6 +9,7 @@ import ThemeMap from "pages/ThemeMap";
 import UserInfo from "pages/UserInfo";
 import UserPickMap from "pages/UserPickMap";
 import UserWishMap from "pages/UserWishMap";
+import Login from "pages/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Router = () => {
@@ -26,6 +27,7 @@ const Router = () => {
         <Route path="/theme/search/:tid" element={<SearchStore />} />
         <Route path="/mypick/:uid" element={<UserPickMap />} />
         <Route path="/mywish/:uid" element={<UserWishMap />} />
+        <Route path="/login/oauth2/authurl/kakao" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
