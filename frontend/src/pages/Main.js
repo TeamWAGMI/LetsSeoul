@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import Card from "components/Card";
 import Footer from "components/Footer";
 import Header from "components/Header";
-import Card from "components/Card";
+import { Link } from "react-router-dom";
 import { buttonStyles, cardStyles } from "styles/props";
 import {
   popularThemes,
@@ -9,10 +9,16 @@ import {
   recommendedThemes,
 } from "static/dummyData";
 import Button from "components/Button";
+import { scrollToTop } from "libraries/utils";
+import { useEffect } from "react";
 
 function Main() {
   const { fixedThemeCard, lgThemeCard } = cardStyles;
   const { mdGreenButton } = buttonStyles;
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
   return (
     <div className="relative">
