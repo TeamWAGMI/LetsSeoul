@@ -1,5 +1,7 @@
 export const buttonStyles = {
-  mdGreenButton: "bg-wagmiGreen text-textWhite font-medium rounded-lg p-3",
+  mdGreenButton:
+    "bg-wagmiGreen text-textWhite font-medium rounded-lg py-3 px-5",
+  mdWhiteButton: "bg-white font-medium rounded-lg border py-3 px-5",
   smGreenButton:
     "bg-wagmiGreen text-textWhite text-sm font-medium rounded-lg py-2 px-4",
   smLightGreenButton:
@@ -21,7 +23,7 @@ export const buttonStyles = {
   backButton: "pr-[18px]",
   searchButton: "p-[13px] m-[-13px]",
   kakaoLoginButton:
-    "flex items-center w-[100%] py-3 px-5 rounded-lg bg-[#fbe64d]",
+    "flex items-center w-full py-3 px-5 rounded-lg bg-[#fbe64d]",
   hamburgerButton: "",
 };
 
@@ -30,7 +32,7 @@ export const cardStyles = {
     "flex flex-col items-center justify-center shrink-0 w-[162px] h-[114px] bg-white rounded-lg p-3 mr-2",
   lgThemeCard: "h-[100px] bg-white rounded-lg p-3 text-center mb-3",
   gridThemeCard:
-    "flex flex-col items-center justify-center bg-white rounded-lg min-h-[114px] w-full",
+    "flex flex-col items-center justify-center bg-white rounded-lg min-h-[114px] w-full p-3",
   oneLineLongCard: "bg-white p-3 rounded-lg",
   oneLineShortCard: "bg-white inline-block p-3 rounded-lg",
 };

@@ -1,10 +1,10 @@
 function Button({
-  style,
-  isFull = false,
   name = null,
   emoji = null,
   icon = null,
   handleButtonClick,
+  style,
+  isFull = false,
 }) {
   // svg icon button
   if (icon) {
@@ -15,14 +15,14 @@ function Button({
           src={`images/${icon}.svg`}
           alt={icon}
         />
-        {name && <p className="w-[100%] text-center">{name}</p>}
+        {name && <p className="w-full text-center">{name}</p>}
       </button>
     );
   }
 
   return (
     <button
-      className={`${style} ${isFull && "w-[100%]"}`}
+      className={`${style} ${isFull && "w-full"}`}
       onClick={handleButtonClick}
     >
       <span>{name}</span>
