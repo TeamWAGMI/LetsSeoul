@@ -5,12 +5,16 @@ import Header from "components/Header";
 import SearchBar from "components/SearchBar";
 import Tag from "components/Tag";
 import { scrollToTop } from "libraries/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { atWhere, doWhat, popularThemes, withWhom } from "static/dummyData";
 import { buttonStyles, cardStyles } from "styles/props";
 
 function Search() {
+  const [selectedWhom, setSelectedWhom] = useState(null);
+  const [selectedWhat, setSelectedWhat] = useState(null);
+  const [selectedWhere, setSelectedWhere] = useState(null);
+
   const { gridThemeCard } = cardStyles;
   const { mdGreenButton } = buttonStyles;
 
@@ -26,9 +30,24 @@ function Search() {
           <SearchBar />
         </div>
         <div className="mb-[30px]">
-          <Tag title="누구와?" tags={withWhom} />
-          <Tag title="뭘 하기 좋은?" tags={doWhat} />
-          <Tag title="어떤 곳에서?" tags={atWhere} />
+          <Tag
+            title="누구와?"
+            tags={withWhom}
+            selectedTag={selectedWhom}
+            setSelectedTag={setSelectedWhom}
+          />
+          <Tag
+            title="뭘 하기 좋은?"
+            tags={doWhat}
+            selectedTag={selectedWhat}
+            setSelectedTag={setSelectedWhat}
+          />
+          <Tag
+            title="어떤 곳에서?"
+            tags={atWhere}
+            selectedTag={selectedWhere}
+            setSelectedTag={setSelectedWhere}
+          />
         </div>
         <div className="mb-[30px]">
           <div className="mb-3 font-medium text-sm leading-none">
