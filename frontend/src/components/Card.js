@@ -5,7 +5,7 @@ function Card({ id, emoji, name, option = null, style, isOneLine = false }) {
       {isOneLine ? (
         <span className="ml-2">{name}</span>
       ) : (
-        <div className="py-[4px]">{name}</div>
+        <div className="py-[4px] text-center">{name}</div>
       )}
       <span className={isOneLine ? "float-right" : "text-xs text-textGray"}>
         {option}
