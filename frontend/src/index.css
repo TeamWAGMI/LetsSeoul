@@ -49,12 +49,12 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* 공용 스타일 관리 */
 @layer components {
-  // 패딩
+  /* 패딩 */
   .padding-container {
     @apply px-4 py-[30px];
   }
 
-  // 텍스트
+  /* 텍스트 */
   .smHeadline {
     @apply mb-3 text-sm font-medium;
   }
