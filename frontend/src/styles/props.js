@@ -27,9 +27,10 @@ export const buttonStyles = {
 
 export const cardStyles = {
   fixedThemeCard:
-    "flex flex-col items-center justify-center shrink-0 w-[162px] h-[120px] bg-white rounded-lg p-3 mr-2",
+    "flex flex-col items-center justify-center shrink-0 w-[162px] h-[114px] bg-white rounded-lg p-3 mr-2",
   lgThemeCard: "h-[100px] bg-white rounded-lg p-3 text-center mb-3",
-  gridThemeCard: "bg-white rounded-lg min-h-[120px] w-full",
+  gridThemeCard:
+    "flex flex-col items-center justify-center bg-white rounded-lg min-h-[114px] w-full",
   oneLineLongCard: "bg-white p-3 rounded-lg",
   oneLineShortCard: "bg-white inline-block p-3 rounded-lg",
 };

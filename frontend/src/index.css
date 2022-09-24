@@ -56,6 +56,6 @@ input[type="range"]::-webkit-slider-thumb {
 
   /* 텍스트 */
   .smHeadline {
-    @apply mb-3 text-sm font-medium;
+    @apply mb-3 text-sm font-medium leading-none;
   }
 }
