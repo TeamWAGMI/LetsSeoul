@@ -1,4 +1,15 @@
-function Tag({ title, tags }) {
+function Tag({ title, tags, selectedTag, setSelectedTag }) {
+  const tagClass = (id) => {
+    if (selectedTag === id)
+      return "bg-wagmiLightGreen rounded-lg text-white font-medium text-xs leading-none p-[10px] mr-[10px] mb-[10px]";
+    return "bg-white rounded-lg text-[#756E56] font-medium text-xs leading-none p-[10px] mr-[10px] mb-[10px] hover:bg-[#E6E3D6]";
+  };
+
+  const handleTagSelect = (id) => {
+    setSelectedTag(id);
+    if (selectedTag === id) setSelectedTag(null);
+  };
+
   return (
     <div className="mb-[10px]">
       <div className="smHeadline">{title}</div>
@@ -6,7 +17,8 @@ function Tag({ title, tags }) {
         {tags.map((tag) => (
           <button
             key={tag.id}
-            className="bg-white rounded-lg text-[#756E56] font-medium text-xs leading-none p-[10px] mr-[10px] mb-[10px]"
+            onClick={() => handleTagSelect(tag.id)}
+            className={tagClass(tag.id)}
           >
             {tag.name}
           </button>
