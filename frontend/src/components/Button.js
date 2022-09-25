@@ -12,7 +12,7 @@ function Button({
       <button className={style} onClick={handleButtonClick}>
         <img
           className={icon !== "hamburger" ? "inline" : null}
-          src={`images/${icon}.svg`}
+          src={`/images/${icon}.svg`}
           alt={icon}
         />
         {name && <p className="w-full text-center">{name}</p>}
