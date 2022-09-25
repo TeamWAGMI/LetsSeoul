@@ -7,7 +7,7 @@ function Request() {
   const [request, setRequest] = useState({ title: "", content: "" });
   const { title, content } = request;
 
-  const { mdGreenButton, mdWhiteButton } = buttonStyles;
+  const { smGreenButton, smWhiteButton } = buttonStyles;
 
   const handleRequestChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +22,7 @@ function Request() {
     <div className="relative">
       <Header />
       <div className="padding-container">
-        <div className="font-medium text-center mb-6">
+        <div className="font-semibold text-center mb-6">
           새로운 테마를 등록하고 싶으신가요?
         </div>
         <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5">
@@ -45,12 +45,12 @@ function Request() {
           />
         </div>
         <div className="text-center">
-          <Button name="취소하기" style={mdWhiteButton} />
+          <Button name="취소하기" style={smWhiteButton} />
           <span className="ml-4" />
           <Button
             name="테마 추천하기"
             handleButtonClick={handleRequestSubmit}
-            style={mdGreenButton}
+            style={smGreenButton}
           />
         </div>
       </div>
