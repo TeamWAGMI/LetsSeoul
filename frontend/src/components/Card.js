@@ -1,15 +1,31 @@
-function Card({ id, emoji, name, option = null, style, isOneLine = false }) {
+function Card({
+  id,
+  emoji,
+  name,
+  option = null,
+  style,
+  isOneLine = false,
+  isFull = false,
+}) {
   return (
     <li className={`${style} text-sm`} key={id}>
-      <span className={isOneLine ? null : "text-2xl"}>{emoji}</span>
       {isOneLine ? (
-        <span className="ml-2">{name}</span>
+        <div
+          className={`bg-white p-3 rounded-lg ${
+            isFull ? null : "inline-block"
+          }`}
+        >
+          <span>{emoji}</span>
+          <span className="ml-2">{name}</span>
+          <span className="float-right">{option}</span>
+        </div>
       ) : (
-        <div className="py-[4px] text-center">{name}</div>
+        <>
+          <span className="text-2xl">{emoji}</span>
+          <div className="py-[4px] text-center">{name}</div>
+          <span className="text-xs text-textGray">{option}</span>
+        </>
       )}
-      <span className={isOneLine ? "float-right" : "text-xs text-textGray"}>
-        {option}
-      </span>
     </li>
   );
 }
