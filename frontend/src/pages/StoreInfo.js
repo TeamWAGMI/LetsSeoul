@@ -15,7 +15,7 @@ function StoreInfo() {
       />
       <div className="padding-container">
         <div className="mb-[30px]">
-          <div className="smHeadline mb-3">여기는 어떤 곳인가요?</div>
+          <div className="smHeadline">여기는 어떤 곳인가요?</div>
           <ul className="grid gap-2">
             {storeTheme.map((theme) => {
               const { id, emoji, name } = theme;
@@ -33,11 +33,11 @@ function StoreInfo() {
           </ul>
         </div>
         <div className="mb-[30px]">
-          <div className="smHeadline mb-3">어디에 있나요?</div>
+          <div className="smHeadline">어디에 있나요?</div>
           <div className="h-36 rounded-lg bg-white"></div>
         </div>
         <div className="mb-[30px]">
-          <div className="smHeadline mb-3">이 장소에 대한 이야기들</div>
+          <div className="smHeadline">이 장소에 대한 이야기들</div>
           <ul className="grid gap-2">
             {content.map((review) => {
               const {

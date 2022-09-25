@@ -45,13 +45,14 @@ function Request() {
           />
         </div>
         <div className="text-center">
-          <Button name="취소하기" style={smWhiteButton} />
-          <span className="ml-4" />
-          <Button
-            name="테마 추천하기"
-            handleButtonClick={handleRequestSubmit}
-            style={smGreenButton}
-          />
+          <div className="inline-grid grid-cols-2 gap-3">
+            <Button name="취소하기" style={smWhiteButton} />
+            <Button
+              name="테마 추천하기"
+              handleButtonClick={handleRequestSubmit}
+              style={smGreenButton}
+            />
+          </div>
         </div>
       </div>
     </div>
