@@ -36,7 +36,7 @@ function Header({
           >
             {hasBackButton ? (
               <>
-                <div className="text-xl font-medium">{storeName}</div>
+                <div className="text-xl font-semibold">{storeName}</div>
                 <div className="text-sm">{storeAddress}</div>
               </>
             ) : (

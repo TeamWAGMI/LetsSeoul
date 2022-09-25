@@ -1,8 +1,8 @@
 function Tag({ title, tags, selectedTag, setSelectedTag }) {
   const tagClass = (id) => {
     if (selectedTag === id)
-      return "bg-wagmiLightGreen rounded-lg text-white font-medium text-xs leading-none p-[10px] mr-[10px] mb-[10px]";
-    return "bg-white rounded-lg text-[#756E56] font-medium text-xs leading-none p-[10px] mr-[10px] mb-[10px] hover:bg-[#E6E3D6]";
+      return "bg-wagmiLightGreen rounded-lg text-white font-semibold text-xs leading-none p-[10px] mr-[10px] mb-[10px]";
+    return "bg-white rounded-lg text-[#756E56] font-semibold text-xs leading-none p-[10px] mr-[10px] mb-[10px] hover:bg-[#E6E3D6]";
   };
 
   const handleTagSelect = (id) => {

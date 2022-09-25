@@ -24,7 +24,7 @@ function Modal({ name, handleModalBg, handleButtonClick }) {
       onClick={name === "카카오로 계속하기" ? handleModalBg : undefined}
     >
       <div
-        className="bg-white py-10 px-12 rounded-lg text-center text-medium"
+        className="bg-white py-10 px-12 rounded-lg text-center font-semibold"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="whitespace-nowrap mb-7">

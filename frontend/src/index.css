@@ -62,6 +62,6 @@ textarea:focus {
 
   /* 텍스트 */
   .smHeadline {
-    @apply mb-3 text-sm font-medium leading-none;
+    @apply mb-3 text-sm font-semibold leading-none;
   }
 }

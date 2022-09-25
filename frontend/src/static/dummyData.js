@@ -133,3 +133,52 @@ export const atWhere = [
   { id: 3, name: "주점" },
   { id: 4, name: "베이커리" },
 ];
+
+// 가게 정보 페이지 (store)
+export const storeTheme = [
+  {
+    id: 1,
+    emoji: "🥘",
+    name: "엄마표 된장찌개보다 맛있어",
+    count: 10,
+  },
+  {
+    id: 2,
+    emoji: "🍚",
+    name: "집밥이 그리울 때 생각나는 백반집",
+    count: 5,
+  },
+];
+
+export const storeReview = {
+  content: [
+    {
+      userId: 1,
+      userEmoji: "🥰",
+      userNickname: "맛집 사냥꾼",
+      reviewId: 1,
+      reviewScore: 4,
+      reviewContent: "여기 진짜 맛있습니다!",
+      createdDatetime: "createdAt",
+      modifiedDateTime: "modifiedAt",
+      reviewImages: ["이미지경로1"],
+    },
+    {
+      userId: 2,
+      userEmoji: "🍟",
+      userNickname: "바삭바삭",
+      reviewId: 2,
+      reviewScore: 3,
+      reviewContent: "여기 진짜 맛있습니다!",
+      createdDatetime: "createdAt",
+      modifiedDateTime: "modifiedAt",
+      reviewImages: ["이미지경로12"],
+    },
+  ],
+  pageInfo: {
+    nowPage: 1,
+    nowCount: 1,
+    totalPage: 2,
+    totalCount: 5,
+  },
+};
