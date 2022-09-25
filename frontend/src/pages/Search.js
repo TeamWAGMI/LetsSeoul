@@ -50,7 +50,7 @@ function Search() {
           />
         </div>
         <div className="mb-[30px]">
-          <div className="mb-3 font-medium text-sm leading-none">
+          <div className="mb-3 font-semibold text-sm leading-none">
             6개의 테마를 찾았어요.
           </div>
           <ul className="grid grid-cols-2 gap-[11px]">
