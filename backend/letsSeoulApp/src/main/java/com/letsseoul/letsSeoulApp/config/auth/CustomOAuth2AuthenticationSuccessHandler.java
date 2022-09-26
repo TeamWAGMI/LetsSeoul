@@ -1,5 +1,7 @@
 package com.letsseoul.letsSeoulApp.config.auth;
 
+import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
+import com.letsseoul.letsSeoulApp.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -8,14 +10,18 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    private final HttpSession httpSession;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -32,7 +38,11 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         log.info("### request's attributes : ");
         request.getAttributeNames().asIterator().forEachRemaining(s -> log.info("{} : {}", s, request.getAttribute(s)));
 
-        response.sendRedirect("/oauth2/success");
+//        response.sendRedirect("/oauth2/success");
+//        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+//        response.sendRedirect("https://letsseoul.com/?c=" + user.getUsername());
+        response.sendRedirect("https://letsseoul.com/");
+
         handle(request, response, authentication);
 
 
