@@ -44,7 +44,7 @@ jobs:
     - name: Execute gradle bootJar
       run: |
         chmod +x ./gradlew
-        ./gradlew bootJar -x asciidoctor
+        ./gradlew bootJar
       
     - name: move to build/libs
       run: |
