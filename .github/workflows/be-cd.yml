@@ -18,7 +18,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: backend/letsSeoul
+        working-directory: backend/letsSeoulApp
 
     steps:
     - name: Checkout
@@ -44,7 +44,7 @@ jobs:
     - name: Execute gradle bootJar
       run: |
         chmod +x ./gradlew
-        ./gradlew bootJar -x asciidoctor
+        ./gradlew bootJar
       
     - name: move to build/libs
       run: |
@@ -60,7 +60,7 @@ jobs:
         key: ${{ secrets.SERVER_KEY }}
         port: ${{ secrets.SERVER_PORT }}
         first_ssh: echo "BE 배포 시작"
-        scp: ./backend/letsSeoul/build/libs/* => ${{ secrets.SERVER_BUILD_PATH_APP }}
+        scp: ./backend/letsSeoulApp/build/libs/* => ${{ secrets.SERVER_BUILD_PATH_APP }}
         last_ssh: |
           cd backend
           ./deploy.sh
