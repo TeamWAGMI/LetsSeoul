@@ -1,12 +1,8 @@
-#server:
-#  port: 8080
-#jwt:
-#  secret: dGVhbVdhZ21pTGV0c1Nlb3Vs
 spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create #
     properties: #
       hibernate: #
         dialect: org.hibernate.dialect.MySQL57Dialect #
@@ -64,35 +60,3 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
-
-app:
-  auth:
-    token:
-      secret-key: VGVhbVdhZ21pQXV0aFRva2VuU2VjcmV0S2V5QmFzZTY0RW5jb2RpbmdGb3JtYXR0ZWRURUFNV0FHTUlBVVRIVE9LRU5TRUNSRVRLRVlCQVNFNjRFTkNPRElOR0ZPUk1BVFRFRA==
-      refresh-cookie-key: VGVhbVdhZ21pQXV0aFRva2VuUmVmcmVzaENvb2tpZUtleUJhc2U2NEVuY29kaW5nRm9ybWF0dGVkVEVBTVdBR01JQVVUSFRPS0VOUkVGUkVTSENPT0tJRUtFWUJBU0U2NEVOQ09ESU5HRk9STUFUVEVE
-
-#          kakao:
-#            client-id: ca0054307db296996f1945e19583c627
-#            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
-#                        redirect-uri: https://letsseoul.com/login/oauth2/code/kakao
-#            authorization-grant-type: authorization_code
-#            client-authentication-method: POST
-#            client-name: Kakao
-#            scope:
-#              - profile_nickname
-#        provider:
-#          kakao:
-#            authorization-uri: https://kauth.kakao.com/oauth/authorize
-#            token-uri: https://kauth.kakao.com/oauth/token
-#            user-info-uri: https://kapi.kakao.com/v2/user/me
-#            user-name-attribute: id
-
-#spring:
-#  jpa:
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: create
-#  profiles:
-#    include: oauth,db
-#  session:
-#    store-type: jdbc
