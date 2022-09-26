@@ -1,6 +1,6 @@
 import Follow from "pages/Follow";
 import Main from "pages/Main";
-import Request from "pages/Request";
+import RequestForm from "pages/RequestForm";
 import ReviewForm from "pages/ReviewForm";
 import Search from "pages/Search";
 import SearchStore from "pages/SearchStore";
@@ -17,8 +17,8 @@ const Router = () => {
       <Routes>
         <Route index element={<Main />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/request" element={<Request />} />
-        <Route path="/storeinfo/:sid" element={<StoreInfo />} />
+        <Route path="/request" element={<RequestForm />} />
+        <Route path="/store/:sid" element={<StoreInfo />} />
         <Route path="/review/:sid" element={<ReviewForm />} />
         <Route path="/user/:uid" element={<UserInfo />} />
         <Route path="/user/:uid/follow" element={<Follow />} />

@@ -3,7 +3,7 @@ import Header from "components/Header";
 import { useState } from "react";
 import { buttonStyles } from "styles/props";
 
-function Request() {
+function RequestForm() {
   const [request, setRequest] = useState({ title: "", content: "" });
   const { title, content } = request;
 
@@ -59,4 +59,4 @@ function Request() {
   );
 }
 
-export default Request;
+export default RequestForm;
