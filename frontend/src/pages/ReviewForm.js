@@ -2,6 +2,7 @@ import Button from "components/Button";
 import Card from "components/Card";
 import Header from "components/Header";
 import ImageUpload from "components/ImageUpload";
+import Score from "components/Score";
 // import { useState } from "react";
 import { buttonStyles } from "styles/props";
 
@@ -38,7 +39,7 @@ function ReviewForm() {
           <div className="flex flex-col items-center bg-white rounded-lg p-5 mb-5">
             <div>
               <span className="mr-3">추천 장소의 별점은요?</span>
-              <span>☆☆☆☆☆</span>
+              <Score />
             </div>
             <div className="grid grid-cols-3 gap-3 my-4">
               <ImageUpload id="file_1" />
