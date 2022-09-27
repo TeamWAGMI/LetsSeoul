@@ -1,5 +1,8 @@
-package com.letsseoul.letsSeoulApp.config.auth;
+package com.letsseoul.letsSeoulApp.config;
 
+import com.letsseoul.letsSeoulApp.config.auth.CustomOAuth2AuthenticationFailureHandler;
+import com.letsseoul.letsSeoulApp.config.auth.CustomOAuth2AuthenticationSuccessHandler;
+import com.letsseoul.letsSeoulApp.config.auth.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final CorsConfig corsConfig;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOAuth2AuthenticationSuccessHandler customOAuth2AuthenticationSuccessHandler;
     private final CustomOAuth2AuthenticationFailureHandler customOAuth2AuthenticationFailureHandler;
@@ -19,6 +23,7 @@ public class SecurityConfig {
 
         http
                 .csrf().disable()
+                .addFilter(corsConfig.corsFilter())
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/oauth2/authorization/**").permitAll()
