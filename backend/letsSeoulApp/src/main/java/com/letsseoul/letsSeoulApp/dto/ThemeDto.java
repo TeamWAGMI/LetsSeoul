@@ -3,7 +3,6 @@ package com.letsseoul.letsSeoulApp.dto;
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +86,24 @@ public class ThemeDto {
         }
     }
 
+    // BE-TH-0004
+    @Getter
+    @RequiredArgsConstructor
+    public static class RegistThemeReviewPost {
+        private final Integer score;
+        private final String content;
+        private final String[] images;
+    }
+    @Getter
+    @RequiredArgsConstructor
+    public static class RegistThemeReviewResponse {
+        private final Boolean success;
+
+        public static RegistThemeReviewResponse of() {
+            return new RegistThemeReviewResponse(true);
+        }
+    }
+
     // BE-TH-0009
     @Getter
     @RequiredArgsConstructor
@@ -95,7 +112,6 @@ public class ThemeDto {
         private final String[] who;
         private final String[] what;
         private final String[] where;
-
     }
     @Getter
     @RequiredArgsConstructor

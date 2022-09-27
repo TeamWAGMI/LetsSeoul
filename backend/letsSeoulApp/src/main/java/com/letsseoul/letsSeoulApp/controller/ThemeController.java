@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/themes")
 @RequiredArgsConstructor
 @Slf4j
 public class ThemeController {
@@ -22,7 +22,7 @@ public class ThemeController {
     /**
      * BE-TH-0001 추천 테마 목록 조회
      */
-    @GetMapping("/themes/recommends")
+    @GetMapping("/recommends")
     public ResponseEntity<List<ThemeDto.RecommendedThemesListResponse>> listOfRecommendedThemes() {
 
         List<Theme> stubList = new ArrayList<>();
@@ -49,7 +49,7 @@ public class ThemeController {
     /**
      * BE-TH-0002 인기 테마 목록 조회
      */
-    @GetMapping("/themes/populars")
+    @GetMapping("/populars")
     public ResponseEntity<List<ThemeDto.PopularThemesListResponse>> listOfPopularThemes() {
 
         List<Theme> stubList = new ArrayList<>();
@@ -85,17 +85,31 @@ public class ThemeController {
      * BE-TH-0003 테마지도 조회
      * @param themeId
      */
-    @GetMapping("/themes/{themeId}")
+    @GetMapping("/{themeId}")
     public ResponseEntity<List<ThemeDto.ThemeMapListResponse>> themeMapList(@PathVariable("themeId") Long themeId) {
 
         return ResponseEntity.ok().body(ThemeDto.ThemeMapListResponse.of());
     }
 
     /**
+     * BE-TH-0004 테마 리뷰 등록
+     * @param themeId
+     * @param storeId
+     */
+    @PostMapping("/{themeId}/stores/{storeId}")
+    public ResponseEntity registThemeReview(@PathVariable("themeId") Long themeId,
+                                            @PathVariable("storeId") Long storeId,
+                                            @RequestBody ThemeDto.RegistThemeReviewPost registThemeReviewPost) {
+
+        return ResponseEntity.ok().body(ThemeDto.RegistThemeReviewResponse.of());
+    }
+    
+    
+    /**
      * BE-TH-0009
      * @param themeSearchGet 검색 파라미터
      */
-    @GetMapping("/themes/search")
+    @GetMapping("/search")
     public ResponseEntity<ThemeDto.ThemeSearchResponse> themeSearch(@RequestBody ThemeDto.ThemeSearchGet themeSearchGet) {
 
         return ResponseEntity.ok().body(ThemeDto.ThemeSearchResponse.of());
@@ -106,7 +120,7 @@ public class ThemeController {
      * @param themeId
      * @param userId
      */
-    @PostMapping("/themes/{themeId}/users/{userId}/wishes")
+    @PostMapping("/{themeId}/users/{userId}/wishes")
     public ResponseEntity<ThemeDto.RegistDibsThemeResponse> registDibsTheme(@PathVariable("themeId") Long themeId, @PathVariable("userId") Long userId) {
         
         return ResponseEntity.ok().body(ThemeDto.RegistDibsThemeResponse.of());
