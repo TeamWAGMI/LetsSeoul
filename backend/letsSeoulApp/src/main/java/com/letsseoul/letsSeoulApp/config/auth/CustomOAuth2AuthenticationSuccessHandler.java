@@ -34,7 +34,7 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
 
 //        response.sendRedirect("/oauth2/success");
 //        response.sendRedirect("https://letsseoul.com");
-        response.sendRedirect("http://localhost:3000");
+        response.sendRedirect("http://localhost:3000/transition/login");
         handle(request, response, authentication);
     }
 }
