@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class OAuth2Controller {
 
-    @GetMapping("/oauth2/success")
-    public ResponseEntity oauthLoginSuccess(@LoginUser SessionUser user) {
+    @GetMapping("/oauth2/users")
+    public ResponseEntity<SessionUser> oauthLoginSuccess(@LoginUser SessionUser user) {
 
-        if (user != null)
+        if (user != null) {
             log.info("### OAuth2Controller.oauthLoginSuccess's SessionUser instance : " + user.toString()); //테스트 로그
+        }
 
         return ResponseEntity.ok().body(user);
     }

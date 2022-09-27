@@ -32,9 +32,9 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         log.info("### request's attributes : ");
         request.getAttributeNames().asIterator().forEachRemaining(s -> log.info("{} : {}", s, request.getAttribute(s)));
 
-        response.sendRedirect("/oauth2/success");
+//        response.sendRedirect("/oauth2/success");
+//        response.sendRedirect("https://letsseoul.com");
+        response.sendRedirect("http://localhost:3000");
         handle(request, response, authentication);
-
-
     }
 }
