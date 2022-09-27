@@ -2,35 +2,30 @@ package com.letsseoul.letsSeoulApp.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class Theme {
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String username;
-
-    @Column(nullable = false)
-    private String origin;
-
-    @Column(nullable = false)
     private String emoji;
 
     @Column(nullable = false)
-    private String nickname;
-
-    private String introduce;
+    private String title;
 
     @Column(nullable = false)
     @CreatedDate
@@ -41,28 +36,24 @@ public class User {
     private LocalDateTime modifiedDatetime;
 
     @Column(nullable = false)
-    private String role;
-
-    @Column(nullable = false)
     private String status;
 
-    protected User() {
+    @OneToMany(mappedBy = "theme")
+    private List<ThemeStore> themeStoreList = new ArrayList<>();
+
+    public void addThemeStore(ThemeStore themeStore) {
+        this.themeStoreList.add(themeStore);
+    }
+
+    protected Theme() {
     }
 
     @Builder
-    public User(String username, String origin, String emoji, String name, String role) {
-        this.username = username;
-        this.origin = origin;
+    public Theme(String emoji, String title, LocalDateTime createdDatetime, LocalDateTime modifiedDatetime) {
         this.emoji = emoji;
-        this.nickname = name;
-        this.role = role;
-        this.status = "E"; // 유저를 생성할 때에는 기본 status값을 E(Enable)로 한다.
+        this.title = title;
+        this.createdDatetime = createdDatetime;
+        this.modifiedDatetime = modifiedDatetime;
+        this.status = "D"; // 새로 생성한 테마의 기본 상태는 비활성화(D, Disable) 상태다.
     }
-
-    public User update(String name, String emoji) {
-        this.nickname = name;
-        this.emoji = emoji;
-        return this;
-    }
-
 }

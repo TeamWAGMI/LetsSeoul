@@ -39,12 +39,8 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         request.getAttributeNames().asIterator().forEachRemaining(s -> log.info("{} : {}", s, request.getAttribute(s)));
 
 //        response.sendRedirect("/oauth2/success");
-//        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-//        response.sendRedirect("https://letsseoul.com/?c=" + user.getUsername());
-        response.sendRedirect("https://letsseoul.com/");
-
+//        response.sendRedirect("https://letsseoul.com");
+        response.sendRedirect("http://localhost:3000");
         handle(request, response, authentication);
-
-
     }
 }
