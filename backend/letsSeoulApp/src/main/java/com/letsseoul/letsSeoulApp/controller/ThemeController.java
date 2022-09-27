@@ -1,5 +1,6 @@
 package com.letsseoul.letsSeoulApp.controller;
 
+import com.letsseoul.letsSeoulApp.domain.Store;
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import com.letsseoul.letsSeoulApp.domain.ThemeStore;
 import com.letsseoul.letsSeoulApp.dto.ThemeDto;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,13 +22,11 @@ import java.util.List;
 @Slf4j
 public class ThemeController {
 
-
-
     /**
      * BE-TH-0001 추천 테마 목록 조회
      */
-    @GetMapping("/theme/recommends")
-    public ResponseEntity<List<ThemeDto.ListOfRecommendedThemesResponse>> listOfRecommendedThemes() {
+    @GetMapping("/themes/recommends")
+    public ResponseEntity<List<ThemeDto.RecommendedThemesListResponse>> listOfRecommendedThemes() {
 
         List<Theme> stubList = new ArrayList<>();
         Theme theme1 = makeStubDataForTheme(1L, "🍔", "고칼로리 테마");
@@ -46,14 +46,14 @@ public class ThemeController {
         stubList.add(theme5);
         stubList.sort(Comparator.comparingInt(o -> o.getThemeStoreList().size()));
 
-        return ResponseEntity.ok().body(ThemeDto.ListOfRecommendedThemesResponse.of(stubList));
+        return ResponseEntity.ok().body(ThemeDto.RecommendedThemesListResponse.of(stubList));
     }
 
     /**
      * BE-TH-0002 인기 테마 목록 조회
      */
-    @GetMapping("/theme/populars")
-    public ResponseEntity<List<ThemeDto.ListOfPopularThemesResponse>> listOfPopularThemes() {
+    @GetMapping("/themes/populars")
+    public ResponseEntity<List<ThemeDto.PopularThemesListResponse>> listOfPopularThemes() {
 
         List<Theme> stubList = new ArrayList<>();
         Theme theme1 = makeStubDataForTheme(1L, "🍔", "크로플 존맛인 카페");
@@ -81,11 +81,18 @@ public class ThemeController {
         stubList.add(theme7);
         stubList.add(theme8);
 
-        return ResponseEntity.ok().body(ThemeDto.ListOfPopularThemesResponse.of(stubList));
+        return ResponseEntity.ok().body(ThemeDto.PopularThemesListResponse.of(stubList));
     }
 
+    /**
+     * BE-TH-0003 테마지도 조회
+     * @param themeId
+     */
+    @GetMapping("/themes/{themeId}")
+    public ResponseEntity<List<ThemeDto.ThemeMapListResponse>> themeMapList(@PathVariable("themeId") Long themeId) {
 
-
+        return ResponseEntity.ok().body(ThemeDto.ThemeMapListResponse.of());
+    }
 
     public Theme makeStubDataForTheme(Long id, String emoji, String title) {
         Theme stub = Theme.builder()
@@ -95,5 +102,16 @@ public class ThemeController {
         stub.setId(id);
         return stub;
     }
+
+    public Store makeStubDataForStore(Long id, String title, String lat, String lng) {
+        Store stub = Store.builder()
+                .title(title)
+                .lat(lat)
+                .lng(lng)
+                .build();
+        stub.setId(id);
+        return stub;
+    }
+
 
 }
