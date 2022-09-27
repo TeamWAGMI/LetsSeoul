@@ -1,5 +1,6 @@
 package com.letsseoul.letsSeoulApp.domain;
 
+import com.letsseoul.letsSeoulApp.config.audit.Auditable;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
-@EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +33,6 @@ public class User {
     private String nickname;
 
     private String introduce;
-
-    @Column(nullable = false)
-    @CreatedDate
-    private LocalDateTime createdDatetime;
-
-    @Column(nullable = false)
-    @LastModifiedDate
-    private LocalDateTime modifiedDatetime;
 
     @Column(nullable = false)
     private String role;

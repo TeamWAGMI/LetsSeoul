@@ -1,2 +1,4 @@
-package com.letsseoul.letsSeoulApp.domain;public class Theme {
+package com.letsseoul.letsSeoulApp.domain;
+
+public class Theme {
 }
