@@ -10,6 +10,7 @@ public class ThemeDto {
 
     private ThemeDto() {
     }
+
     @Getter
     @RequiredArgsConstructor
     public static class ThemePost{
