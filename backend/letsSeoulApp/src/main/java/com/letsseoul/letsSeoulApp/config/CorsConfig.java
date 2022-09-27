@@ -16,7 +16,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
 //        config.addAllowedOrigin("https://letsseoul.com");
-        config.addAllowedOrigin("*"); // 테스트 : CORS 에러로 인해서 일단 전부 허용하도록 해둔다.
+        config.addAllowedOriginPattern("*"); // 테스트 : CORS 에러로 인해서 일단 전부 허용하도록 해둔다.
 //        config.setAllowedOrigins(List.of("https://letsseoul.com", "http://localhost:3000")); // 테스트 : 리액트 로컬 허용
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
