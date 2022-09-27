@@ -101,6 +101,20 @@ public class ThemeController {
     }
 
     /**
+     * BE-TH-0004 테마 리뷰 등록
+     * @param themeId
+     * @param storeId
+     */
+    @PostMapping("/{themeId}/stores/{storeId}")
+    public ResponseEntity registThemeReview(@PathVariable("themeId") Long themeId,
+                                            @PathVariable("storeId") Long storeId,
+                                            @RequestBody ThemeDto.RegistThemeReviewPost registThemeReviewPost) {
+
+        return ResponseEntity.ok().body(ThemeDto.RegistThemeReviewResponse.of());
+    }
+    
+    
+    /**
      * BE-TH-0009
      * @param themeSearchGet 검색 파라미터
      */
