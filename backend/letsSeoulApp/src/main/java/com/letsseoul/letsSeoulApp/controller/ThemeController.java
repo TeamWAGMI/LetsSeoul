@@ -112,28 +112,6 @@ public class ThemeController {
 
         return ResponseEntity.ok().body(ThemeDto.RegistThemeReviewResponse.of());
     }
-    
-    
-    /**
-     * BE-TH-0009
-     * @param themeSearchGet 검색 파라미터
-     */
-    @GetMapping("/search")
-    public ResponseEntity<ThemeDto.ThemeSearchResponse> themeSearch(@RequestBody ThemeDto.ThemeSearchGet themeSearchGet) {
-
-        return ResponseEntity.ok().body(ThemeDto.ThemeSearchResponse.of());
-    }
-
-    /**
-     * BE-TH-0012
-     * @param themeId
-     * @param userId
-     */
-    @PostMapping("/{themeId}/users/{userId}/wishes")
-    public ResponseEntity<ThemeDto.RegistDibsThemeResponse> registDibsTheme(@PathVariable("themeId") Long themeId, @PathVariable("userId") Long userId) {
-        
-        return ResponseEntity.ok().body(ThemeDto.RegistDibsThemeResponse.of());
-    }
 
     //th-0005  가게 테마 조회
     @GetMapping("/{themeId}/stores/{storeId}/themeList")
@@ -235,6 +213,7 @@ public class ThemeController {
             }
         }));
     }
+
     //TH-0007 가게 테마 리뷰 수정
     @PatchMapping("/{themeId}/stores/{storeId}/reviews/{reviewId}")
     public ResponseEntity<?> attemptReviewUpdate(@PathVariable("themeId") Long themeId,
@@ -244,6 +223,7 @@ public class ThemeController {
 
         return ResponseEntity.ok().body(new HashMap<>(){{put("success",true);}});
     }
+
     //TH-0008 가게 테마 리뷰 삭제
     @DeleteMapping("/{themeId}/stores/{storeId}/reviews/{reviewId}")
     public ResponseEntity<?> attemptReviewDelete(@PathVariable("themeId") Long themeId,
@@ -252,19 +232,39 @@ public class ThemeController {
         return ResponseEntity.ok().body(new HashMap<>(){{put("success",true);}});
     }
 
+    /**
+     * BE-TH-0009
+     * @param themeSearchGet 검색 파라미터
+     */
+    @GetMapping("/search")
+    public ResponseEntity<ThemeDto.ThemeSearchResponse> themeSearch(@RequestBody ThemeDto.ThemeSearchGet themeSearchGet) {
 
+        return ResponseEntity.ok().body(ThemeDto.ThemeSearchResponse.of());
+    }
 
     //TH- 0010 테마 등록
     @PostMapping("/registration")
     public ResponseEntity<?> attemptThemeRegister(@RequestBody ThemeDto.ThemePost ThemePostDto){
         return ResponseEntity.ok().body(new HashMap<>(){{put("success",true);}});
     }
+
     //TH -0011 테마 찜 여부 조회
-    @GetMapping("/{themeId}/users/{userId}")
+    @GetMapping("/{themeId}/users/{userId}/follows")
     public ResponseEntity<?> checkDibsTheme(@PathVariable("themeId") Long themeId,
                                             @PathVariable("userId") Long userId){
 
         return ResponseEntity.ok().body(new HashMap<>(){{put("isWishing",true);}});
+    }
+
+    /**
+     * BE-TH-0012
+     * @param themeId
+     * @param userId
+     */
+    @PostMapping("/{themeId}/users/{userId}/wishes")
+    public ResponseEntity<ThemeDto.RegistDibsThemeResponse> registDibsTheme(@PathVariable("themeId") Long themeId, @PathVariable("userId") Long userId) {
+
+        return ResponseEntity.ok().body(ThemeDto.RegistDibsThemeResponse.of());
     }
 
     //TH -0013 테마 찜 취소
