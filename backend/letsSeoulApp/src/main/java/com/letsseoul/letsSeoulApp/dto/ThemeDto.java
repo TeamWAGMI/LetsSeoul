@@ -1,9 +1,9 @@
 package com.letsseoul.letsSeoulApp.dto;
 
 import com.letsseoul.letsSeoulApp.domain.Theme;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +12,7 @@ public class ThemeDto {
     private ThemeDto() {
     }
 
+    // BE-TH-0001
     @Getter
     @RequiredArgsConstructor
     public static class RecommendedThemesListResponse {
@@ -37,6 +38,7 @@ public class ThemeDto {
         }
     }
 
+    //BE-TH-0002
     @Getter
     @RequiredArgsConstructor
     public static class PopularThemesListResponse {
@@ -62,6 +64,7 @@ public class ThemeDto {
         }
     }
 
+    // BE-TH-0003
     @Getter
     @RequiredArgsConstructor
     public static class ThemeMapListResponse {
@@ -84,4 +87,68 @@ public class ThemeDto {
         }
     }
 
+    // BE-TH-0009
+    @Getter
+    @RequiredArgsConstructor
+    public static class ThemeSearchGet {
+        private final String keyword;
+        private final String[] who;
+        private final String[] what;
+        private final String[] where;
+
+    }
+    @Getter
+    @RequiredArgsConstructor
+    public static class ThemeSearchResponse<T> {
+        private final List<T> content;
+        private final PageInfo pageInfo;
+
+        @Getter
+        @RequiredArgsConstructor
+        static class PageInfo {
+            private final Integer nowPage;
+            private final Integer nowSize;
+            private final Integer totalPage;
+            private final Long totalSize;
+        }
+
+        @Getter
+        @RequiredArgsConstructor
+        static class ListTheme {
+            private final Long themeId;
+            private final String themeEmoji;
+            private final String themeTitle;
+            private final Integer reviewCount;
+        }
+
+        public static ThemeSearchResponse of() {
+            List<ListTheme> collect = new ArrayList<>();
+            collect.add(new ListTheme(1L, "😀", "테마이름 짓기 어려워요", 100));
+            collect.add(new ListTheme(2L, "😁", "테마이름 어려워요", 200));
+            collect.add(new ListTheme(3L, "😂", "테마이름", 300));
+            collect.add(new ListTheme(4L, "🤣", "짓기 어려워요", 400));
+            collect.add(new ListTheme(5L, "😃", "이름 짓기 어려워요", 110));
+            collect.add(new ListTheme(6L, "😅", "짓기 어려워요", 120));
+            collect.add(new ListTheme(7L, "😆", "어려워요", 130));
+            collect.add(new ListTheme(8L, "😎", "테마이름 짓기", 140));
+            collect.add(new ListTheme(9L, "🤗", "이름 어려워요", 105));
+            collect.add(new ListTheme(0L, "😍", "테마이름 짓기 어려", 106));
+            collect.add(new ListTheme(11L, "🥰", "테마 짓기", 107));
+
+            PageInfo pageInfo = new PageInfo(1, 10, 2, 11L);
+
+            return new ThemeSearchResponse(collect, pageInfo);
+        }
+    }
+
+    // BE-TH-0012
+    @Getter
+    @RequiredArgsConstructor
+    public static class RegistDibsThemeResponse {
+        private final Boolean success;
+
+        public static RegistDibsThemeResponse of() {
+            return new RegistDibsThemeResponse(true);
+        }
+    }
 }

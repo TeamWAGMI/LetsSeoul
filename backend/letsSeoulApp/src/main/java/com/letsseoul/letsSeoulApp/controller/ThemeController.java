@@ -7,10 +7,7 @@ import com.letsseoul.letsSeoulApp.dto.ThemeDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -93,6 +90,28 @@ public class ThemeController {
 
         return ResponseEntity.ok().body(ThemeDto.ThemeMapListResponse.of());
     }
+
+    /**
+     * BE-TH-0009
+     * @param themeSearchGet 검색 파라미터
+     */
+    @GetMapping("/themes/search")
+    public ResponseEntity<ThemeDto.ThemeSearchResponse> themeSearch(@RequestBody ThemeDto.ThemeSearchGet themeSearchGet) {
+
+        return ResponseEntity.ok().body(ThemeDto.ThemeSearchResponse.of());
+    }
+
+    /**
+     * BE-TH-0012
+     * @param themeId
+     * @param userId
+     */
+    @PostMapping("/themes/{themeId}/users/{userId}/wishes")
+    public ResponseEntity<ThemeDto.RegistDibsThemeResponse> registDibsTheme(@PathVariable("themeId") Long themeId, @PathVariable("userId") Long userId) {
+        
+        return ResponseEntity.ok().body(ThemeDto.RegistDibsThemeResponse.of());
+    }
+    
 
     public Theme makeStubDataForTheme(Long id, String emoji, String title) {
         Theme stub = Theme.builder()
