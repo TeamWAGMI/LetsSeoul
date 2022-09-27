@@ -131,6 +131,4 @@ public class ThemeController {
         stub.setId(id);
         return stub;
     }
-
-
 }
