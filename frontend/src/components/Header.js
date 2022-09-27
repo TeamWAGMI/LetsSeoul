@@ -41,7 +41,7 @@ function Header({
               </>
             ) : (
               <Link to="/">
-                <img className="py-[3px]" src="images/logo.svg" alt="logo" />
+                <img className="py-[3px]" src="/images/logo.svg" alt="logo" />
               </Link>
             )}
           </div>

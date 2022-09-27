@@ -182,3 +182,20 @@ export const storeReview = {
     totalCount: 5,
   },
 };
+
+// 유저 정보 페이지 (UserInfo)
+export const userPicktheme = [
+  {
+    id: 1,
+    themeEmoji: "💻",
+    themeName: "혼자 노트북 들고 가기 좋은 카페",
+    reviewCount: 1,
+  },
+  { id: 2, themeEmoji: "🍕", themeName: "인생 피자 맛집", reviewCount: 10 },
+  {
+    id: 3,
+    themeEmoji: "🥗",
+    themeName: "난 샐러드를 맛있어서 먹어",
+    reviewCount: 10,
+  },
+];
