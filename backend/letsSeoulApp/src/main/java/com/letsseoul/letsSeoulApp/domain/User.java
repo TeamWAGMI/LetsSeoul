@@ -2,7 +2,6 @@ package com.letsseoul.letsSeoulApp.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -11,7 +10,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 public class User {
@@ -47,6 +45,9 @@ public class User {
 
     @Column(nullable = false)
     private String status;
+
+    protected User() {
+    }
 
     @Builder
     public User(String username, String origin, String emoji, String name, String role) {
