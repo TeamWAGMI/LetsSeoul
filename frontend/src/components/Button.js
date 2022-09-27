@@ -5,6 +5,7 @@ function Button({
   handleButtonClick,
   style,
   isFull = false,
+  num = null,
 }) {
   // svg icon button
   if (icon) {
@@ -25,6 +26,7 @@ function Button({
       className={`${style} ${isFull && "w-full"}`}
       onClick={handleButtonClick}
     >
+      <span>{num}</span>
       <span>{name}</span>
       {emoji && <span className="ml-2">{emoji}</span>}
     </button>

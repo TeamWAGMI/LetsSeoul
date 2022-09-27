@@ -3,6 +3,7 @@ function Card({
   emoji,
   name,
   option = null,
+  option2 = null,
   style,
   isOneLine = false,
   isFull = false,
@@ -17,7 +18,12 @@ function Card({
         >
           <span>{emoji}</span>
           <span className="ml-2">{name}</span>
-          <span className="float-right">{option}</span>
+          <span className="float-right">
+            {option2 === "♥️" ? (
+              <span className="text-wagmiLightGreen mr-2">{option2}</span>
+            ) : null}
+            <span>{option}</span>
+          </span>
         </div>
       ) : (
         <>
