@@ -1,5 +1,6 @@
 package com.letsseoul.letsSeoulApp.domain;
 
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

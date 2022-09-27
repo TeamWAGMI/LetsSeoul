@@ -1,7 +1,6 @@
 package com.letsseoul.letsSeoulApp.domain;
 
 import lombok.Getter;
-
 import javax.persistence.*;
 
 @Entity
