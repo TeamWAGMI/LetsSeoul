@@ -1,4 +1,4 @@
-import { buttonStyles } from "styles/props";
+import { buttonStyles } from "lib/styles";
 import Button from "./Button";
 
 function Review({

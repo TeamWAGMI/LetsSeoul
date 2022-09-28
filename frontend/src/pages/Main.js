@@ -2,14 +2,14 @@ import Card from "components/Card";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import { Link } from "react-router-dom";
-import { buttonStyles, cardStyles } from "styles/props";
+import { buttonStyles, cardStyles } from "lib/styles";
 import {
   popularThemes,
   recommendedCurators,
   recommendedThemes,
 } from "static/dummyData";
 import Button from "components/Button";
-import { scrollToTop } from "libraries/utils";
+import { scrollToTop } from "lib/utils";
 import { useEffect } from "react";
 
 function Main() {
