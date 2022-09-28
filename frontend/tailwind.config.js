@@ -9,6 +9,7 @@ module.exports = {
         wagmiLightGreen: "#DEDE26",
         textWhite: "#FFFFFF",
         textGray: "#999999",
+        bgGray: "#EDEDED",
         borderGray: "#E0E0E0",
         modalBg: "rgba(0, 0, 0, 0.5)",
       },
