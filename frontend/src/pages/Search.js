@@ -64,7 +64,7 @@ function Search() {
                   emoji={emoji}
                   name={name}
                   option={option}
-                  style={gridThemeCard}
+                  styles={gridThemeCard}
                 />
               );
             })}
@@ -79,7 +79,7 @@ function Search() {
               name="새로운 테마 요청하기"
               emoji="🤔"
               isFull={true}
-              style={mdGreenButton}
+              styles={mdGreenButton}
             />
           </Link>
         </div>
