@@ -3,27 +3,38 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import { Link } from "react-router-dom";
 import { buttonStyles, cardStyles } from "lib/styles";
-import { popularThemes, recommendedCurators } from "static/dummyData";
+import { recommendedCurators } from "static/dummyData";
 import Button from "components/Button";
 import { scrollToTop } from "lib/utils";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Main() {
-  const [recommendedThemes, setRecommendedThemes] = useState([]);
+  const [themeList, setThemeList] = useState({ recommend: [], popular: [] });
 
   const { fixedThemeCard, lgThemeCard } = cardStyles;
   const { mdGreenButton } = buttonStyles;
 
+  const getCardLists = async () => {
+    try {
+      const res1 = await axios.get("/api/v1/themes/recommends");
+      const res2 = await axios.get("/api/v1/themes/populars");
+
+      const data1 = res1.data;
+      const data2 = res2.data;
+
+      setThemeList((prev) => {
+        return { ...prev, recommend: data1, popular: data2 };
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    getRecommendedThemes();
+    getCardLists();
     scrollToTop();
   }, []);
-
-  const getRecommendedThemes = async () => {
-    const recommend = await axios.get("/api/v1/themes/recommends");
-    setRecommendedThemes(recommend.data);
-  };
 
   return (
     <div className="relative">
@@ -45,19 +56,19 @@ function Main() {
         <div className="mb-[30px]">
           <div className="smHeadline">추천 테마지도</div>
           <ul className="flex flex-nowrap overflow-x-scroll no-scrollbar">
-            {recommendedThemes.map(({ id, emoji, title, count }) => {
+            {themeList.recommend.map(({ id, emoji, title, count }) => {
               const option = `${count}개의 추천 장소`;
+              const path = `/theme/${id}`;
               return (
-                <Link key={id} to={`/theme/${id}`}>
-                  <Card
-                    key={id}
-                    id={id}
-                    emoji={emoji}
-                    name={title}
-                    option={option}
-                    styles={fixedThemeCard}
-                  />
-                </Link>
+                <Card
+                  key={id}
+                  id={id}
+                  emoji={emoji}
+                  name={title}
+                  option={option}
+                  styles={fixedThemeCard}
+                  path={path}
+                />
               );
             })}
           </ul>
@@ -65,17 +76,18 @@ function Main() {
         <div className="mb-[30px]">
           <div className="smHeadline">인기 테마지도</div>
           <ul>
-            {popularThemes.map((card) => {
-              const { id, emoji, name, count } = card;
+            {themeList.popular.map(({ id, emoji, title, count }) => {
               const option = `${count}개의 추천 장소`;
+              const path = `/theme/${id}`;
               return (
                 <Card
                   key={id}
                   id={id}
                   emoji={emoji}
-                  name={name}
+                  name={title}
                   option={option}
                   styles={lgThemeCard}
+                  path={path}
                 />
               );
             })}
