@@ -27,32 +27,32 @@ function UserInfo() {
           <div className="flex justify-between mb-3">
             <div className="bg-white rounded-full w-24 h-24 p-6 relative">
               <span className="text-5xl">🐹</span>
-              <Button icon="refresh" style={refreshButton} />
+              <Button icon="refresh" styles={refreshButton} />
             </div>
             <div className="flex">
               <div className="flex flex-col justify-between mr-3">
                 <div className="text-right leading-none">
-                  <Button num="1" name=" 팔로잉" style={smTextBlackButton} />
+                  <Button num="1" name=" 팔로잉" styles={smTextBlackButton} />
                 </div>
                 {isEditable ? (
                   <Button
                     name="수정 완료"
-                    style={smWhiteButton}
+                    styles={smWhiteButton}
                     handleButtonClick={() => SetIsEditable(false)}
                   />
                 ) : (
                   <Button
                     name="프로필 수정"
-                    style={smWhiteButton}
+                    styles={smWhiteButton}
                     handleButtonClick={() => SetIsEditable(true)}
                   />
                 )}
               </div>
               <div className="flex flex-col justify-between">
                 <div className="text-right leading-none">
-                  <Button num="143" name=" 팔로워" style={smTextBlackButton} />
+                  <Button num="143" name=" 팔로워" styles={smTextBlackButton} />
                 </div>
-                <Button name="팔로우" style={smLightGreenButton} />
+                <Button name="팔로우" styles={smLightGreenButton} />
               </div>
             </div>
           </div>
@@ -85,13 +85,13 @@ function UserInfo() {
           <div className="grid gap-2">
             <Button
               isFull={true}
-              style={mdGreenButton}
+              styles={mdGreenButton}
               name="내가 추천한 장소 모아보기"
               emoji="👍"
             />
             <Button
               isFull={true}
-              style={mdWhiteGreenButton}
+              styles={mdWhiteGreenButton}
               name="내가 찜한 장소 모아보기"
               emoji="🥰"
             />

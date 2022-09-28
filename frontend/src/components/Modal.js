@@ -33,7 +33,7 @@ function Modal({ name, handleModalBg, handleButtonClick }) {
         </div>
         {name === "카카오로 계속하기" ? (
           <Button
-            style={kakaoLoginButton}
+            styles={kakaoLoginButton}
             isFull={true}
             icon="kakaotalk"
             name={name}
@@ -41,7 +41,7 @@ function Modal({ name, handleModalBg, handleButtonClick }) {
           />
         ) : (
           <Button
-            style={mdGreenButton}
+            styles={mdGreenButton}
             isFull={true}
             name={name}
             handleButtonClick={handleButtonClick}

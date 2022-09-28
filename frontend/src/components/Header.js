@@ -26,7 +26,7 @@ function Header({
         }`}
       >
         <div className="flex flex-row justify-between h-[100%]">
-          {hasBackButton && <Button style={backButton} icon="back" />}
+          {hasBackButton && <Button styles={backButton} icon="back" />}
           <div
             className={`text-white w-min whitespace-nowrap ${
               hasBackButton
@@ -51,12 +51,12 @@ function Header({
                 <span className="text-2xl mr-3">{userImoji}</span>
               ) : (
                 <Button
-                  style={loginButton}
+                  styles={loginButton}
                   name="로그인"
                   handleButtonClick={() => setIsLoginModalOpen((prev) => !prev)}
                 />
               )}
-              <Button style={hamburgerButton} icon="hamburger" />
+              <Button styles={hamburgerButton} icon="hamburger" />
             </div>
           )}
         </div>

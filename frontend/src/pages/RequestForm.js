@@ -46,11 +46,11 @@ function RequestForm() {
         </div>
         <div className="text-center">
           <div className="inline-grid grid-cols-2 gap-3">
-            <Button name="취소하기" style={smWhiteButton} />
+            <Button name="취소하기" styles={smWhiteButton} />
             <Button
               name="테마 추천하기"
               handleButtonClick={handleRequestSubmit}
-              style={smGreenButton}
+              styles={smGreenButton}
             />
           </div>
         </div>

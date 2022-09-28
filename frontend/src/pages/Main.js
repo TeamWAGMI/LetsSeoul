@@ -50,7 +50,7 @@ function Main() {
                   emoji={emoji}
                   name={name}
                   option={option}
-                  style={fixedThemeCard}
+                  styles={fixedThemeCard}
                 />
               );
             })}
@@ -69,7 +69,7 @@ function Main() {
                   emoji={emoji}
                   name={name}
                   option={option}
-                  style={lgThemeCard}
+                  styles={lgThemeCard}
                 />
               );
             })}
@@ -79,7 +79,7 @@ function Main() {
               name="테마지도 전체 보기"
               emoji="👀"
               isFull={true}
-              style={mdGreenButton}
+              styles={mdGreenButton}
             />
           </Link>
         </div>
@@ -96,7 +96,7 @@ function Main() {
                   emoji={emoji}
                   name={nickname}
                   option={option}
-                  style={fixedThemeCard}
+                  styles={fixedThemeCard}
                 />
               );
             })}

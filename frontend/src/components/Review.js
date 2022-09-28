@@ -26,9 +26,9 @@ function Review({
       <div className="flex justify-between text-xs">
         <div className="py-2">{createdAt}</div>
         <div>
-          <Button style={mdTextGrayButton} name="수정" />
+          <Button styles={mdTextGrayButton} name="수정" />
           <span className="border" />
-          <Button style={mdTextGrayButton} name="삭제" />
+          <Button styles={mdTextGrayButton} name="삭제" />
         </div>
       </div>
     </li>

@@ -4,12 +4,12 @@ function Card({
   name,
   option = null,
   option2 = null,
-  style,
+  styles,
   isOneLine = false,
   isFull = false,
 }) {
   return (
-    <li className={`${style} text-sm`} key={id}>
+    <li className={`${styles} text-sm`} key={id}>
       {isOneLine ? (
         <div
           className={`bg-white p-3 rounded-lg ${
