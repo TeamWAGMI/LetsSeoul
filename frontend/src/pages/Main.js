@@ -3,22 +3,27 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import { Link } from "react-router-dom";
 import { buttonStyles, cardStyles } from "lib/styles";
-import {
-  popularThemes,
-  recommendedCurators,
-  recommendedThemes,
-} from "static/dummyData";
+import { popularThemes, recommendedCurators } from "static/dummyData";
 import Button from "components/Button";
 import { scrollToTop } from "lib/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Main() {
+  const [recommendedThemes, setRecommendedThemes] = useState([]);
+
   const { fixedThemeCard, lgThemeCard } = cardStyles;
   const { mdGreenButton } = buttonStyles;
 
   useEffect(() => {
+    getRecommendedThemes();
     scrollToTop();
   }, []);
+
+  const getRecommendedThemes = async () => {
+    const recommend = await axios.get("/api/v1/themes/recommends");
+    setRecommendedThemes(recommend.data);
+  };
 
   return (
     <div className="relative">
@@ -40,18 +45,19 @@ function Main() {
         <div className="mb-[30px]">
           <div className="smHeadline">추천 테마지도</div>
           <ul className="flex flex-nowrap overflow-x-scroll no-scrollbar">
-            {recommendedThemes.map((card) => {
-              const { id, emoji, name, count } = card;
+            {recommendedThemes.map(({ id, emoji, title, count }) => {
               const option = `${count}개의 추천 장소`;
               return (
-                <Card
-                  key={id}
-                  id={id}
-                  emoji={emoji}
-                  name={name}
-                  option={option}
-                  styles={fixedThemeCard}
-                />
+                <Link key={id} to={`/theme/${id}`}>
+                  <Card
+                    key={id}
+                    id={id}
+                    emoji={emoji}
+                    name={title}
+                    option={option}
+                    styles={fixedThemeCard}
+                  />
+                </Link>
               );
             })}
           </ul>
