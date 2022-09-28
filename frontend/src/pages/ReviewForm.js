@@ -4,7 +4,7 @@ import Header from "components/Header";
 import ImageUpload from "components/ImageUpload";
 import Score from "components/Score";
 // import { useState } from "react";
-import { buttonStyles } from "styles/props";
+import { buttonStyles } from "lib/styles";
 
 function ReviewForm() {
   // const [imageSrc, setImageSrc] = useState("");

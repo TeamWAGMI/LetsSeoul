@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { buttonStyles } from "styles/props";
+import { buttonStyles } from "lib/styles";
 import Button from "./Button";
 import Modal from "./Modal";
 

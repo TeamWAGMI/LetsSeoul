@@ -13,7 +13,7 @@ export const buttonStyles = {
   smWhiteButton:
     "bg-white text-sm font-semibold rounded-lg py-[14px] px-4 leading-none",
   lgGreenSemiRoundButton:
-    "bg-wagmiGreen text-textWhite text-lg font-semibold rounded-3xl py-2 px-5",
+    "bg-wagmiGreen text-textWhite text-lg font-semibold rounded-3xl py-2 px-5 leading-none",
   mdTextGreenButton: "text-wagmiGreen p-2 leading-none",
   mdTextGrayButton: "text-textGray p-2 leading-none",
   smTextBlackButton: "text-sm font-semibold leading-none",

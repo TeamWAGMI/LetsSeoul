@@ -3,7 +3,7 @@ import Card from "components/Card";
 import Header from "components/Header";
 import { useState } from "react";
 import { userPicktheme } from "static/dummyData";
-import { buttonStyles } from "styles/props";
+import { buttonStyles } from "lib/styles";
 
 function UserInfo() {
   const [inputText, setInputText] = useState({ name: "유저명", intro: "" });

@@ -4,11 +4,11 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import SearchBar from "components/SearchBar";
 import Tag from "components/Tag";
-import { scrollToTop } from "libraries/utils";
+import { scrollToTop } from "lib/utils";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { atWhere, doWhat, popularThemes, withWhom } from "static/dummyData";
-import { buttonStyles, cardStyles } from "styles/props";
+import { buttonStyles, cardStyles } from "lib/styles";
 
 function Search() {
   const [selectedWhom, setSelectedWhom] = useState(null);
