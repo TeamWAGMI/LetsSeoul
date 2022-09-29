@@ -4,10 +4,13 @@ import Header from "components/Header";
 import { useState } from "react";
 import { userPicktheme } from "static/dummyData";
 import { buttonStyles } from "lib/styles";
+import { useNavigate } from "react-router-dom";
 
 function UserInfo() {
   const [inputText, setInputText] = useState({ name: "유저명", intro: "" });
   const [isEditable, SetIsEditable] = useState(false);
+  const navigate = useNavigate();
+  const uid = 1;
 
   const {
     smTextBlackButton,
@@ -32,7 +35,12 @@ function UserInfo() {
             <div className="flex">
               <div className="flex flex-col justify-between mr-3">
                 <div className="text-right leading-none">
-                  <Button num="1" name=" 팔로잉" styles={smTextBlackButton} />
+                  <Button
+                    num="1"
+                    name=" 팔로워"
+                    styles={smTextBlackButton}
+                    handleButtonClick={() => navigate(`/user/${uid}/followers`)}
+                  />
                 </div>
                 {isEditable ? (
                   <Button
@@ -50,7 +58,14 @@ function UserInfo() {
               </div>
               <div className="flex flex-col justify-between">
                 <div className="text-right leading-none">
-                  <Button num="143" name=" 팔로워" styles={smTextBlackButton} />
+                  <Button
+                    num="143"
+                    name=" 팔로잉"
+                    styles={smTextBlackButton}
+                    handleButtonClick={() =>
+                      navigate(`/user/${uid}/followings`)
+                    }
+                  />
                 </div>
                 <Button name="팔로우" styles={smLightGreenButton} />
               </div>
