@@ -1,4 +1,4 @@
-import Follow from "pages/Follow";
+import FollowList from "pages/FollowList";
 import Main from "pages/Main";
 import RequestForm from "pages/RequestForm";
 import ReviewForm from "pages/ReviewForm";
@@ -21,7 +21,7 @@ const Router = () => {
         <Route path="/store/:sid" element={<StoreInfo />} />
         <Route path="/review/:sid" element={<ReviewForm />} />
         <Route path="/user/:uid" element={<UserInfo />} />
-        <Route path="/user/:uid/follow" element={<Follow />} />
+        <Route path="/user/:uid/:follow" element={<FollowList />} />
         <Route path="/theme/:tid" element={<ThemeMap />} />
         <Route path="/theme/search/:tid" element={<SearchStore />} />
         <Route path="/mypick/:uid" element={<UserPickMap />} />
