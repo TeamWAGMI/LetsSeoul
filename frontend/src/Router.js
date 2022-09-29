@@ -10,6 +10,7 @@ import UserInfo from "pages/UserInfo";
 import UserPickMap from "pages/UserPickMap";
 import UserWishMap from "pages/UserWishMap";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginData from "pages/LoginData";
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
         <Route path="/theme/search/:tid" element={<SearchStore />} />
         <Route path="/mypick/:uid" element={<UserPickMap />} />
         <Route path="/mywish/:uid" element={<UserWishMap />} />
+        <Route path="/transition/login" element={<LoginData />} />
       </Routes>
     </BrowserRouter>
   );

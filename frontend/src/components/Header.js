@@ -7,7 +7,7 @@ import Modal from "./Modal";
 function Header({
   hasBackButton = false,
   isLogin = false,
-  userImoji,
+  userEmoji,
   storeName,
   storeAddress,
 }) {
@@ -16,6 +16,7 @@ function Header({
 
   const handleLogin = () => {
     setIsLoginModalOpen((prev) => !prev);
+    window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
   };
 
   return (
@@ -48,7 +49,7 @@ function Header({
           {!hasBackButton && (
             <div className="basis-1/4 flex justify-end items-center py-[4px]">
               {isLogin ? (
-                <span className="text-2xl mr-3">{userImoji}</span>
+                <span className="text-2xl mr-3">{userEmoji}</span>
               ) : (
                 <Button
                   styles={loginButton}
