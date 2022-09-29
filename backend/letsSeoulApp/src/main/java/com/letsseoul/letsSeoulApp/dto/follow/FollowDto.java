@@ -1,12 +1,14 @@
-package com.letsseoul.letsSeoulApp.dto;
+package com.letsseoul.letsSeoulApp.dto.follow;
 
+import com.letsseoul.letsSeoulApp.domain.FollowUser;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Getter
 public class FollowDto {
 
     private FollowDto() {
@@ -38,22 +40,22 @@ public class FollowDto {
     // BE-FO-0003
     @Getter
     @RequiredArgsConstructor
-    public static class FollowUser {
+    public static class FollowUserResponse {
         private final Boolean success;
 
-        public static FollowUser of() {
-            return new FollowUser(true);
+        public static FollowUserResponse of() {
+            return new FollowUserResponse(true);
         }
     }
 
     // BE-FO-0004
     @Getter
     @RequiredArgsConstructor
-    public static class UnfollowUser {
+    public static class UnfollowUserResponse {
         private final Boolean success;
 
-        public static UnfollowUser of() {
-            return new UnfollowUser(true);
+        public static UnfollowUserResponse of() {
+            return new UnfollowUserResponse(true);
         }
     }
 
@@ -91,29 +93,10 @@ public class FollowDto {
     @Getter
     @RequiredArgsConstructor
     public static class FollowerListResponse {
-        private final Long userId;
+        private final Long id;
         private final String emoji;
         private final String nickname;
-        private final Integer followerCount;
+        @Setter private Long followerCount;
 
-        public static List<FollowerListResponse> of() {
-
-            List<FollowerListResponse> collect = new ArrayList<>();
-            collect.add(new FollowerListResponse(1L, "😛", "요조", 1662));
-            collect.add(new FollowerListResponse(2L, "😁", "라이너스", 2343));
-            collect.add(new FollowerListResponse(3L, "🤣", "담요", 75));
-            collect.add(new FollowerListResponse(4L, "🙄", "페퍼톤스", 10000));
-            collect.add(new FollowerListResponse(5L, "😀", "뎁", 400));
-            collect.add(new FollowerListResponse(6L, "😐", "토끼", 1345));
-            collect.add(new FollowerListResponse(7L, "🤐", "넬", 457));
-            collect.add(new FollowerListResponse(8L, "😉", "루싸이트", 0));
-            collect.add(new FollowerListResponse(9L, "😗", "몽키즈", 8345));
-            collect.add(new FollowerListResponse(10L, "😍", "전자양", 93));
-            collect.add(new FollowerListResponse(11L, "🤗", "아스피린", 13));
-            collect.add(new FollowerListResponse(12L, "😫", "브로콜리", 78));
-            collect.add(new FollowerListResponse(13L, "😴", "너마저", 342));
-
-            return collect;
-        }
     }
 }

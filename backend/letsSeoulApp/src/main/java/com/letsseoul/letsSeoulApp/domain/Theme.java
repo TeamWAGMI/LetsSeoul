@@ -42,9 +42,9 @@ public class Theme {
     @OneToMany(mappedBy = "theme")
     private List<ThemeStore> themeStoreList = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "store_id")
-    private Store store;
+//    @OneToOne
+//    @JoinColumn(name = "store_id")
+//    private Store store;
 
     public void addThemeStore(ThemeStore themeStore) {
         this.themeStoreList.add(themeStore);
