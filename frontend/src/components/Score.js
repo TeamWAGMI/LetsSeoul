@@ -4,8 +4,6 @@ function Score() {
   const [hovered, setHovered] = useState(null);
   const [clicked, setClicked] = useState(null);
 
-  console.log(clicked);
-
   return (
     <span className="inline">
       {[1, 2, 3, 4, 5].map((el) => (
