@@ -4,7 +4,7 @@ name: LetsSeoul be deploy
 ## on: 이 workflow가 언제 실행될 건지
 on:
   pull_request:
-    branches: "be"
+    branches: "main" #"be"
 
 
 ## jobs: 이 workflow 안에서 실행되는 작업들의 단위

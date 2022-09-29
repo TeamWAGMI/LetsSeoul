@@ -12,9 +12,9 @@ public class MultiResponseDto<T>{
     private  List<T> content;
     private  PageInfo pageInfo;
 
-    public MultiResponseDto(List<T> content, Page page) {
+    public MultiResponseDto(List<T> content, Page<?> page,Boolean hasNext,Boolean isFirst) {
         this.content = content;
         this.pageInfo = new PageInfo(page.getNumber() + 1,
-                page.getSize(), page.getTotalPages(),page.getTotalElements());
+                page.getSize(), page.getTotalPages(),page.getTotalElements(),hasNext,isFirst);
     }
 }

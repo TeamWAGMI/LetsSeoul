@@ -1,7 +1,13 @@
 package com.letsseoul.letsSeoulApp.controller;
 
+import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
+import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import com.letsseoul.letsSeoulApp.dto.FollowDto;
+import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
+import com.letsseoul.letsSeoulApp.service.FollowService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FollowController {
 
+    private final FollowService followService;
     /**
      * BE-FO-0001
      * @param userId
      */
     @GetMapping("/{userId}/count")
     public ResponseEntity<FollowDto.CountFollowingsAndFollowersResponse> countFollowingsAndFollowers(@PathVariable("userId") Long userId) {
-
-        return ResponseEntity.ok().body(FollowDto.CountFollowingsAndFollowersResponse.of());
+        return ResponseEntity.ok().body(followService.countFollowingsAndFollowers(userId));
     }
 
     /**
@@ -27,19 +33,18 @@ public class FollowController {
      * @param followUserId
      */
     @GetMapping("/{followUserId}/check")
-    public ResponseEntity<FollowDto.CheckFollowing> checkFollowing(@PathVariable("followUserId") Long followUserId) {
-
-        return ResponseEntity.ok().body(FollowDto.CheckFollowing.of());
+    public ResponseEntity<FollowDto.CheckFollowing> checkFollowing(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
+        return ResponseEntity.ok().body(followService.checkFollowing(1L,followUserId));
     }
 
     /**
-     * BE-FO-0003
+     * BE-FO-0003 유저 팔로우
      * @param followUserId
      */
     @PostMapping("/{followUserId}")
-    public ResponseEntity<FollowDto.FollowUser> followUser(@PathVariable("followUserId") Long followUserId) {
+    public ResponseEntity<FollowDto.FollowUserReponse> followUser(@LoginUser SessionUser user, @PathVariable("followUserId") Long followUserId) {
 
-        return ResponseEntity.ok().body(FollowDto.FollowUser.of());
+        return ResponseEntity.ok().body(followService.followUser(2L, followUserId));
     }
 
     /**
@@ -47,19 +52,24 @@ public class FollowController {
      * @param followUserId
      */
     @DeleteMapping("/{followUserId}")
-    public ResponseEntity<FollowDto.UnfollowUser> unfollowUser(@PathVariable("followUserId") Long followUserId) {
+    public ResponseEntity<FollowDto.UnfollowUserResponse> unfollowUser(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
 
-        return ResponseEntity.ok().body(FollowDto.UnfollowUser.of());
+
+        return ResponseEntity.ok().body(followService.unfollowUser(1L,followUserId));
     }
 
     /**
-     * BE-FO-0005
+     * BE-FO-0005  팔로우 목록조회
+     *
      * @param followUserId
      */
     @GetMapping("/{followUserId}/followings")
-    public ResponseEntity<List<FollowDto.FollowingListResponse>> getFollowingList(@PathVariable("followUserId") Long followUserId) {
-
-        return ResponseEntity.ok().body(FollowDto.FollowingListResponse.of());
+    public ResponseEntity<MultiResponseDto<FollowDto.FollowingListResponse>> getFollowingList(
+            @LoginUser SessionUser user,
+            @PathVariable("followUserId") Long followUserId,
+            @RequestParam(defaultValue = "1",name ="page") Integer page,
+            @RequestParam(defaultValue = "10",name ="page") Integer size) {
+        return ResponseEntity.ok().body( followService.getFollowerList(followUserId, PageRequest.of(page-1,size, Sort.by("createdDatetime").descending())));
     }
 
     /**

@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Getter
 public class SessionUser implements Serializable {
 
+    private Long id;
     private String username;
     private String origin;
     private String emoji;
@@ -19,6 +20,7 @@ public class SessionUser implements Serializable {
 
 
     public SessionUser(User user) {
+        this.id = user.getId();
         this.username = user.getUsername();
         this.origin = user.getOrigin();
         this.emoji = user.getEmoji();
