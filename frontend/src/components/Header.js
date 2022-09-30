@@ -3,19 +3,24 @@ import { useState } from "react";
 import { buttonStyles } from "lib/styles";
 import Button from "./Button";
 import Modal from "./Modal";
+import { useDispatch } from "react-redux";
+import { getPrevPath } from "slice/prevPathSlice";
 
 function Header({
   hasBackButton = false,
   isLogin = false,
-  userImoji,
+  userEmoji,
   storeName,
   storeAddress,
 }) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { backButton, loginButton, hamburgerButton } = buttonStyles;
+  const dispatch = useDispatch();
 
   const handleLogin = () => {
     setIsLoginModalOpen((prev) => !prev);
+    dispatch(getPrevPath(window.location.pathname));
+    window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
   };
 
   return (
@@ -48,7 +53,7 @@ function Header({
           {!hasBackButton && (
             <div className="basis-1/4 flex justify-end items-center py-[4px]">
               {isLogin ? (
-                <span className="text-2xl mr-3">{userImoji}</span>
+                <span className="text-2xl mr-3">{userEmoji}</span>
               ) : (
                 <Button
                   styles={loginButton}
