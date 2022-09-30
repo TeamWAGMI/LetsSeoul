@@ -1,4 +1,4 @@
-package com.letsseoul.letsSeoulApp.dto;
+package com.letsseoul.letsSeoulApp.dto.user;
 
 import com.letsseoul.letsSeoulApp.domain.User;
 import lombok.Getter;
@@ -86,7 +86,6 @@ public class UserDto {
             return collect;
         }
     }
-
 
     //사용자의 찜한 테마목록 response
     @Getter

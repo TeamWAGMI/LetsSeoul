@@ -18,7 +18,7 @@ public class Store {
     private Long id;
 
     @Column(nullable = false)
-    private String itemId;
+    private String itemid;
 
     @Column(nullable = false)
     private String title;
@@ -36,8 +36,8 @@ public class Store {
     }
 
     @Builder
-    public Store(String itemId, String title, String address, String lat, String lng) {
-        this.itemId = itemId;
+    public Store(String itemid, String title, String address, String lat, String lng) {
+        this.itemid = itemid;
         this.title = title;
         this.address = address;
         this.lat = lat;

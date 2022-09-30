@@ -1,18 +1,11 @@
 package com.letsseoul.letsSeoulApp.controller;
 
-
 import com.letsseoul.letsSeoulApp.domain.Store;
 import com.letsseoul.letsSeoulApp.domain.Theme;
-import com.letsseoul.letsSeoulApp.domain.ThemeStore;
-import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
 import com.letsseoul.letsSeoulApp.dto.SingleListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.ThemeDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +13,6 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 
 
 @RestController
@@ -41,16 +33,16 @@ public class ThemeController {
         Theme theme3 = makeStubDataForTheme(3L, "🍕🍟", "고지혈증 테마");
         Theme theme4 = makeStubDataForTheme(4L, "🥮🥯🥑", "고도비만 테마");
         Theme theme5 = makeStubDataForTheme(5L, "🥓🍜🌭🍟", "고혈압 테마");
-        for (int i = 0; i < 10; i++) theme1.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 15; i++) theme2.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 20; i++) theme3.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 25; i++) theme4.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 30; i++) theme5.addThemeStore(new ThemeStore());
-        stubList.add(theme1);
-        stubList.add(theme2);
-        stubList.add(theme3);
-        stubList.add(theme4);
-        stubList.add(theme5);
+//        for (int i = 0; i < 10; i++) theme1.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 15; i++) theme2.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 20; i++) theme3.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 25; i++) theme4.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 30; i++) theme5.addThemeStore(new ThemeStore());
+//        stubList.add(theme1);
+//        stubList.add(theme2);
+//        stubList.add(theme3);
+//        stubList.add(theme4);
+//        stubList.add(theme5);
         stubList.sort(Comparator.comparingInt(o -> o.getThemeStoreList().size()));
 
         return ResponseEntity.ok().body(ThemeDto.RecommendedThemesListResponse.of(stubList));
@@ -71,14 +63,14 @@ public class ThemeController {
         Theme theme6 = makeStubDataForTheme(6L, "🍘🍣", "초밥 먹고 싶으면 여기로");
         Theme theme7 = makeStubDataForTheme(7L, "🥗🥙🌮", "난 샐러드를 맛있어서 먹어");
         Theme theme8 = makeStubDataForTheme(8L, "🍚", "집밥 맛집");
-        for (int i = 0; i < 10; i++) theme1.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 15; i++) theme2.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 20; i++) theme3.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 25; i++) theme4.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 30; i++) theme5.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 35; i++) theme6.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 40; i++) theme7.addThemeStore(new ThemeStore());
-        for (int i = 0; i < 45; i++) theme8.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 10; i++) theme1.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 15; i++) theme2.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 20; i++) theme3.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 25; i++) theme4.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 30; i++) theme5.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 35; i++) theme6.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 40; i++) theme7.addThemeStore(new ThemeStore());
+//        for (int i = 0; i < 45; i++) theme8.addThemeStore(new ThemeStore());
         stubList.add(theme1);
         stubList.add(theme2);
         stubList.add(theme3);
