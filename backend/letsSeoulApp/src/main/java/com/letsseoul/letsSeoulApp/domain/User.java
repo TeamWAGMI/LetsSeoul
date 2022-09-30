@@ -49,7 +49,6 @@ public class User extends Auditable {
     }
 
     public User updateUserEmoji(String emoji) {
-        this.nickname = name;
         this.emoji = emoji;
         return this;
     }
