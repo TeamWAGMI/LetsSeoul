@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: "main" #"be"
 
-
 ## jobs: 이 workflow 안에서 실행되는 작업들의 단위
 jobs:
 
