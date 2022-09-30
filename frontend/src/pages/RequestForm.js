@@ -20,8 +20,7 @@ function RequestForm() {
     setRequest({ ...request, [name]: value });
   };
 
-  const requestSuccess = () => {
-    setResponse(null);
+  const backToSearchPage = () => {
     navigate("/search");
   };
 
@@ -66,7 +65,11 @@ function RequestForm() {
         </div>
         <div className="text-center">
           <div className="inline-grid grid-cols-2 gap-3">
-            <Button name="취소하기" styles={smWhiteButton} />
+            <Button
+              name="취소하기"
+              styles={smWhiteButton}
+              handleButtonClick={backToSearchPage}
+            />
             <Button
               name="테마 추천하기"
               handleButtonClick={handleRequestSubmit}
@@ -75,7 +78,7 @@ function RequestForm() {
           </div>
         </div>
       </div>
-      {response && <Modal name="성공" handleButtonClick={requestSuccess} />}
+      {response && <Modal name="성공" handleButtonClick={backToSearchPage} />}
       {response === false && (
         <Modal name="실패" handleButtonClick={() => setResponse(null)} />
       )}
