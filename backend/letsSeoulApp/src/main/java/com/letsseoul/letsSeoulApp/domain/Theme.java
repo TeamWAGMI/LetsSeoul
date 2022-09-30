@@ -1,9 +1,7 @@
 package com.letsseoul.letsSeoulApp.domain;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Theme {
 
     @Setter
@@ -42,15 +41,8 @@ public class Theme {
     @OneToMany(mappedBy = "theme")
     private List<ThemeStore> themeStoreList = new ArrayList<>();
 
-//    @OneToOne
-//    @JoinColumn(name = "store_id")
-//    private Store store;
-
     public void addThemeStore(ThemeStore themeStore) {
         this.themeStoreList.add(themeStore);
-    }
-
-    protected Theme() {
     }
 
     @Builder

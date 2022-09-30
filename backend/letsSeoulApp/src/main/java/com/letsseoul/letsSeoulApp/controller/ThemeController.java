@@ -10,6 +10,7 @@ import com.letsseoul.letsSeoulApp.dto.ThemeDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -131,87 +132,8 @@ public class ThemeController {
         list.add(ThemeDto.StoreThemeReviewResponse.of());
         list.add(ThemeDto.StoreThemeReviewResponse.of());
 
-        return ResponseEntity.ok().body(new MultiResponseDto<>(list, new Page() {
-            @Override
-            public int getTotalPages() {
-                return 0;
-            }
-
-            @Override
-            public long getTotalElements() {
-                return 0;
-            }
-
-            @Override
-            public Page map(Function converter) {
-                return null;
-            }
-
-            @Override
-            public int getNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getSize() {
-                return 0;
-            }
-
-            @Override
-            public int getNumberOfElements() {
-                return 0;
-            }
-
-            @Override
-            public List getContent() {
-                return null;
-            }
-
-            @Override
-            public boolean hasContent() {
-                return false;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public boolean isFirst() {
-                return false;
-            }
-
-            @Override
-            public boolean isLast() {
-                return false;
-            }
-
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-
-            @Override
-            public Pageable nextPageable() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousPageable() {
-                return null;
-            }
-
-            @Override
-            public Iterator iterator() {
-                return null;
-            }
-        }));
+       // return ResponseEntity.ok().body(new MultiResponseDto<>(list, PageRequest.of(1,10),false,false));
+        return ResponseEntity.ok().build();
     }
 
     //TH-0007 가게 테마 리뷰 수정

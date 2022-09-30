@@ -1,13 +1,16 @@
 package com.letsseoul.letsSeoulApp.domain;
 
 import com.letsseoul.letsSeoulApp.config.audit.Auditable;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends Auditable {
 
     @Id
@@ -35,9 +38,6 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String status;
 
-    protected User() {
-    }
-
     @Builder
     public User(String username, String origin, String emoji, String name, String role) {
         this.username = username;
@@ -49,6 +49,7 @@ public class User extends Auditable {
     }
 
     public User updateUserEmoji(String emoji) {
+        this.nickname = name;
         this.emoji = emoji;
         return this;
     }

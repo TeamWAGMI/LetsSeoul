@@ -1,28 +1,33 @@
 package com.letsseoul.letsSeoulApp.domain;
 
-import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Getter
+import com.letsseoul.letsSeoulApp.config.audit.Auditable;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 @Entity
-public class FollowUser {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class FollowUser extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "from_user_id")
-    private User fromUser;
+    @JoinColumn(name = "from_user_id" ,referencedColumnName = "id")
+    private User fromUserId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "to_user_id")
-    private User toUser;
+    @JoinColumn(name = "to_user_id",referencedColumnName = "id")
+    private User toUserId;
 
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdDatetime;
+    @Builder
+    public FollowUser(User fromUserId, User toUserId) {
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
+    }
 }

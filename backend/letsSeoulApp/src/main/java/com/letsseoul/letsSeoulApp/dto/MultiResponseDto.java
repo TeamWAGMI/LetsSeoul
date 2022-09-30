@@ -1,15 +1,18 @@
 package com.letsseoul.letsSeoulApp.dto;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MultiResponseDto<T>{
 
-    private  List<T> content;
-    private  PageInfo pageInfo;
+    private List<T> content;
+    private PageInfo pageInfo;
 
     public MultiResponseDto(List<T> content, Page<T> page) {
         this.content = content;
@@ -27,4 +30,5 @@ public class MultiResponseDto<T>{
                 page.isFirst(),
                 page.hasNext());
     }
+
 }
