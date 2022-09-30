@@ -22,11 +22,12 @@ public interface FollowRepository extends JpaRepository<FollowUser, Long> {
     FollowUser findByFromUserIdAndToUserId(User fromUserId, User toUserId);
     Page<FollowUser> findByFromUserId(User fromUserId,Pageable pageable);
 
-    @Query("select count(f) from FollowUser f where f.toUserId.id in(:toUserId) group by f.toUserId order by f.createdDatetime desc")
+    @Query("select count(f) from FollowUser f where f.toUser.id in(:toUserId) group by f.toUser order by f.createdDatetime desc")
     List<Long> countByToUserIds(List<Long> toUserId);
 
     Long countByFromUserIdAndToUserId(User fromUserId, User toUserId);
-    Integer countByFromUserId(User fromUserId);
+    Long countByFromUserId(User fromUserId);
+    Long countByToUserId(User user);
 
     /**
      * BE-FO-0006
@@ -35,7 +36,6 @@ public interface FollowRepository extends JpaRepository<FollowUser, Long> {
             "SELECT NEW com.letsseoul.letsSeoulApp.dto.follow.FollowerResponseDto(u.id, u.emoji, u.nickname) " +
             "FROM User u WHERE u.id IN (SELECT f.fromUser.id FROM FollowUser f WHERE f.toUser.id = :followUserId)")
     Page<FollowerResponseDto> findFollowerList(Long followUserId, Pageable pageable);
-
     Long countByToUserId(Long userId);
 
 }

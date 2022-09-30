@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/follows")
@@ -47,7 +46,7 @@ public class FollowController {
      * @param followUserId
      */
     @PostMapping("/{followUserId}")
-    public ResponseEntity<FollowDto.FollowUserReponse> followUser(@LoginUser SessionUser user, @PathVariable("followUserId") Long followUserId) {
+    public ResponseEntity<FollowDto.FollowUserResponse> followUser(@LoginUser SessionUser user, @PathVariable("followUserId") Long followUserId) {
 
         return ResponseEntity.ok().body(followService.followUser(2L, followUserId));
     }

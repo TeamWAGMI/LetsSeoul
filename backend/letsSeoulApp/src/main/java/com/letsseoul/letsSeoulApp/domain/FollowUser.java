@@ -19,15 +19,15 @@ public class FollowUser extends Auditable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_user_id" ,referencedColumnName = "id")
-    private User fromUserId;
+    private User fromUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_user_id",referencedColumnName = "id")
-    private User toUserId;
+    private User toUser;
 
     @Builder
-    public FollowUser(User fromUserId, User toUserId) {
-        this.fromUserId = fromUserId;
-        this.toUserId = toUserId;
+    public FollowUser(User fromUser, User toUser) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
     }
 }
