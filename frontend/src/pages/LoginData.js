@@ -1,21 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { handleLogin } from "slice/isLoginSlice";
+import { getUserInfo } from "slice/userInfoSlice";
+import { useSelector } from "react-redux";
 
 function LoginData() {
-  const [query, setQuery] = useState(null);
-  const [userdata, setUserdata] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const redirectPath = useSelector((state) => state.prevPath.value);
+
+  const getUserData = (userData) => ({
+    uid: userData[1],
+    nickname: userData[0],
+    userEmoji: userData[2],
+  });
 
   useEffect(() => {
-    setQuery(window.location.search.slice(3));
-    setUserdata(decodeURIComponent(escape(window.atob(query))).split(","));
-  }, [query]);
+    if (window.location.search) {
+      dispatch(
+        getUserInfo(
+          getUserData(
+            decodeURIComponent(
+              escape(window.atob(window.location.search.slice(3)))
+            ).split(",")
+          )
+        )
+      );
+      dispatch(handleLogin());
+    }
+    navigate(redirectPath);
+  }, [dispatch, navigate, redirectPath]);
 
-  return (
-    <div>
-      <div>{userdata[0]}</div>
-      <div>{userdata[1]}</div>
-      <div>{userdata[2]}</div>
-    </div>
-  );
+  return <></>;
 }
 
 export default LoginData;
