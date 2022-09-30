@@ -1,6 +1,8 @@
 package com.letsseoul.letsSeoulApp.dto.follow;
 
 import com.letsseoul.letsSeoulApp.domain.FollowUser;
+import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
+import com.letsseoul.letsSeoulApp.dto.ThemeDto;
 import lombok.*;
 import com.letsseoul.letsSeoulApp.domain.User;
 import org.springframework.data.domain.Page;
@@ -20,10 +22,10 @@ public class FollowDto {
     @Getter
     @RequiredArgsConstructor
     public static class CountFollowingsAndFollowersResponse {
-        private final Integer numberOfFollowing;
-        private final Integer numberOfFollower;
+        private final Long numberOfFollowing;
+        private final Long numberOfFollower;
 
-        public static CountFollowingsAndFollowersResponse of(Integer followingCount,Integer followerCount) {
+        public static CountFollowingsAndFollowersResponse of(Long followingCount,Long followerCount) {
             return new CountFollowingsAndFollowersResponse(followingCount, followerCount);
         }
     }
@@ -69,7 +71,7 @@ public class FollowDto {
     @RequiredArgsConstructor
     public static class ThemeSearchResponse<T> {
         private final List<T> content;
-        private final ThemeDto.ThemeSearchResponse.PageInfo pageInfo;
+        private final PageInfo pageInfo;
 
         @Getter
         @RequiredArgsConstructor
@@ -89,23 +91,23 @@ public class FollowDto {
             private final Integer reviewCount;
         }
 
-        public static ThemeDto.ThemeSearchResponse of() {
-            List<ThemeDto.ThemeSearchResponse.ListTheme> collect = new ArrayList<>();
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(1L, "😀", "테마이름 짓기 어려워요", 100));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(2L, "😁", "테마이름 어려워요", 200));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(3L, "😂", "테마이름", 300));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(4L, "🤣", "짓기 어려워요", 400));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(5L, "😃", "이름 짓기 어려워요", 110));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(6L, "😅", "짓기 어려워요", 120));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(7L, "😆", "어려워요", 130));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(8L, "😎", "테마이름 짓기", 140));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(9L, "🤗", "이름 어려워요", 105));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(0L, "😍", "테마이름 짓기 어려", 106));
-            collect.add(new ThemeDto.ThemeSearchResponse.ListTheme(11L, "🥰", "테마 짓기", 107));
+        public static ThemeSearchResponse of() {
+            List<ListTheme> collect = new ArrayList<>();
+            collect.add(new ListTheme(1L, "😀", "테마이름 짓기 어려워요", 100));
+            collect.add(new ListTheme(2L, "😁", "테마이름 어려워요", 200));
+            collect.add(new ListTheme(3L, "😂", "테마이름", 300));
+            collect.add(new ListTheme(4L, "🤣", "짓기 어려워요", 400));
+            collect.add(new ListTheme(5L, "😃", "이름 짓기 어려워요", 110));
+            collect.add(new ListTheme(6L, "😅", "짓기 어려워요", 120));
+            collect.add(new ListTheme(7L, "😆", "어려워요", 130));
+            collect.add(new ListTheme(8L, "😎", "테마이름 짓기", 140));
+            collect.add(new ListTheme(9L, "🤗", "이름 어려워요", 105));
+            collect.add(new ListTheme(0L, "😍", "테마이름 짓기 어려", 106));
+            collect.add(new ListTheme(11L, "🥰", "테마 짓기", 107));
 
-            ThemeDto.ThemeSearchResponse.PageInfo pageInfo = new ThemeDto.ThemeSearchResponse.PageInfo(1, 10, 2, 11L);
+            PageInfo pageInfo = new PageInfo(1, 10, 2, 11L);
 
-            return new ThemeDto.ThemeSearchResponse(collect, pageInfo);
+            return new ThemeSearchResponse(collect, pageInfo);
         }
     }
     // BE-FO-0005
@@ -117,7 +119,7 @@ public class FollowDto {
         private final String nickname;
         private final Long followerCount;
 
-        public static MultiResponseDto<FollowingListResponse> of(Page<FollowUser> followUsers,List<User> userList,List<Long> countList) {
+        public static MultiResponseDto<FollowingListResponse> of(Page<FollowUser> followUsers, List<User> userList, List<Long> countList) {
 
             List<FollowingListResponse> list = new ArrayList<>();
             for(int i=0; i<userList.size(); i++){
@@ -128,7 +130,7 @@ public class FollowDto {
                         countList.get(i)
                 ));
             }
-            return new MultiResponseDto<>(list,followUsers, true, false);
+            return new MultiResponseDto<>(list, followUsers);
         }
     }
 
