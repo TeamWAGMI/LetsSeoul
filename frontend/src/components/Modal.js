@@ -21,7 +21,7 @@ function Modal({ name, handleModalBg, handleButtonClick }) {
   return (
     <div
       className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-modalBg z-50"
-      onClick={name === "카카오로 계속하기" ? handleModalBg : undefined}
+      onClick={handleModalBg}
     >
       <div
         className="bg-white py-10 px-12 rounded-lg text-center font-semibold"

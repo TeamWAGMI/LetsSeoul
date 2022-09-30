@@ -1,12 +1,18 @@
 import Button from "components/Button";
 import Header from "components/Header";
+import Modal from "components/Modal";
 import { useState } from "react";
 import { buttonStyles } from "lib/styles";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function RequestForm() {
-  const [request, setRequest] = useState({ title: "", content: "" });
-  const { title, content } = request;
+  const [request, setRequest] = useState({ themeName: "", themeContent: "" });
+  const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
+  const { themeName, themeContent } = request;
 
+  const navigate = useNavigate();
   const { smGreenButton, smWhiteButton } = buttonStyles;
 
   const handleRequestChange = (e) => {
@@ -14,8 +20,20 @@ function RequestForm() {
     setRequest({ ...request, [name]: value });
   };
 
-  const handleRequestSubmit = () => {
-    console.log(request);
+  const requestSuccess = () => {
+    setResponse(null);
+    navigate("/search");
+  };
+
+  const handleRequestSubmit = async () => {
+    if (themeName !== "" && themeContent !== "") {
+      try {
+        const res = await axios.post("/api/v1/themes/registration", request);
+        setResponse(res.data.success);
+      } catch (err) {
+        setError(err.response.status);
+      }
+    }
   };
 
   return (
@@ -30,18 +48,20 @@ function RequestForm() {
             className="text-sm w-full"
             type="text"
             placeholder="테마의 이름을 추천해주세요."
-            name="title"
-            value={title}
+            name="themeName"
+            value={themeName}
             onChange={(e) => handleRequestChange(e)}
+            required
           />
         </div>
         <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5">
           <textarea
             className="text-sm w-full h-60 resize-none"
-            name="content"
+            name="themeContent"
             placeholder="나만의 장소를 소개할 수 있는 유용한 테마를 추가할 수 있습니다.&#10;테마를 설명할 수 있는 소개글을 적어주세요.&#10;ㅤ&#10;• 요청하신 테마는 확인 후 빠르게 등록됩니다.&#10;• 약간 변경되어 등록될 수 있는 점 양해해주세요!"
-            value={content}
+            value={themeContent}
             onChange={(e) => handleRequestChange(e)}
+            required
           />
         </div>
         <div className="text-center">
@@ -55,6 +75,11 @@ function RequestForm() {
           </div>
         </div>
       </div>
+      {response && <Modal name="성공" handleButtonClick={requestSuccess} />}
+      {response === false && (
+        <Modal name="실패" handleButtonClick={() => setResponse(null)} />
+      )}
+      {error && <Modal name="실패" handleButtonClick={() => setError(null)} />}
     </div>
   );
 }
