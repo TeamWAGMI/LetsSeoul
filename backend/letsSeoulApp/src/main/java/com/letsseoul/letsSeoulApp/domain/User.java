@@ -1,20 +1,16 @@
 package com.letsseoul.letsSeoulApp.domain;
 
 import com.letsseoul.letsSeoulApp.config.audit.Auditable;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends Auditable {
 
     @Id
@@ -33,6 +29,7 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String nickname;
 
+    @Column(nullable = false)
     private String introduce;
 
     @Column(nullable = false)
@@ -40,9 +37,6 @@ public class User extends Auditable {
 
     @Column(nullable = false)
     private String status;
-
-    protected User() {
-    }
 
     @Builder
     public User(String username, String origin, String emoji, String name, String role) {
@@ -54,12 +48,16 @@ public class User extends Auditable {
         this.status = "E"; // 유저를 생성할 때에는 기본 status값을 E(Enable)로 한다.
     }
 
-
-    public User update(String name, String emoji) {
+    public User updateUserEmoji(String emoji) {
         this.nickname = name;
         this.emoji = emoji;
         return this;
     }
 
+    public User updateUserInfo(String nickname, String introduce) {
+        this.nickname = nickname;
+        this.introduce = introduce;
+        return this;
+    }
 
 }

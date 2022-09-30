@@ -1,16 +1,20 @@
 package com.letsseoul.letsSeoulApp.controller;
 
-import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
-import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
-import com.letsseoul.letsSeoulApp.dto.FollowDto;
 import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
+import com.letsseoul.letsSeoulApp.dto.follow.FollowDto;
+import com.letsseoul.letsSeoulApp.dto.follow.FollowerResponseDto;
 import com.letsseoul.letsSeoulApp.service.FollowService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
+import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -19,6 +23,7 @@ import java.util.List;
 public class FollowController {
 
     private final FollowService followService;
+
     /**
      * BE-FO-0001
      * @param userId
@@ -54,7 +59,6 @@ public class FollowController {
     @DeleteMapping("/{followUserId}")
     public ResponseEntity<FollowDto.UnfollowUserResponse> unfollowUser(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
 
-
         return ResponseEntity.ok().body(followService.unfollowUser(1L,followUserId));
     }
 
@@ -77,9 +81,40 @@ public class FollowController {
      * @param followUserId
      */
     @GetMapping("/{followUserId}/followers")
-    public ResponseEntity<List<FollowDto.FollowerListResponse>> getFollowerList(@PathVariable("followUserId") Long followUserId) {
+    public ResponseEntity<MultiResponseDto<FollowerResponseDto>> getFollowerList(
+            @PathVariable("followUserId") @Positive(message = "잘못된 회원 정보입니다.") Long followUserId,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size) {
 
-        return ResponseEntity.ok().body(FollowDto.FollowerListResponse.of());
+        System.out.println("### FollowController.getFollowerList 시작");
+
+        if (page != null && page <= 0) {
+            System.out.println("### 에러1");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
+        }
+        if (size != null && size <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
+        }
+
+        if (page == null) {
+            page = 0;
+        }
+        else {
+            page--;
+        }
+        if (size == null) {
+            size = 20;
+        }
+
+        System.out.println("page = " + page);
+        System.out.println("size = " + size);
+        System.out.println("followUserId = " + followUserId);
+
+
+        MultiResponseDto<FollowerResponseDto> followerList = followService.getFollowerList(followUserId, page, size);
+
+        System.out.println("### FollowController.getFollowerList 끝");
+        return ResponseEntity.ok().body(followerList);
     }
 
 }

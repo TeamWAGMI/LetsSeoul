@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Base64;
 
 @Slf4j
 @Component
@@ -38,9 +39,11 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         log.info("### request's attributes : ");
         request.getAttributeNames().asIterator().forEachRemaining(s -> log.info("{} : {}", s, request.getAttribute(s)));
 
-//        response.sendRedirect("/oauth2/success");
-//        response.sendRedirect("https://letsseoul.com");
-        response.sendRedirect("http://localhost:3000/transition/login");
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        String queryString = user.getNickname() + "," + user.getUsername() + "," + user.getEmoji();
+        String encodeToString = Base64.getEncoder().encodeToString(queryString.getBytes());
+        response.sendRedirect("http://localhost:3000/transition/login?q=" + encodeToString);
+
         handle(request, response, authentication);
     }
 }

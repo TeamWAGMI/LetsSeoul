@@ -1,19 +1,24 @@
 package com.letsseoul.letsSeoulApp.repository;
 
 import com.letsseoul.letsSeoulApp.domain.FollowUser;
+import com.letsseoul.letsSeoulApp.dto.follow.FollowerResponseDto;
 import com.letsseoul.letsSeoulApp.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
-
 
 import java.util.Collection;
 import java.util.List;
 
-public interface FollowRepository extends JpaRepository<FollowUser,Long> {
+@Repository
+public interface FollowRepository extends JpaRepository<FollowUser, Long> {
 
+    /**
+     * BE-FO-0005
+     */
     FollowUser findByFromUserIdAndToUserId(User fromUserId, User toUserId);
     Page<FollowUser> findByFromUserId(User fromUserId,Pageable pageable);
 
@@ -22,11 +27,15 @@ public interface FollowRepository extends JpaRepository<FollowUser,Long> {
 
     Long countByFromUserIdAndToUserId(User fromUserId, User toUserId);
     Integer countByFromUserId(User fromUserId);
-    Integer countByToUserId(User toUserId);
 
+    /**
+     * BE-FO-0006
+     */
+    @Query(value =
+            "SELECT NEW com.letsseoul.letsSeoulApp.dto.follow.FollowerResponseDto(u.id, u.emoji, u.nickname) " +
+            "FROM User u WHERE u.id IN (SELECT f.fromUser.id FROM FollowUser f WHERE f.toUser.id = :followUserId)")
+    Page<FollowerResponseDto> findFollowerList(Long followUserId, Pageable pageable);
 
-  /*  @Query("select u,h from FollowUser h inner join User u on h.fromUserId.id=u.id")
-    Object[] getFollowUser();*/
-
+    Long countByToUserId(Long userId);
 
 }

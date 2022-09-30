@@ -10,6 +10,6 @@ public class PageInfo {
     private final Integer nowCount;
     private final Integer totalPage;
     private final Long totalCount;
-    private final Boolean hasNext;
     private final Boolean isFirst;
+    private final Boolean hasNext;
 }
