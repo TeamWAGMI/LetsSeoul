@@ -1,34 +1,34 @@
 package com.letsseoul.letsSeoulApp.service;
 
+
+import com.letsseoul.letsSeoulApp.domain.FollowTheme;
+import com.letsseoul.letsSeoulApp.domain.Theme;
+import com.letsseoul.letsSeoulApp.domain.User;
+import com.letsseoul.letsSeoulApp.repository.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import com.letsseoul.letsSeoulApp.domain.Hottheme;
 import com.letsseoul.letsSeoulApp.domain.Review;
 import com.letsseoul.letsSeoulApp.domain.Store;
-import com.letsseoul.letsSeoulApp.domain.Theme;
 import com.letsseoul.letsSeoulApp.domain.ThemeStore;
 import com.letsseoul.letsSeoulApp.dto.theme.PopularThemeListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.RecommendedThemeListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.ThemeDto;
-import com.letsseoul.letsSeoulApp.repository.HotthemeRepository;
-import com.letsseoul.letsSeoulApp.repository.ReviewRepository;
-import com.letsseoul.letsSeoulApp.repository.StoreRepository;
-import com.letsseoul.letsSeoulApp.repository.ThemeRepository;
-import com.letsseoul.letsSeoulApp.repository.ThemeStoreRepository;
-import com.letsseoul.letsSeoulApp.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
+
 @RequiredArgsConstructor
 public class ThemeService {
 
     private final ThemeRepository themeRepository;
+
+    private final FollowThemeRepository followThemeRepository;
     private final HotthemeRepository hotthemeRepository;
     private final ThemeStoreRepository themeStoreRepository;
     private final StoreRepository storeRepository;
@@ -107,4 +107,31 @@ public class ThemeService {
 
         return ThemeDto.RegistThemeReviewResponse.of(savedReview);
     }
+
+    //TH-0011
+    public ThemeDto.checkDibsThemeResponse checkDibsTheme(Long userId, Long themeId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저가 없습니다"));
+        Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new RuntimeException("테마가 없습니다"));
+        return ThemeDto.checkDibsThemeResponse.of(followThemeRepository.existsByUserAndTheme(user,theme));
+
+    }
+    //TH-0012 테마찜 등록
+    public ThemeDto.RegistDibsThemeResponse registDibsTheme(Long userId, Long themeId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저가 없습니다"));
+        Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new RuntimeException("테마가 없습니다"));
+        followThemeRepository.save(new FollowTheme(user,theme));
+        return ThemeDto.RegistDibsThemeResponse.of();
+    }
+
+    //TH-0013 테마찜 취소
+
+    public ThemeDto.cancelDibsThemeResponse cancelDibsTheme(Long userId, Long themeId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저가 없습니다"));
+        Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new RuntimeException("테마가 없습니다"));
+        FollowTheme followTheme = followThemeRepository.findByUserAndTheme(user, theme).orElseThrow(() -> new RuntimeException("찜한 테마가 없습니다"));
+        followThemeRepository.delete(followTheme);
+        return ThemeDto.cancelDibsThemeResponse.of();
+    }
+
+
 }

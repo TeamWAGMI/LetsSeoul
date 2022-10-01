@@ -1,5 +1,7 @@
 package com.letsseoul.letsSeoulApp.controller;
 
+
+
 import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import com.letsseoul.letsSeoulApp.dto.SingleListResponseDto;
@@ -14,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.validation.constraints.Positive;
 import java.util.*;
 import java.util.ArrayList;
@@ -137,30 +138,29 @@ public class ThemeController {
     }
 
     //TH -0011 테마 찜 여부 조회
-    @GetMapping("/{themeId}/users/{userId}/follows")
-    public ResponseEntity<?> checkDibsTheme(@PathVariable("themeId") Long themeId,
-                                            @PathVariable("userId") Long userId){
-
-        return ResponseEntity.ok().body(new HashMap<>(){{put("isWishing",true);}});
+    @GetMapping("/{themeId}/users/me/follows")
+    public ResponseEntity<ThemeDto.checkDibsThemeResponse> checkDibsTheme(@LoginUser SessionUser user,
+                                                                          @PathVariable("themeId") Long themeId){
+        return ResponseEntity.ok().body(themeService.checkDibsTheme(1L,themeId));
     }
 
     /**
-     * BE-TH-0012
+     * BE-TH-0012 테마찜 등록
      * @param themeId
-     * @param userId
      */
-    @PostMapping("/{themeId}/users/{userId}/wishes")
-    public ResponseEntity<ThemeDto.RegistDibsThemeResponse> registDibsTheme(@PathVariable("themeId") Long themeId, @PathVariable("userId") Long userId) {
-
-        return ResponseEntity.ok().body(ThemeDto.RegistDibsThemeResponse.of());
+    @PostMapping("/{themeId}/users/me/wishes")
+    public ResponseEntity<ThemeDto.RegistDibsThemeResponse> registDibsTheme(
+            @LoginUser SessionUser user,
+            @PathVariable("themeId") Long themeId) {
+        return ResponseEntity.ok().body(themeService.registDibsTheme(1L,themeId));
     }
 
     //TH -0013 테마 찜 취소
-    @PatchMapping("/{themeId}/users/{userId}/unwish")
-    public ResponseEntity cancelDibsTheme (@PathVariable("themeId") Long themeId,
-                                           @PathVariable("userId") Long userId){
-
-        return ResponseEntity.ok().body(new HashMap<>(){{put("success",true);}});
+    @DeleteMapping("/{themeId}/users/me/unwish")
+    public ResponseEntity<ThemeDto.cancelDibsThemeResponse> cancelDibsTheme (
+            @LoginUser SessionUser user,
+            @PathVariable("themeId") Long themeId){
+        return ResponseEntity.ok().body(themeService.cancelDibsTheme(1L,themeId));
     }
     
 }

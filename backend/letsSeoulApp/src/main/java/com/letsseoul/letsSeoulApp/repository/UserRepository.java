@@ -14,6 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsernameAndOrigin(String username, String origin);
 
+
     @Query("SELECT u FROM User u INNER JOIN FollowUser f ON u.id =f.toUser.id " +
             "WHERE f.toUser.id IN (:userId) AND f.fromUser.id = :fromUserId ORDER BY f.createdDatetime DESC ")
     List<User> findByIdIn(List<Long> userId,@Param("fromUserId") Long fromUserId);

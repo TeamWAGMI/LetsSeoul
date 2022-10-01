@@ -1,8 +1,11 @@
 package com.letsseoul.letsSeoulApp.dto.user;
 
+import com.letsseoul.letsSeoulApp.domain.FollowTheme;
 import com.letsseoul.letsSeoulApp.domain.User;
+import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,17 +97,21 @@ public class UserDto {
         private final Long themeId;
         private final String themeEmoji;
         private final String themeName;
-        private final Long reviewCount;
+        private final Long dibsCount;
 
-        public static List<DibsTehemeResponse> of(){
+        public static MultiResponseDto<DibsTehemeResponse> of(Page<FollowTheme> page, List<Long> countList){
             List<UserDto.DibsTehemeResponse> list = new ArrayList<>();
-            list.add(new DibsTehemeResponse(
-                    1L,
-                    "테마 이모지",
-                    "테마네임",
-                    0L
-            ));
-            return list;
+            List<FollowTheme> content = page.getContent();
+            for(int i=0;i<content.size();i++){
+                list.add(new DibsTehemeResponse(
+                        content.get(i).getTheme().getId(),
+                        content.get(i).getTheme().getEmoji(),
+                        content.get(i).getTheme().getTitle(),
+                        countList.get(i)
+                ));
+            }
+            MultiResponseDto<DibsTehemeResponse> multiResponseDto = new MultiResponseDto<>(list,page);
+            return multiResponseDto;
         }
     }
 

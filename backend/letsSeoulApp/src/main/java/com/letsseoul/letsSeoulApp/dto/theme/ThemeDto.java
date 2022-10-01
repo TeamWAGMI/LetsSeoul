@@ -3,7 +3,6 @@ package com.letsseoul.letsSeoulApp.dto.theme;
 import com.letsseoul.letsSeoulApp.domain.Review;
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,6 +230,17 @@ public class ThemeDto {
             return new ThemeSearchResponse(collect, pageInfo);
         }
     }
+    //TH-0011
+    @Getter
+    @RequiredArgsConstructor
+    public static class checkDibsThemeResponse {
+        private final Boolean isWishing;
+
+        public static checkDibsThemeResponse of(Boolean _flag) {
+            return new checkDibsThemeResponse(_flag);
+        }
+    }
+
     // BE-TH-0012
     @Getter
     @RequiredArgsConstructor
@@ -239,6 +249,16 @@ public class ThemeDto {
 
         public static RegistDibsThemeResponse of() {
             return new RegistDibsThemeResponse(true);
+        }
+    }
+    // TH-0013
+    @Getter
+    @RequiredArgsConstructor
+    public static class cancelDibsThemeResponse {
+        private final Boolean success;
+
+        public static cancelDibsThemeResponse of() {
+            return new cancelDibsThemeResponse(true);
         }
     }
 }

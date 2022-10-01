@@ -2,10 +2,12 @@ package com.letsseoul.letsSeoulApp.controller;
 
 import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
+import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
 import com.letsseoul.letsSeoulApp.dto.user.CuratorListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.user.UserDto;
 import com.letsseoul.letsSeoulApp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,8 +62,8 @@ public class UserController {
     }
 
     //TH- 0014 찜한 테마 목록 조회
-    @GetMapping("/{userId}/theme")
-    public ResponseEntity<?> viewListOfDibsThemes(@PathVariable("userId") Long userId){
-        return ResponseEntity.ok().body(UserDto.DibsTehemeResponse.of());
+    @GetMapping("/me/themes")
+    public ResponseEntity<MultiResponseDto<UserDto.DibsTehemeResponse>> viewListOfDibsThemes(@LoginUser SessionUser user, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size){
+        return ResponseEntity.ok().body(userService.viewListDibsThemes(1L, PageRequest.of(page-1,size)));
     }
 }
