@@ -1,7 +1,7 @@
 import Button from "components/Button";
 import Card from "components/Card";
 import Header from "components/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { userPicktheme } from "static/dummyData";
 import { buttonStyles } from "lib/styles";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,6 +18,7 @@ function UserInfo() {
   const [isEditable, SetIsEditable] = useState(false);
   const navigate = useNavigate();
   const { uid } = useParams();
+  const nicknameRef = useRef();
 
   const {
     smTextBlackButton,
@@ -35,13 +36,25 @@ function UserInfo() {
       .then((res) => setUserProfile((prev) => ({ ...prev, ...res.data })));
   }, [uid]);
 
+  useEffect(() => {
+    nicknameRef.current.focus();
+  }, [isEditable]);
+
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setUserProfile((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleEditButton = () => {
-    SetIsEditable((prev) => !prev);
+    if (isEditable) {
+      axios
+        .patch(`/api/v1/users/${uid}`, { nickname, introduction })
+        .then((res) => setUserProfile((prev) => ({ ...prev, ...res.data })))
+        .then(() => SetIsEditable((prev) => !prev))
+        .catch((err) => console.error(err.message));
+    } else {
+      SetIsEditable((prev) => !prev);
+    }
   };
 
   return (
@@ -88,6 +101,7 @@ function UserInfo() {
           </div>
           <div className="flex flex-col">
             <input
+              ref={nicknameRef}
               disabled={!isEditable}
               name="nickname"
               type="text"
