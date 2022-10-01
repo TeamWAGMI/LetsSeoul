@@ -28,12 +28,11 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
     private final FollowThemeRepository followThemeRepository;
-
     private final HotuserRepository hotuserRepository;
     private final ReviewRepository reviewRepository;
-
 
     private static ResponseStatusException triggerExceptionForNotFoundMember() {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다.");
