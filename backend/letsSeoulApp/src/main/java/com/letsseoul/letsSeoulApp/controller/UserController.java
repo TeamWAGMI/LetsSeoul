@@ -2,9 +2,9 @@ package com.letsseoul.letsSeoulApp.controller;
 
 import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
-import com.letsseoul.letsSeoulApp.domain.User;
 import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
-import com.letsseoul.letsSeoulApp.dto.UserDto;
+import com.letsseoul.letsSeoulApp.dto.user.CuratorListResponseDto;
+import com.letsseoul.letsSeoulApp.dto.user.UserDto;
 import com.letsseoul.letsSeoulApp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -54,12 +55,10 @@ public class UserController {
 
     //CU- 0001  (추천)큐레이터 목록 조회
     @GetMapping("/curators")
-    public ResponseEntity<?> attemptGetCurators(){
-        User user = User.builder()
-                .emoji("테스트이모지")
-                .name("테스트 닉네임")
-                .build();
-        return ResponseEntity.ok().body(UserDto.Response.of());
+    public ResponseEntity<List<CuratorListResponseDto>> getCuratorsList(){
+
+        return ResponseEntity.ok()
+                .body(userService.listupCurators());
     }
 
     //TH- 0014 찜한 테마 목록 조회

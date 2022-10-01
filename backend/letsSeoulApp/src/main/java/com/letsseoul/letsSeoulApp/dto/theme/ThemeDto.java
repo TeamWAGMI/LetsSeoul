@@ -1,10 +1,11 @@
-package com.letsseoul.letsSeoulApp.dto;
+package com.letsseoul.letsSeoulApp.dto.theme;
 
+import com.letsseoul.letsSeoulApp.domain.Review;
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ThemeDto {
 
@@ -39,13 +40,13 @@ public class ThemeDto {
 
         private final Long count; //가게의 테마에서 리뷰 개수
 
-        public static ThemeResponse of(){
+        public static ThemeResponse of() {
             return new ThemeResponse(
                     1L,
                     "이모지",
                     "테마이름",
                     0L);
-        };
+        }
     }
 
     @Getter
@@ -80,6 +81,7 @@ public class ThemeDto {
     // BE-TH-0001
     @Getter
     @RequiredArgsConstructor
+    @Deprecated
     public static class RecommendedThemesListResponse {
         private final Long id;
         private final String emoji;
@@ -155,18 +157,24 @@ public class ThemeDto {
     // BE-TH-0004
     @Getter
     @RequiredArgsConstructor
+    @ToString
     public static class RegistThemeReviewPost {
         private final Integer score;
         private final String content;
-        private final String[] images;
+        private final String[] images; // 이미지는 나중에 붙이기로 했다.
     }
     @Getter
     @RequiredArgsConstructor
     public static class RegistThemeReviewResponse {
         private final Boolean success;
 
-        public static RegistThemeReviewResponse of() {
-            return new RegistThemeReviewResponse(true);
+        public static RegistThemeReviewResponse of(Review savedReview) {
+            if (null != savedReview) {
+                return new RegistThemeReviewResponse(true);
+            }
+            else {
+                return new RegistThemeReviewResponse(false);
+            }
         }
     }
 

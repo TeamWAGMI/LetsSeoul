@@ -1,7 +1,8 @@
-package com.letsseoul.letsSeoulApp.dto;
+package com.letsseoul.letsSeoulApp.dto.user;
 
 import com.letsseoul.letsSeoulApp.domain.FollowTheme;
 import com.letsseoul.letsSeoulApp.domain.User;
+import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -89,7 +90,6 @@ public class UserDto {
         }
     }
 
-
     //사용자의 찜한 테마목록 response
     @Getter
     @RequiredArgsConstructor
@@ -99,7 +99,7 @@ public class UserDto {
         private final String themeName;
         private final Long dibsCount;
 
-        public static MultiResponseDto<DibsTehemeResponse> of(Page<FollowTheme> page,List<Long> countList){
+        public static MultiResponseDto<DibsTehemeResponse> of(Page<FollowTheme> page, List<Long> countList){
             List<UserDto.DibsTehemeResponse> list = new ArrayList<>();
             List<FollowTheme> content = page.getContent();
             for(int i=0;i<content.size();i++){
