@@ -2,9 +2,6 @@ package com.letsseoul.letsSeoulApp.domain;
 
 import com.letsseoul.letsSeoulApp.config.audit.Auditable;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -49,7 +46,6 @@ public class User extends Auditable {
     }
 
     public User updateUserEmoji(String emoji) {
-        this.nickname = name;
         this.emoji = emoji;
         return this;
     }
