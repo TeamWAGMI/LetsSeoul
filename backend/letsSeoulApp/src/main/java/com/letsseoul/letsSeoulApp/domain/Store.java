@@ -1,7 +1,9 @@
 package com.letsseoul.letsSeoulApp.domain;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Store {
 
     @Setter
@@ -31,9 +34,6 @@ public class Store {
 
     @Column(nullable = false)
     private String lng;
-
-    protected Store() {
-    }
 
     @Builder
     public Store(String itemid, String title, String address, String lat, String lng) {

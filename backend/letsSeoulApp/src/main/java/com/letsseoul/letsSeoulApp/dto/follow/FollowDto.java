@@ -2,17 +2,12 @@ package com.letsseoul.letsSeoulApp.dto.follow;
 
 import com.letsseoul.letsSeoulApp.domain.FollowUser;
 import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
-import com.letsseoul.letsSeoulApp.dto.ThemeDto;
 import lombok.*;
 import com.letsseoul.letsSeoulApp.domain.User;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

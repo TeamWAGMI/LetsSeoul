@@ -67,15 +67,15 @@ public class UserService {
         List<Hotuser> hotuserList = hotuserRepository.findAll();
         List<CuratorListResponseDto> curatorDtoList = new ArrayList<>();
 
-        hotuserList.stream()
-                .forEach(hotuser -> {
-                    User user = userRepository.findById(hotuser.getUserId()).get();
-                    curatorDtoList.add(
-                            new CuratorListResponseDto(user.getId(), user.getEmoji(), user.getNickname()));
-                });
+        hotuserList.forEach(hotuser -> {
+            User user = userRepository.findById(hotuser.getUserId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "잘못된 요청입니다."));
 
-        curatorDtoList.stream()
-                .forEach(curator -> curator.setReviewCount(
+            curatorDtoList.add(
+                    new CuratorListResponseDto(user.getId(), user.getEmoji(), user.getNickname()));
+        });
+
+        curatorDtoList.forEach(curator -> curator.setReviewCount(
                         reviewRepository.countByUserId(curator.getUserId())));
 
         return curatorDtoList;

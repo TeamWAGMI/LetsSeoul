@@ -1,6 +1,7 @@
 package com.letsseoul.letsSeoulApp.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,9 @@ public class ThemeStore {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @Builder
+    public ThemeStore(Theme theme, Store store) {
+        this.theme = theme;
+        this.store = store;
+    }
 }

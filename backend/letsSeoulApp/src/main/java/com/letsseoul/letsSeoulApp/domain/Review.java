@@ -2,6 +2,7 @@ package com.letsseoul.letsSeoulApp.domain;
 
 import com.letsseoul.letsSeoulApp.config.audit.Auditable;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +26,16 @@ public class Review extends Auditable {
     private User user;
 
     @Column(nullable = false)
+    private Integer score;
+
+    @Column(nullable = false)
     private String content;
 
+    @Builder
+    public Review(ThemeStore themeStore, User user, Integer score, String content) {
+        this.themeStore = themeStore;
+        this.user = user;
+        this.score = score;
+        this.content = content;
+    }
 }

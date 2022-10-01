@@ -85,10 +85,8 @@ public class FollowController {
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size) {
 
-        System.out.println("### FollowController.getFollowerList 시작");
 
         if (page != null && page <= 0) {
-            System.out.println("### 에러1");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
         }
         if (size != null && size <= 0) {
@@ -105,14 +103,8 @@ public class FollowController {
             size = 20;
         }
 
-        System.out.println("page = " + page);
-        System.out.println("size = " + size);
-        System.out.println("followUserId = " + followUserId);
-
-
         MultiResponseDto<FollowerResponseDto> followerList = followService.getFollowerList(followUserId, page, size);
 
-        System.out.println("### FollowController.getFollowerList 끝");
         return ResponseEntity.ok().body(followerList);
     }
 
