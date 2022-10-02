@@ -40,7 +40,7 @@ export const buttonStyles = {
 // 카드 스타일
 export const cardStyles = {
   fixedThemeCard:
-    "flex flex-col items-center justify-center shrink-0 w-[162px] h-[114px] bg-white rounded-lg p-3 mr-2",
+    "flex flex-col items-center justify-center shrink-0 w-[162px] h-[114px] bg-white rounded-lg p-3",
   lgThemeCard: "bg-white rounded-lg p-3 text-center mb-3",
   gridThemeCard:
     "flex flex-col items-center justify-center bg-white rounded-lg min-h-[114px] p-3",

@@ -6,6 +6,7 @@ import { userPicktheme } from "static/dummyData";
 import { buttonStyles } from "lib/styles";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { scrollToTop } from "lib/utils/scrollToTop";
 
 function UserInfo() {
   const [userProfile, setUserProfile] = useState({
@@ -29,6 +30,10 @@ function UserInfo() {
     mdWhiteGreenButton,
     refreshButton,
   } = buttonStyles;
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
   useEffect(() => {
     axios
