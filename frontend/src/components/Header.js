@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { buttonStyles } from "lib/styles";
 import Button from "./Button";
@@ -16,11 +16,16 @@ function Header({
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { backButton, loginButton, hamburgerButton } = buttonStyles;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     setIsLoginModalOpen((prev) => !prev);
     dispatch(getPrevPath(window.location.pathname));
     window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
+  };
+
+  const handleBackButton = () => {
+    navigate(-1);
   };
 
   return (
@@ -31,11 +36,17 @@ function Header({
         }`}
       >
         <div className="flex flex-row justify-between h-[100%]">
-          {hasBackButton && <Button styles={backButton} icon="back" />}
+          {hasBackButton && (
+            <Button
+              styles={backButton}
+              icon="back"
+              handleButtonClick={handleBackButton}
+            />
+          )}
           <div
             className={`text-white w-min whitespace-nowrap ${
               hasBackButton
-                ? "grow text-center flex flex-col justify-around"
+                ? "grow text-center flex flex-col justify-around pr-[26px]"
                 : "basis-3/4"
             }`}
           >

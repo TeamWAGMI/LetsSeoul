@@ -1,25 +1,43 @@
+import axios from "axios";
 import Card from "components/Card";
 import Header from "components/Header";
 import Review from "components/Review";
-import { storeReview, storeTheme } from "static/dummyData";
+import { scrollToTop } from "lib/utils/scrollToTop";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { storeTheme } from "static/dummyData";
 
+// 좌표로 지도 마크 찍는 기능은 지도 불러온 다음 구현하기
 function StoreInfo() {
-  const { content } = storeReview;
+  const [storeInfo, setStoreInfo] = useState({});
+  const [storeReviews, setStoreReviews] = useState([]);
+  // const [pageInfo, setPageInfo] = useState([]);
+  const { sid } = useParams();
+
+  // themeId가 왜 필요? 확인 필요!
+  const tid = 1;
+
+  useEffect(() => {
+    scrollToTop();
+    axios.get(`/api/v1/stores/${sid}`).then((res) => setStoreInfo(res.data));
+    axios.get(`/api/v1/themes/${tid}/stores/${sid}/review`).then((res) => {
+      setStoreReviews(res.data.content);
+      // setPageInfo(res.data.pageInfo);
+    });
+  }, [sid]);
 
   return (
     <div className="relative">
       <Header
         hasBackButton={true}
-        storeName="우리가게 대흥역점"
-        storeAddress="서울 성북구 동선동2가 150"
+        storeName={storeInfo.name}
+        storeAddress={storeInfo.address}
       />
       <div className="padding-container">
         <div className="mb-[30px]">
           <div className="smHeadline">여기는 어떤 곳인가요?</div>
           <ul className="grid gap-2">
-            {storeTheme.map((theme) => {
-              const { id, emoji, name } = theme;
-
+            {storeTheme.map(({ id, emoji, name }) => {
               return (
                 <Card
                   key={id}
@@ -39,30 +57,32 @@ function StoreInfo() {
         <div className="mb-[30px]">
           <div className="smHeadline">이 장소에 대한 이야기들</div>
           <ul className="grid gap-2">
-            {content.map((review) => {
-              const {
+            {storeReviews.map(
+              ({
+                reviewId,
                 userId,
                 userEmoji,
                 userNickname,
-                reviewId,
-                reviewContent,
                 reviewScore,
-                createdDatetime,
-              } = review;
-
-              return (
-                <Review
-                  key={reviewId}
-                  userId={userId}
-                  emoji={userEmoji}
-                  nickname={userNickname}
-                  reviewId={reviewId}
-                  score={reviewScore}
-                  content={reviewContent}
-                  createdAt={createdDatetime}
-                />
-              );
-            })}
+                reviewContent,
+                createDatetime,
+                modifiedDatetime,
+              }) => {
+                return (
+                  <Review
+                    key={reviewId}
+                    reviewId={reviewId}
+                    userId={userId}
+                    emoji={userEmoji}
+                    nickname={userNickname}
+                    score={reviewScore}
+                    content={reviewContent}
+                    createdAt={createDatetime}
+                    modifiedAt={modifiedDatetime}
+                  />
+                );
+              }
+            )}
           </ul>
         </div>
       </div>
