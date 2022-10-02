@@ -51,7 +51,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private User findOrJoin(OAuthAttributes attributes) {
         User user = userRepository.findByUsernameAndOrigin(attributes.getUsername(), attributes.getOrigin())
                 .orElse(attributes.toEntity());
-
         return userRepository.save(user);
     }
 }
