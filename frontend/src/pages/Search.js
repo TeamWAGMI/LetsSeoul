@@ -4,7 +4,7 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import SearchBar from "components/SearchBar";
 import Tag from "components/Tag";
-import { scrollToTop } from "lib/utils";
+import { scrollToTop } from "lib/utils/scrollToTop";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { atWhere, doWhat, popularThemes, withWhom } from "static/dummyData";
