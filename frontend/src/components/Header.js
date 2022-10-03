@@ -9,6 +9,7 @@ import { getPrevPath } from "slice/prevPathSlice";
 function Header({
   hasBackButton = false,
   isLogin = false,
+  userId,
   userEmoji,
   storeName,
   storeAddress,
@@ -64,7 +65,9 @@ function Header({
           {!hasBackButton && (
             <div className="basis-1/4 flex justify-end items-center py-[4px]">
               {isLogin ? (
-                <span className="text-2xl mr-3">{userEmoji}</span>
+                <Link to={`/user/${userId}`}>
+                  <span className="text-2xl mr-3">{userEmoji}</span>
+                </Link>
               ) : (
                 <Button
                   styles={loginButton}

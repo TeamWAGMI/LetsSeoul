@@ -27,7 +27,7 @@ function StoreInfo() {
   }, [sid]);
 
   return (
-    <div className="relative">
+    <>
       <Header
         hasBackButton={true}
         storeName={storeInfo.name}
@@ -86,7 +86,7 @@ function StoreInfo() {
           </ul>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

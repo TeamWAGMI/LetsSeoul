@@ -1,5 +1,4 @@
 import Button from "components/Button";
-import Header from "components/Header";
 import Modal from "components/Modal";
 import { useState } from "react";
 import { buttonStyles } from "lib/styles";
@@ -36,46 +35,43 @@ function RequestForm() {
   };
 
   return (
-    <div className="relative">
-      <Header />
-      <div className="padding-container">
-        <div className="font-semibold text-center mb-6">
-          새로운 테마를 등록하고 싶으신가요?
-        </div>
-        <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5">
-          <input
-            className="text-sm w-full"
-            type="text"
-            placeholder="테마의 이름을 추천해주세요."
-            name="themeName"
-            value={themeName}
-            onChange={(e) => handleRequestChange(e)}
-            required
+    <div className="padding-container">
+      <div className="font-semibold text-center mb-6">
+        새로운 테마를 등록하고 싶으신가요?
+      </div>
+      <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5">
+        <input
+          className="text-sm w-full"
+          type="text"
+          placeholder="테마의 이름을 추천해주세요."
+          name="themeName"
+          value={themeName}
+          onChange={(e) => handleRequestChange(e)}
+          required
+        />
+      </div>
+      <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5">
+        <textarea
+          className="text-sm w-full h-60 resize-none"
+          name="themeContent"
+          placeholder="나만의 장소를 소개할 수 있는 유용한 테마를 추가할 수 있습니다.&#10;테마를 설명할 수 있는 소개글을 적어주세요.&#10;ㅤ&#10;• 요청하신 테마는 확인 후 빠르게 등록됩니다.&#10;• 약간 변경되어 등록될 수 있는 점 양해해주세요!"
+          value={themeContent}
+          onChange={(e) => handleRequestChange(e)}
+          required
+        />
+      </div>
+      <div className="text-center">
+        <div className="inline-grid grid-cols-2 gap-3">
+          <Button
+            name="취소하기"
+            styles={smWhiteButton}
+            handleButtonClick={backToSearchPage}
           />
-        </div>
-        <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5">
-          <textarea
-            className="text-sm w-full h-60 resize-none"
-            name="themeContent"
-            placeholder="나만의 장소를 소개할 수 있는 유용한 테마를 추가할 수 있습니다.&#10;테마를 설명할 수 있는 소개글을 적어주세요.&#10;ㅤ&#10;• 요청하신 테마는 확인 후 빠르게 등록됩니다.&#10;• 약간 변경되어 등록될 수 있는 점 양해해주세요!"
-            value={themeContent}
-            onChange={(e) => handleRequestChange(e)}
-            required
+          <Button
+            name="테마 추천하기"
+            handleButtonClick={handleRequestSubmit}
+            styles={smGreenButton}
           />
-        </div>
-        <div className="text-center">
-          <div className="inline-grid grid-cols-2 gap-3">
-            <Button
-              name="취소하기"
-              styles={smWhiteButton}
-              handleButtonClick={backToSearchPage}
-            />
-            <Button
-              name="테마 추천하기"
-              handleButtonClick={handleRequestSubmit}
-              styles={smGreenButton}
-            />
-          </div>
         </div>
       </div>
       {response && <Modal name="성공" handleButtonClick={backToSearchPage} />}

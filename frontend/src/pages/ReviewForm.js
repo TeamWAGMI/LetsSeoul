@@ -16,7 +16,7 @@ function ReviewForm() {
   // };
 
   return (
-    <div className="relative">
+    <>
       <Header
         hasBackButton={true}
         storeName="우리가게 대흥역점"
@@ -67,7 +67,7 @@ function ReviewForm() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
