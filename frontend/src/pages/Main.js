@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Footer from "components/Footer";
-import Header from "components/Header";
 import { scrollToTop } from "lib/utils/scrollToTop";
 import RecommendedThemes from "components/Main/RecommendedThemes";
 import RecommendedCurators from "components/Main/RecommendedCurators";
@@ -41,16 +39,12 @@ function Main() {
   }, []);
 
   return (
-    <>
-      <Header />
-      <div className="padding-container">
-        <SearchThemes />
-        <RecommendedThemes listOfCards={listsOfCards.recommendedThemes} />
-        <PopularThemes listOfCards={listsOfCards.popularThemes} />
-        <RecommendedCurators listOfCards={listsOfCards.recommendedCurators} />
-      </div>
-      <Footer />
-    </>
+    <div className="padding-container">
+      <SearchThemes />
+      <RecommendedThemes listOfCards={listsOfCards.recommendedThemes} />
+      <PopularThemes listOfCards={listsOfCards.popularThemes} />
+      <RecommendedCurators listOfCards={listsOfCards.recommendedCurators} />
+    </div>
   );
 }
 

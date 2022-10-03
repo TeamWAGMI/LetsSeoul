@@ -11,18 +11,24 @@ import UserPickMap from "pages/UserPickMap";
 import UserWishMap from "pages/UserWishMap";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginData from "pages/LoginData";
+import Layout1 from "layout/Layout1";
+import Layout2 from "layout/Layout2";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Main />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/request" element={<RequestForm />} />
+        <Route element={<Layout1 />}>
+          <Route index element={<Main />} />
+          <Route path="/search" element={<Search />} />
+        </Route>
+        <Route element={<Layout2 />}>
+          <Route path="/request" element={<RequestForm />} />
+          <Route path="/user/:uid" element={<UserInfo />} />
+          <Route path="/user/:uid/:follow" element={<FollowList />} />
+        </Route>
         <Route path="/store/:sid" element={<StoreInfo />} />
-        <Route path="/review/:sid" element={<ReviewForm />} />
-        <Route path="/user/:uid" element={<UserInfo />} />
-        <Route path="/user/:uid/:follow" element={<FollowList />} />
+        <Route path="/store/review" element={<ReviewForm />} />
         <Route path="/theme/:tid" element={<ThemeMap />} />
         <Route path="/theme/search/:tid" element={<SearchStore />} />
         <Route path="/mypick/:uid" element={<UserPickMap />} />
