@@ -5,6 +5,7 @@ import RecommendedThemes from "components/Main/RecommendedThemes";
 import RecommendedCurators from "components/Main/RecommendedCurators";
 import PopularThemes from "components/Main/PopularThemes";
 import SearchThemes from "components/Main/SearchThemes";
+import Footer from "components/Footer";
 
 function Main() {
   const [listsOfCards, setListsOfCards] = useState({
@@ -39,12 +40,15 @@ function Main() {
   }, []);
 
   return (
-    <div className="padding-container">
-      <SearchThemes />
-      <RecommendedThemes listOfCards={listsOfCards.recommendedThemes} />
-      <PopularThemes listOfCards={listsOfCards.popularThemes} />
-      <RecommendedCurators listOfCards={listsOfCards.recommendedCurators} />
-    </div>
+    <>
+      <div className="padding-container">
+        <SearchThemes />
+        <RecommendedThemes listOfCards={listsOfCards.recommendedThemes} />
+        <PopularThemes listOfCards={listsOfCards.popularThemes} />
+        <RecommendedCurators listOfCards={listsOfCards.recommendedCurators} />
+      </div>
+      <Footer />
+    </>
   );
 }
 
