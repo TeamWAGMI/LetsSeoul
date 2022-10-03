@@ -29,7 +29,6 @@ export const buttonStyles = {
     "bg-wagmiLightGreen rounded-full h-7 w-7 inline-block align-middle",
   gpsButton: "bg-wagmiGreen rounded-full h-[45px] w-[45px]",
   upButton: "bg-wagmiLightGreen rounded-full h-[60px] w-[60px] drop-shadow-up",
-  backButton: "pr-[18px]",
   searchButton: "p-[13px] m-[-13px]",
   kakaoLoginButton:
     "flex items-center w-full py-3 px-5 rounded-lg bg-[#fbe64d]",

@@ -13,6 +13,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginData from "pages/LoginData";
 import Layout1 from "layout/Layout1";
 import Layout2 from "layout/Layout2";
+import Layout3 from "layout/Layout3";
 
 const Router = () => {
   return (
@@ -27,12 +28,14 @@ const Router = () => {
           <Route path="/user/:uid" element={<UserInfo />} />
           <Route path="/user/:uid/:follow" element={<FollowList />} />
         </Route>
+        <Route element={<Layout3 />}>
+          <Route path="/user/:uid/pick" element={<UserPickMap />} />
+          <Route path="/user/:uid/wish" element={<UserWishMap />} />
+        </Route>
         <Route path="/store/:sid" element={<StoreInfo />} />
         <Route path="/store/review" element={<ReviewForm />} />
         <Route path="/theme/:tid" element={<ThemeMap />} />
         <Route path="/theme/search/:tid" element={<SearchStore />} />
-        <Route path="/mypick/:uid" element={<UserPickMap />} />
-        <Route path="/mywish/:uid" element={<UserWishMap />} />
         <Route path="/transition/login" element={<LoginData />} />
       </Routes>
     </BrowserRouter>

@@ -5,14 +5,14 @@ import { Outlet } from "react-router-dom";
 // basic header only
 function Layout2() {
   const isLogin = useSelector((state) => state.isLogin.value);
-  const userInfo = useSelector((state) => state.userInfo.value);
+  const loginUserInfo = useSelector((state) => state.userInfo.value);
 
   return (
     <>
       <Header
         isLogin={isLogin}
-        userId={userInfo.userId}
-        userEmoji={userInfo.userEmoji}
+        userId={loginUserInfo.userId}
+        userEmoji={loginUserInfo.userEmoji}
       />
       <Outlet />
     </>
