@@ -3,7 +3,7 @@ import Card from "components/Card";
 import { useEffect, useRef, useState } from "react";
 import { userPicktheme } from "static/dummyData";
 import { buttonStyles } from "lib/styles";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { scrollToTop } from "lib/utils/scrollToTop";
 
@@ -16,9 +16,11 @@ function UserInfo() {
   const { emoji, nickname, introduction } = userProfile;
 
   const [isEditable, SetIsEditable] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
   const navigate = useNavigate();
   const { uid } = useParams();
   const nicknameRef = useRef();
+  const { userId } = useOutletContext();
 
   const {
     smTextBlackButton,
@@ -61,6 +63,12 @@ function UserInfo() {
     }
   };
 
+  const handleFollowButton = () => {
+    if (userId) {
+      setIsFollowing((prev) => !prev);
+    }
+  };
+
   return (
     <div className="padding-container">
       <div className="mb-[30px]">
@@ -68,34 +76,41 @@ function UserInfo() {
         <div className="flex justify-between mb-3">
           <div className="bg-white rounded-full w-24 h-24 p-6 relative">
             <span className="text-5xl">{emoji}</span>
-            <Button icon="refresh" styles={refreshButton} />
+            {uid === userId && <Button icon="refresh" styles={refreshButton} />}
           </div>
           <div className="flex">
             <div className="flex flex-col justify-between mr-3">
-              <div className="text-right leading-none">
+              <div className="text-right leading-none whitespace-nowrap">
                 <Button
-                  num="1"
+                  num="1111"
                   name=" 팔로워"
                   styles={smTextBlackButton}
                   handleButtonClick={() => navigate(`/user/${uid}/followers`)}
                 />
               </div>
-              <Button
-                name={isEditable ? "수정 완료" : "프로필 수정"}
-                styles={isEditable ? smGrayButton : smWhiteButton}
-                handleButtonClick={handleEditButton}
-              />
             </div>
             <div className="flex flex-col justify-between">
-              <div className="text-right leading-none">
+              <div className="text-right leading-none w-[96.133px]">
                 <Button
-                  num="143"
+                  num="1143"
                   name=" 팔로잉"
                   styles={smTextBlackButton}
                   handleButtonClick={() => navigate(`/user/${uid}/followings`)}
                 />
               </div>
-              <Button name="팔로우" styles={smLightGreenButton} />
+              {uid === userId ? (
+                <Button
+                  name={isEditable ? "수정 완료" : "프로필 수정"}
+                  styles={isEditable ? smGrayButton : smWhiteButton}
+                  handleButtonClick={handleEditButton}
+                />
+              ) : (
+                <Button
+                  name={isFollowing ? "언팔로우" : "팔로우"}
+                  styles={isFollowing ? smGrayButton : smLightGreenButton}
+                  handleButtonClick={handleFollowButton}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -132,14 +147,24 @@ function UserInfo() {
           <Button
             isFull={true}
             styles={mdGreenButton}
-            name="내가 추천한 장소 모아보기"
+            name={
+              uid === userId
+                ? "내가 추천한 장소 모아보기"
+                : `${nickname}님이 추천한 장소 모아보기`
+            }
             emoji="👍"
+            handleButtonClick={() => navigate(`/user/${uid}/pick`)}
           />
           <Button
             isFull={true}
             styles={mdWhiteGreenButton}
-            name="내가 찜한 장소 모아보기"
+            name={
+              uid === userId
+                ? "내가 찜한 장소 모아보기"
+                : `${nickname}님이 찜한 장소 모아보기`
+            }
             emoji="🥰"
+            handleButtonClick={() => navigate(`/user/${uid}/wish`)}
           />
         </div>
       </div>

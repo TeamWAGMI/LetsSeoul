@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { atWhere, doWhat, popularThemes, withWhom } from "static/dummyData";
 import { buttonStyles, cardStyles } from "lib/styles";
+import Footer from "components/Footer";
 
 function Search() {
   const [selectedWhom, setSelectedWhom] = useState(null);
@@ -21,65 +22,68 @@ function Search() {
   }, []);
 
   return (
-    <div className="padding-container">
-      <div className=" mb-[30px]">
-        <SearchBar />
-      </div>
-      <div className="mb-[30px]">
-        <Tag
-          title="누구와?"
-          tags={withWhom}
-          selectedTag={selectedWhom}
-          setSelectedTag={setSelectedWhom}
-        />
-        <Tag
-          title="뭘 하기 좋은?"
-          tags={doWhat}
-          selectedTag={selectedWhat}
-          setSelectedTag={setSelectedWhat}
-        />
-        <Tag
-          title="어떤 곳에서?"
-          tags={atWhere}
-          selectedTag={selectedWhere}
-          setSelectedTag={setSelectedWhere}
-        />
-      </div>
-      <div className="mb-[30px]">
-        <div className="mb-3 font-semibold text-sm leading-none">
-          6개의 테마를 찾았어요.
+    <>
+      <div className="padding-container">
+        <div className=" mb-[30px]">
+          <SearchBar />
         </div>
-        <ul className="grid grid-cols-2 gap-[11px]">
-          {popularThemes.map((card) => {
-            const { id, emoji, name, count } = card;
-            const option = `${count}개의 추천 장소`;
-            return (
-              <Card
-                key={id}
-                id={id}
-                emoji={emoji}
-                name={name}
-                option={option}
-                styles={gridThemeCard}
-              />
-            );
-          })}
-        </ul>
-      </div>
-      <div>
-        <p className="mb-2 text-center text-xs leaidng-none">
-          찾으시는 테마가 없나요?
-        </p>
-        <Link to="/request" state="all themes">
-          <Button
-            name="새로운 테마 요청하기"
-            emoji="🤔"
-            isFull={true}
-            styles={mdGreenButton}
+        <div className="mb-[30px]">
+          <Tag
+            title="누구와?"
+            tags={withWhom}
+            selectedTag={selectedWhom}
+            setSelectedTag={setSelectedWhom}
           />
-        </Link>
+          <Tag
+            title="뭘 하기 좋은?"
+            tags={doWhat}
+            selectedTag={selectedWhat}
+            setSelectedTag={setSelectedWhat}
+          />
+          <Tag
+            title="어떤 곳에서?"
+            tags={atWhere}
+            selectedTag={selectedWhere}
+            setSelectedTag={setSelectedWhere}
+          />
+        </div>
+        <div className="mb-[30px]">
+          <div className="mb-3 font-semibold text-sm leading-none">
+            6개의 테마를 찾았어요.
+          </div>
+          <ul className="grid grid-cols-2 gap-[11px]">
+            {popularThemes.map((card) => {
+              const { id, emoji, name, count } = card;
+              const option = `${count}개의 추천 장소`;
+              return (
+                <Card
+                  key={id}
+                  id={id}
+                  emoji={emoji}
+                  name={name}
+                  option={option}
+                  styles={gridThemeCard}
+                />
+              );
+            })}
+          </ul>
+        </div>
+        <div>
+          <p className="mb-2 text-center text-xs leaidng-none">
+            찾으시는 테마가 없나요?
+          </p>
+          <Link to="/request" state="all themes">
+            <Button
+              name="새로운 테마 요청하기"
+              emoji="🤔"
+              isFull={true}
+              styles={mdGreenButton}
+            />
+          </Link>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 
