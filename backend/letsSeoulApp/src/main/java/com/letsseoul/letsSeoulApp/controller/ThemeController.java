@@ -64,23 +64,21 @@ public class ThemeController {
     /**
      * BE-TH-0004 테마 리뷰 등록
      * @param themeId
-     * @param storeId
      */
     @PostMapping("/{themeId}/stores/{storeId}")
     public ResponseEntity<ThemeDto.RegistThemeReviewResponse> registThemeReview(@LoginUser SessionUser user,
                                             @PathVariable("themeId") @Positive Long themeId,
-                                            @PathVariable("storeId") @Positive Long storeId,
                                             @RequestBody ThemeDto.RegistThemeReviewPost registThemeReviewPost) {
 
-        if (!StringUtils.hasText(registThemeReviewPost.getContent())) {
+        if (!StringUtils.hasText(registThemeReviewPost.getReview().getContent())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
         }
-        else if (null == registThemeReviewPost.getScore()) {
+        else if (null == registThemeReviewPost.getReview().getScore()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
         }
 
         return ResponseEntity.ok()
-                .body(themeService.registThemeReview(3L, themeId, storeId, registThemeReviewPost));
+                .body(themeService.registThemeReview(3L, themeId, registThemeReviewPost));
     }
 
     //th-0005  가게 테마 조회
