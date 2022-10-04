@@ -24,7 +24,7 @@ function Card({
             <span className="ml-2">{name}</span>
             <span className="float-right">
               {option2 === "♥️" ? (
-                <span className="text-[#ff0000] mr-2">{option2}</span>
+                <span className="text-heartRed mr-2">{option2}</span>
               ) : null}
               <span>{option}</span>
             </span>

@@ -11,8 +11,8 @@ function LoginData() {
   const redirectPath = useSelector((state) => state.prevPath.value);
 
   const getUserData = (userData) => ({
-    uid: userData[1],
-    nickname: userData[0],
+    userId: userData[1],
+    userNickname: userData[0],
     userEmoji: userData[2],
   });
 

@@ -1,7 +1,5 @@
 import Button from "components/Button";
 import Card from "components/Card";
-import Footer from "components/Footer";
-import Header from "components/Header";
 import SearchBar from "components/SearchBar";
 import Tag from "components/Tag";
 import { scrollToTop } from "lib/utils/scrollToTop";
@@ -9,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { atWhere, doWhat, popularThemes, withWhom } from "static/dummyData";
 import { buttonStyles, cardStyles } from "lib/styles";
+import Footer from "components/Footer";
 
 function Search() {
   const [selectedWhom, setSelectedWhom] = useState(null);
@@ -23,8 +22,7 @@ function Search() {
   }, []);
 
   return (
-    <div className="relative">
-      <Header />
+    <>
       <div className="padding-container">
         <div className=" mb-[30px]">
           <SearchBar />
@@ -85,7 +83,7 @@ function Search() {
         </div>
       </div>
       <Footer />
-    </div>
+    </>
   );
 }
 

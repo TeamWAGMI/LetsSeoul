@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Footer from "components/Footer";
-import Header from "components/Header";
 import { scrollToTop } from "lib/utils/scrollToTop";
 import RecommendedThemes from "components/Main/RecommendedThemes";
 import RecommendedCurators from "components/Main/RecommendedCurators";
 import PopularThemes from "components/Main/PopularThemes";
 import SearchThemes from "components/Main/SearchThemes";
+import Footer from "components/Footer";
 
 function Main() {
   const [listsOfCards, setListsOfCards] = useState({
@@ -42,7 +41,6 @@ function Main() {
 
   return (
     <>
-      <Header />
       <div className="padding-container">
         <SearchThemes />
         <RecommendedThemes listOfCards={listsOfCards.recommendedThemes} />

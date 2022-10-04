@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 function ThemeMap() {
-  //const [center, setCenter] = useState();
   const [themeData, SetThemeData] = useState([]);
   const { tid } = useParams();
 

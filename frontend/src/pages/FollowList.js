@@ -1,6 +1,5 @@
 import axios from "axios";
 import Card from "components/Card";
-import Header from "components/Header";
 import { scrollToTop } from "lib/utils/scrollToTop";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -44,7 +43,7 @@ function Follow() {
           numberOfFollowing,
         }));
       } catch (err) {
-        console.log(err);
+        console.error(err.message);
       }
     };
     getFollowLists();
@@ -53,7 +52,6 @@ function Follow() {
 
   return (
     <>
-      <Header />
       <div className="flex">
         {tabs.map(({ name, params }) => (
           <div

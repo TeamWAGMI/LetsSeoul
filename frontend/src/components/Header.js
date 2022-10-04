@@ -9,12 +9,13 @@ import { getPrevPath } from "slice/prevPathSlice";
 function Header({
   hasBackButton = false,
   isLogin = false,
+  userId,
   userEmoji,
   storeName,
   storeAddress,
 }) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { backButton, loginButton, hamburgerButton } = buttonStyles;
+  const { loginButton, hamburgerButton } = buttonStyles;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,29 +25,25 @@ function Header({
     window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
   };
 
-  const handleBackButton = () => {
-    navigate(-1);
-  };
-
   return (
     <>
       <header
-        className={`aboslute sticky top-0 py-[14px] px-[18px] bg-wagmiGreen z-30 ${
+        className={`sticky top-0 py-[14px] px-[18px] bg-wagmiGreen z-30 ${
           hasBackButton ? "h-[84px]" : "h-[60px]"
         }`}
       >
         <div className="flex flex-row justify-between h-[100%]">
           {hasBackButton && (
             <Button
-              styles={backButton}
+              styles="pr-[18px]"
               icon="back"
-              handleButtonClick={handleBackButton}
+              handleButtonClick={() => navigate(-1)}
             />
           )}
           <div
             className={`text-white w-min whitespace-nowrap ${
               hasBackButton
-                ? "grow text-center flex flex-col justify-around pr-[26px]"
+                ? "grow text-center flex flex-col justify-around pr-[28px]"
                 : "basis-3/4"
             }`}
           >
@@ -64,7 +61,9 @@ function Header({
           {!hasBackButton && (
             <div className="basis-1/4 flex justify-end items-center py-[4px]">
               {isLogin ? (
-                <span className="text-2xl mr-3">{userEmoji}</span>
+                <Link to={`/user/${userId}`}>
+                  <span className="text-2xl mr-3">{userEmoji}</span>
+                </Link>
               ) : (
                 <Button
                   styles={loginButton}
