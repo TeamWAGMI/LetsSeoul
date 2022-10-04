@@ -83,7 +83,6 @@ public class ThemeService {
      */
     public ThemeDto.RegistThemeReviewResponse registThemeReview(Long userId,
                                                                 Long themeId,
-                                                                Long storeId,
                                                                 ThemeDto.RegistThemeReviewPost registThemeReviewPost) {
 
         //별점 검증
@@ -92,29 +91,35 @@ public class ThemeService {
         // 둘다 있으면 review 등록 진행 : 한 트랜잭션 안에서
         //  theme-store 널고
         //  review 넣는다, 그런데 이제 user도 조회해서 넣어야 함.
-
-        if (registThemeReviewPost.getScore() < 1 || 5 < registThemeReviewPost.getScore()) {
+        if (registThemeReviewPost.getReview().getScore() < 1 || 5 < registThemeReviewPost.getReview().getScore()) {
             throw triggerExceptionForIllegalRequest();
         }
         Theme theme = themeRepository.findById(themeId)
                 .orElseThrow(ThemeService::triggerExceptionForIllegalRequest);
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(ThemeService::triggerExceptionForIllegalRequest);
+        Store store = storeRepository.findByItemid(registThemeReviewPost.getStore().getItemid())
+                .orElse(Store.builder()
+                        .itemid(registThemeReviewPost.getStore().getItemid())
+                        .title(registThemeReviewPost.getStore().getTitle())
+                        .address(registThemeReviewPost.getStore().getAddress())
+                        .lat(registThemeReviewPost.getStore().getLat())
+                        .lng(registThemeReviewPost.getStore().getLng())
+                        .build());
+        storeRepository.save(store);
 
         ThemeStore themeStore = themeStoreRepository.save(ThemeStore.builder()
                 .theme(theme)
                 .store(store)
                 .build());
 
-        Review savedReview = reviewRepository.save(Review.builder()
+        reviewRepository.save(Review.builder()
                 .themeStore(themeStore)
                 .user(userRepository.findById(userId)
                         .orElseThrow(ThemeService::triggerExceptionForIllegalRequest))
-                .score(registThemeReviewPost.getScore())
-                .content(registThemeReviewPost.getContent())
+                .score(registThemeReviewPost.getReview().getScore())
+                .content(registThemeReviewPost.getReview().getContent())
                 .build());
 
-        return ThemeDto.RegistThemeReviewResponse.of(savedReview);
+        return ThemeDto.RegistThemeReviewResponse.of();
     }
 
     /**

@@ -31,11 +31,15 @@ public class Review extends Auditable {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private String status;
+
     @Builder
     public Review(ThemeStore themeStore, User user, Integer score, String content) {
         this.themeStore = themeStore;
         this.user = user;
         this.score = score;
         this.content = content;
+        this.status = "E"; // 리뷰 생성 시 상태값 기본 "E"(활성)
     }
 }
