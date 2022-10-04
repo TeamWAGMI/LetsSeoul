@@ -4,6 +4,7 @@ package com.letsseoul.letsSeoulApp.service;
 import com.letsseoul.letsSeoulApp.domain.FollowTheme;
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import com.letsseoul.letsSeoulApp.domain.User;
+import com.letsseoul.letsSeoulApp.dto.theme.ThemeMapListResponseDto;
 import com.letsseoul.letsSeoulApp.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,6 @@ public class ThemeService {
         hotthemes.forEach(hottheme -> {
             Theme theme = themeRepository.findById(hottheme.getThemeId())
                     .orElseThrow(ThemeService::triggerExceptionForIllegalRequest);
-
             hotthemeDtoList.add(new RecommendedThemeListResponseDto(theme.getId(), theme.getEmoji(), theme.getTitle()));
         });
 
@@ -67,6 +67,32 @@ public class ThemeService {
 
         return themeStoreRepository.countAllByGroupByThemeId();
     }
+     /*
+     *  TH-0003
+     * */
+
+      /*
+         * 1. 여기서 리스폰스로 바로바꿔준다.  dto에 대한 검증이 불필요할때 get?
+         * 2. 그냥 보내서 dto에서 바꾼다 2차적인 검증을 하면 당연히 좋지만 없어도 순서대로 나오니 상관없다 생각 했음 ex)중간에 삭제된 데이터가 있을 수 있어 위험 검증해야함 n2 시간복잡도
+         * for (ThemeStore ts : tsList) {
+  Long tsID = ts.getId();
+  for (CountDto cdto : counts) {
+    if (tdId == cdto.getId()) {
+      지금만들고있는dto.setCount(cdto.getCount());
+    }
+  }
+         return ThemeDto.ThemeMapListResponse.of(themeList);
+    }
+          */
+
+    public ThemeDto.ThemeMapListResponse themeMapList(Long themeId) {
+        Theme theme = themeRepository.findById(themeId).orElseThrow(ThemeService::triggerExceptionForIllegalRequest);
+        List<ThemeMapListResponseDto> themeList = themeStoreRepository.findByTheme(themeId);
+
+        return ThemeDto.ThemeMapListResponse.of(themeList);
+    }
+
+
 
     /**
      * TH-0004 테마 리뷰 등록.
@@ -91,6 +117,7 @@ public class ThemeService {
                 .orElseThrow(ThemeService::triggerExceptionForIllegalRequest);
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(ThemeService::triggerExceptionForIllegalRequest);
+
 
         ThemeStore themeStore = themeStoreRepository.save(ThemeStore.builder()
                 .theme(theme)
@@ -133,5 +160,9 @@ public class ThemeService {
         return ThemeDto.cancelDibsThemeResponse.of();
     }
 
-
+    // TH-0015 테마 정보 조회
+    public ThemeDto.ThemeInfoResponse viewThemeInformation(Long themeId) {
+        Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new RuntimeException("테마가 없습니다"));
+        return ThemeDto.ThemeInfoResponse.of(theme);
+    }
 }

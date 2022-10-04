@@ -1,10 +1,7 @@
 package com.letsseoul.letsSeoulApp.domain;
 
 import com.letsseoul.letsSeoulApp.config.audit.Auditable;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -25,11 +22,17 @@ public class Review extends Auditable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Setter
     @Column(nullable = false)
     private Integer score;
 
+    @Setter
     @Column(nullable = false)
     private String content;
+
+    @Setter
+    private String status="E"; //Enable Delete softDelete형태로한다.
+
 
     @Builder
     public Review(ThemeStore themeStore, User user, Integer score, String content) {

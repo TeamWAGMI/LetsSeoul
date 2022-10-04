@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -34,6 +36,9 @@ public class Store {
 
     @Column(nullable = false)
     private String lng;
+
+    @OneToMany(mappedBy = "store")
+    List<ThemeStore> themeStoreList = new ArrayList<>();
 
     @Builder
     public Store(String itemid, String title, String address, String lat, String lng) {
