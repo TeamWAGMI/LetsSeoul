@@ -53,7 +53,9 @@ public class UserController {
                 .body(userService.searchUserInfo(userId));
     }
 
-    //CU- 0001  (추천)큐레이터 목록 조회
+    /**
+     * CU-0001 (추천)큐레이터 목록 조회
+     */
     @GetMapping("/curators")
     public ResponseEntity<List<CuratorListResponseDto>> getCuratorsList(){
 
