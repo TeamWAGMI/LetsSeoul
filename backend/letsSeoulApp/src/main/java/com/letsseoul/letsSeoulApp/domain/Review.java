@@ -1,10 +1,7 @@
 package com.letsseoul.letsSeoulApp.domain;
 
 import com.letsseoul.letsSeoulApp.config.audit.Auditable;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -25,12 +22,15 @@ public class Review extends Auditable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Setter
     @Column(nullable = false)
     private Integer score;
 
+    @Setter
     @Column(nullable = false)
     private String content;
 
+    @Setter
     @Column(nullable = false)
     private String status;
 

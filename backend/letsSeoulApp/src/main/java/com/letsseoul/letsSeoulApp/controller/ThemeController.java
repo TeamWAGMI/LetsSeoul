@@ -56,9 +56,8 @@ public class ThemeController {
      * @param themeId
      */
     @GetMapping("/{themeId}")
-    public ResponseEntity<List<ThemeDto.ThemeMapListResponse>> themeMapList(@PathVariable("themeId") Long themeId) {
-
-        return ResponseEntity.ok().body(ThemeDto.ThemeMapListResponse.of());
+    public ResponseEntity<ThemeDto.ThemeMapListResponse> themeMapList(@PathVariable("themeId") Long themeId) {
+        return ResponseEntity.ok().body(themeService.themeMapList(themeId));
     }
 
     /**
@@ -81,44 +80,7 @@ public class ThemeController {
                 .body(themeService.registThemeReview(3L, themeId, registThemeReviewPost));
     }
 
-    //th-0005  가게 테마 조회
-    @GetMapping("/{themeId}/stores/{storeId}/themeList")
-    public ResponseEntity<?> attemptGetStoreTheme(@PathVariable("themeId") Long themeId, @PathVariable("storeId") Long storeId){
 
-        List<ThemeDto.ThemeResponse> list = new ArrayList<>();
-        list.add(ThemeDto.ThemeResponse.of());
-        list.add(ThemeDto.ThemeResponse.of());
-        return ResponseEntity.ok().body(new SingleListResponseDto<>(list));
-    }
-
-    //TH-0006 가게 테마 리뷰 조회
-    @GetMapping("/{themeId}/stores/{storeId}/review")
-    public ResponseEntity<?> attemptGetStoreThemeReview(@PathVariable("themeId") Long themeId, @PathVariable("storeId") Long storeId){
-
-        List<ThemeDto.StoreThemeReviewResponse> list = new ArrayList<>();
-        list.add(ThemeDto.StoreThemeReviewResponse.of());
-        list.add(ThemeDto.StoreThemeReviewResponse.of());
-
-        return ResponseEntity.ok().build();
-    }
-
-    //TH-0007 가게 테마 리뷰 수정
-    @PatchMapping("/{themeId}/stores/{storeId}/reviews/{reviewId}")
-    public ResponseEntity<?> attemptReviewUpdate(@PathVariable("themeId") Long themeId,
-                                                 @PathVariable("storeId") Long storeId,
-                                                 @PathVariable("reviewId") Long reviewId,
-                                                 @RequestBody ThemeDto.ReviewPatch reviewPatch){
-
-        return ResponseEntity.ok().body(new HashMap<>(){{put("success",true);}});
-    }
-
-    //TH-0008 가게 테마 리뷰 삭제
-    @DeleteMapping("/{themeId}/stores/{storeId}/reviews/{reviewId}")
-    public ResponseEntity<?> attemptReviewDelete(@PathVariable("themeId") Long themeId,
-                                                 @PathVariable("storeId") Long storeId,
-                                                 @PathVariable("reviewId") Long reviewId){
-        return ResponseEntity.ok().body(new HashMap<>(){{put("success",true);}});
-    }
 
     /**
      * BE-TH-0009
@@ -171,6 +133,10 @@ public class ThemeController {
             @LoginUser SessionUser user,
             @PathVariable("themeId") Long themeId){
         return ResponseEntity.ok().body(themeService.cancelDibsTheme(1L,themeId));
+    }
+    @GetMapping("/{themeId}/info")
+    public ResponseEntity<ThemeDto.ThemeInfoResponse> viewThemeInformation(@PathVariable("themeId") Long themeId){
+        return ResponseEntity.ok().body(themeService.viewThemeInformation(themeId));
     }
     
 }

@@ -1,10 +1,13 @@
-package com.letsseoul.letsSeoulApp.dto;
+package com.letsseoul.letsSeoulApp.dto.store;
 
-import com.letsseoul.letsSeoulApp.domain.FollowStore;
-import com.letsseoul.letsSeoulApp.domain.Store;
+import com.letsseoul.letsSeoulApp.domain.*;
+import com.letsseoul.letsSeoulApp.dto.theme.ThemeDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class StoreDto {
@@ -62,4 +65,19 @@ public class StoreDto {
             return new DeleteDibsResponse(true);
         }
     }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class UpdateOrDeleteReviewResponse {
+        private final Boolean success;
+        public static StoreDto.UpdateOrDeleteReviewResponse of() {
+            return new StoreDto.UpdateOrDeleteReviewResponse(true);
+        }
+    }
+
+
+
+
+
+
 }
