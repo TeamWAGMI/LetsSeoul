@@ -5,9 +5,13 @@ import com.letsseoul.letsSeoulApp.domain.FollowTheme;
 import com.letsseoul.letsSeoulApp.domain.SuggestTheme;
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import com.letsseoul.letsSeoulApp.domain.User;
-import com.letsseoul.letsSeoulApp.dto.theme.ThemeSearchResponseDto;
+import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
+//import com.letsseoul.letsSeoulApp.dto.theme.ThemeSearchResponseDto;
 import com.letsseoul.letsSeoulApp.repository.*;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.letsseoul.letsSeoulApp.domain.Hottheme;
 import com.letsseoul.letsSeoulApp.domain.Review;
@@ -20,9 +24,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+//import javax.persistence.EntityManager;
+//import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,9 +43,8 @@ public class ThemeService {
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
+    private final ThemeCustomRepositoryImpl themeCustomRepository;
     private final SuggestThemeRepository suggestThemeRepository;
-
-    private final EntityManager em;
 
     private static ResponseStatusException triggerExceptionForIllegalRequest() {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, "잘못된 요청입니다.");
@@ -241,4 +243,19 @@ public class ThemeService {
     }
 
 
+    public MultiResponseDto<ThemeDto.ThemeSearchResponse> themeSearch(ThemeDto.ThemeSearchGet themeSearchGet, Pageable pageable) {
+        Page<Tuple> dynamicQuery = themeCustomRepository.findDynamicQuery(themeSearchGet.getKeyword(),themeSearchGet.getWho(),themeSearchGet.getWhat(),themeSearchGet.getWhere(),pageable);
+        return  ThemeDto.ThemeSearchResponse.of(dynamicQuery);
+        /*List<Tuple> tupleList = dynamicQuery.getContent();
+        System.out.println("tupleList.get(0).get(3,Long.class) = " + tupleList.get(0).get(3,Long.class));*/
+
+        //inner class this가되나?
+
+
+        /*
+        * 1. 페이지네이션
+        * 2. 스토어카운트
+        * 3. responseDto로 받아보기 ,BuilderExpression
+        * */
+    }
 }

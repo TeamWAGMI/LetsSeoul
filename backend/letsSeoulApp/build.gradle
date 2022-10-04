@@ -1,7 +1,8 @@
 plugins {
 	id 'org.springframework.boot' version '2.7.3'
 	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-//	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+//   id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"// (1)
 	id 'java'
 }
 
@@ -10,7 +11,6 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-//	asciidoctorExtensions
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -22,6 +22,7 @@ repositories {
 
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
+	set('queryDslVersion',"5.0.0")
 }
 
 dependencies {
@@ -30,6 +31,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// querydsl dependencies
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.google.code.gson:gson'
@@ -44,34 +48,53 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
-//	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+//   asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
+
+
 
 tasks.named('test') {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
 }
+// script for querydsl
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main.java.srcDir querydslDir
+}
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+
+
 
 //tasks.named('asciidoctor') {
-//	configurations "asciidoctorExtensions"
-//	inputs.dir snippetsDir
-//	dependsOn test
+//   configurations "asciidoctorExtensions"
+//   inputs.dir snippetsDir
+//   dependsOn test
 //}
 
 //task copyDocument(type: Copy) {
-//	dependsOn asciidoctor
-//	println "asciidoctor output: ${asciidoctor.outputDir}"
-//	from file("${asciidoctor.outputDir}")
-//	into file("src/main/resources/static/docs")
+//   dependsOn asciidoctor
+//   println "asciidoctor output: ${asciidoctor.outputDir}"
+//   from file("${asciidoctor.outputDir}")
+//   into file("src/main/resources/static/docs")
 //}
 
 build {
-//	dependsOn copyDocument
+//   dependsOn copyDocument
 }
 
 bootJar {
-//	dependsOn copyDocument
-//	from ("${asciidoctor.outputDir}") {
-//		into 'static/docs'
-//	}
+//   dependsOn copyDocument
+//   from ("${asciidoctor.outputDir}") {
+//      into 'static/docs'
+//   }
 }

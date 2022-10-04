@@ -20,8 +20,8 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String itemid;
+    @Column(name = "item_id",nullable = false)
+    private String itemId;
 
     @Column(nullable = false)
     private String title;
@@ -36,8 +36,8 @@ public class Store {
     private String lng;
 
     @Builder
-    public Store(String itemid, String title, String address, String lat, String lng) {
-        this.itemid = itemid;
+    public Store(String itemId, String title, String address, String lat, String lng) {
+        this.itemId = itemId;
         this.title = title;
         this.address = address;
         this.lat = lat;

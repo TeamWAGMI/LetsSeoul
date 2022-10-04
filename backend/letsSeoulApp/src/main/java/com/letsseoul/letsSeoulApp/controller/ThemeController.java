@@ -2,6 +2,7 @@ package com.letsseoul.letsSeoulApp.controller;
 
 import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
+import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
 import com.letsseoul.letsSeoulApp.dto.SingleListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.PopularThemeListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.RecommendedThemeListResponseDto;
@@ -10,6 +11,7 @@ import com.letsseoul.letsSeoulApp.dto.theme.ThemeSearchResponseDto;
 import com.letsseoul.letsSeoulApp.service.ThemeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -124,15 +126,10 @@ public class ThemeController {
      * BE-TH-0009
      * @param themeSearchPost 검색 파라미터
      */
-    @PostMapping("/search")
-    public ResponseEntity<List<ThemeSearchResponseDto>> themeSearch(
-            @RequestParam(name = "page", defaultValue = "1") Integer page,
-            @RequestParam(name = "size", defaultValue = "10") Integer size,
-            @RequestBody ThemeDto.ThemeSearchPost themeSearchPost) {
 
-        page--;
-
-        return ResponseEntity.ok().body(themeService.themeSearch(page, size, themeSearchPost));
+    @GetMapping("/search")
+    public ResponseEntity<MultiResponseDto<ThemeDto.ThemeSearchResponse>> themeSearch(@RequestBody ThemeDto.ThemeSearchGet themeSearchGet, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size) {
+        return ResponseEntity.ok().body(themeService.themeSearch(themeSearchGet, PageRequest.of(page-1,size)));
     }
 
     /**
