@@ -79,7 +79,7 @@ public class UserService {
         return UserDto.DibsTehemeResponse.of(followThemeList, countList);
     }
 
-    // US-0001
+    // CU-0001
     public List<CuratorListResponseDto> listupCurators() {
 
         List<Hotuser> hotuserList = hotuserRepository.findAll();

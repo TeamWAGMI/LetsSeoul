@@ -174,24 +174,34 @@ public class ThemeDto {
     // BE-TH-0004
     @Getter
     @RequiredArgsConstructor
-    @ToString
     public static class RegistThemeReviewPost {
-        private final Integer score;
-        private final String content;
-        private final String[] images; // 이미지는 나중에 붙이기로 했다.
+        private final RegistThemeReviewPostStore store;
+        private final RegistThemeReviewPostReview review;
+
+        @Getter
+        @RequiredArgsConstructor
+        public static class RegistThemeReviewPostStore {
+            private final String itemid;
+            private final String title;
+            private final String address;
+            private final String lat;
+            private final String lng;
+        }
+        @Getter
+        @RequiredArgsConstructor
+        public static class RegistThemeReviewPostReview {
+            private final Integer score;
+            private final String content;
+            private final String[] images; // 이미지는 나중에 붙이기로 했다.
+        }
     }
     @Getter
     @RequiredArgsConstructor
     public static class RegistThemeReviewResponse {
         private final Boolean success;
 
-        public static RegistThemeReviewResponse of(Review savedReview) {
-            if (null != savedReview) {
-                return new RegistThemeReviewResponse(true);
-            }
-            else {
-                return new RegistThemeReviewResponse(false);
-            }
+        public static RegistThemeReviewResponse of() {
+            return new RegistThemeReviewResponse(true);
         }
     }
 

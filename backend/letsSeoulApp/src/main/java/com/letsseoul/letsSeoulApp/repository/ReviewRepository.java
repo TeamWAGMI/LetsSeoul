@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    //US-0001
-    @Query("SELECT count(r.id) FROM Review r WHERE r.user.id = :userId ")
+    // CU-0001
+    @Query("SELECT count(r.id) FROM Review r WHERE r.user.id = :userId AND r.status = 'E' ")
     Long countByUserId(Long userId);
 
     //LO-0001
@@ -21,7 +21,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "FROM Review r " +
             "LEFT JOIN ThemeStore ts ON r.themeStore.id = ts.id " +
             "INNER JOIN Store s ON ts.store.id = s.id " +
-            "WHERE r.user.id = :userId " +
+            "WHERE r.user.id = :userId AND r.status = 'E' " +
             "GROUP BY s.id ")
     List<ReviewPlaceResponseDto> findReviewPlaceByUserId(Long userId);
 }

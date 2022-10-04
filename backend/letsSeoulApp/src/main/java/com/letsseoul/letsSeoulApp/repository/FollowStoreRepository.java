@@ -20,6 +20,7 @@ public interface FollowStoreRepository extends JpaRepository<FollowStore, Long> 
             "FROM FollowStore fs " +
             "LEFT JOIN Store s ON fs.store.id = s.id " +
             "LEFT JOIN ThemeStore ts ON s.id = ts.store.id " +
+            "INNER JOIN Review r ON ts.id = r.themeStore.id AND r.status = 'E' " +
             "WHERE fs.user.id = :userId " +
             "GROUP BY s.id ")
     List<DibsPlaceResponseDto> findDibsPlaceByUserId(Long userId);
