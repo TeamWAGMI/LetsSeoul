@@ -1,7 +1,7 @@
 const Drawer = ({ isOpen, handleButtonClick }) => {
   const list = ["홈", "테마지도 모아보기", "마이페이지", "로그아웃"];
 
-  // const list = [{title: "홈", path: "/"}, {title: "테마지도 모아보기", path: "/search"}, {title: "로그인"}, {title: "마이페이지", path: `/`}, "로그아웃"];
+  // const list = [{title: "홈", path: "/"}, {title: "테마지도 모아보기", path: "/search"}, {title: "로그인"}, {title: "마이페이지", path: `/`}, "로그아웃"];;
 
   return (
     <>
