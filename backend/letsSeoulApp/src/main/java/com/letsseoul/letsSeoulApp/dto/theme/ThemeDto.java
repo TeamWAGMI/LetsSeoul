@@ -1,10 +1,14 @@
 package com.letsseoul.letsSeoulApp.dto.theme;
 
-import com.letsseoul.letsSeoulApp.domain.Review;
-import com.letsseoul.letsSeoulApp.domain.Store;
+
 import com.letsseoul.letsSeoulApp.domain.Theme;
-import com.letsseoul.letsSeoulApp.domain.ThemeStore;
+import com.letsseoul.letsSeoulApp.domain.SuggestTheme;
+
+import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
+
+import com.querydsl.core.Tuple;
 import lombok.*;
+import org.springframework.data.domain.Page;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +20,15 @@ public class ThemeDto {
 
     @Getter
     @RequiredArgsConstructor
-    public static class ThemePost{
-        private final String themeName;
+    public static class RegistThemePost {
+        private final String themeTitle;
         private final String themeContent;
+        public SuggestTheme toEntity() {
+            return SuggestTheme.builder()
+                    .title(this.themeTitle)
+                    .content(this.themeContent)
+                    .build();
+        }
     }
     @Getter
     @RequiredArgsConstructor
@@ -33,18 +43,18 @@ public class ThemeDto {
                     theme.getTitle());
         }
     }
-
     @Getter
     @RequiredArgsConstructor
-    public static class ReviewPatch{
-        private final Long userId;
-        private final Long reviewScore;
-        private final String reviewContent;
-        private final List<String> reviewImages;
+    public static class RegistThemeResponse {
+        private final Boolean success;
+
+        public static RegistThemeResponse of() {
+            return new RegistThemeResponse(true);
+        }
+
     }
 
-
-    @Getter
+    /*@Getter
     @RequiredArgsConstructor  //가게 테마 조희 Response
     public static class ThemeResponse{
         private final Long id;
@@ -62,8 +72,16 @@ public class ThemeDto {
                     "테마이름",
                     0L);
         }
-    }
+    }*/
 
+    @Getter
+    @RequiredArgsConstructor
+    public static class ReviewPatch{
+        private final Long userId;
+        private final Long reviewScore;
+        private final String reviewContent;
+        private final List<String> reviewImages;
+    }
 
 
     // BE-TH-0001
@@ -88,7 +106,6 @@ public class ThemeDto {
                 );
                 collect.add(listOfRecommendedThemesResponse);
             }
-
             return collect;
         }
     }
@@ -152,31 +169,41 @@ public class ThemeDto {
     // BE-TH-0004
     @Getter
     @RequiredArgsConstructor
-    @ToString
     public static class RegistThemeReviewPost {
-        private final Integer score;
-        private final String content;
-        private final String[] images; // 이미지는 나중에 붙이기로 했다.
+        private final RegistThemeReviewPostStore store;
+        private final RegistThemeReviewPostReview review;
+
+        @Getter
+        @RequiredArgsConstructor
+        public static class RegistThemeReviewPostStore {
+            private final String itemid;
+            private final String title;
+            private final String address;
+            private final String lat;
+            private final String lng;
+        }
+        @Getter
+        @RequiredArgsConstructor
+        public static class RegistThemeReviewPostReview {
+            private final Integer score;
+            private final String content;
+            private final String[] images; // 이미지는 나중에 붙이기로 했다.
+        }
     }
     @Getter
     @RequiredArgsConstructor
     public static class RegistThemeReviewResponse {
         private final Boolean success;
 
-        public static RegistThemeReviewResponse of(Review savedReview) {
-            if (null != savedReview) {
-                return new RegistThemeReviewResponse(true);
-            }
-            else {
-                return new RegistThemeReviewResponse(false);
-            }
+        public static RegistThemeReviewResponse of() {
+            return new RegistThemeReviewResponse(true);
         }
     }
 
     // BE-TH-0009
     @Getter
     @RequiredArgsConstructor
-    public static class ThemeSearchGet {
+    public static class ThemeSearchPost {
         private final String keyword;
         private final String[] who;
         private final String[] what;
@@ -184,45 +211,23 @@ public class ThemeDto {
     }
     @Getter
     @RequiredArgsConstructor
-    public static class ThemeSearchResponse<T> {
-        private final List<T> content;
-        private final PageInfo pageInfo;
+    public static class ThemeSearchResponse {
+        private final Long themeId;
+        private final String themeEmoji;
+        private final String themeTitle;
+        private final Long reviewCount;
 
-        @Getter
-        @RequiredArgsConstructor
-        static class PageInfo {
-            private final Integer nowPage;
-            private final Integer nowSize;
-            private final Integer totalPage;
-            private final Long totalSize;
-        }
-
-        @Getter
-        @RequiredArgsConstructor
-        static class ListTheme {
-            private final Long themeId;
-            private final String themeEmoji;
-            private final String themeTitle;
-            private final Integer reviewCount;
-        }
-
-        public static ThemeSearchResponse of() {
-            List<ListTheme> collect = new ArrayList<>();
-            collect.add(new ListTheme(1L, "😀", "테마이름 짓기 어려워요", 100));
-            collect.add(new ListTheme(2L, "😁", "테마이름 어려워요", 200));
-            collect.add(new ListTheme(3L, "😂", "테마이름", 300));
-            collect.add(new ListTheme(4L, "🤣", "짓기 어려워요", 400));
-            collect.add(new ListTheme(5L, "😃", "이름 짓기 어려워요", 110));
-            collect.add(new ListTheme(6L, "😅", "짓기 어려워요", 120));
-            collect.add(new ListTheme(7L, "😆", "어려워요", 130));
-            collect.add(new ListTheme(8L, "😎", "테마이름 짓기", 140));
-            collect.add(new ListTheme(9L, "🤗", "이름 어려워요", 105));
-            collect.add(new ListTheme(0L, "😍", "테마이름 짓기 어려", 106));
-            collect.add(new ListTheme(11L, "🥰", "테마 짓기", 107));
-
-            PageInfo pageInfo = new PageInfo(1, 10, 2, 11L);
-
-            return new ThemeSearchResponse(collect, pageInfo);
+        public static MultiResponseDto<ThemeSearchResponse> of(Page<Tuple> page) {
+            List<ThemeSearchResponse> themeSearchResponses =new ArrayList<>();
+            for(Tuple content:page.getContent()){
+                themeSearchResponses.add(new ThemeSearchResponse(
+                        content.get(0,Long.class),
+                        content.get(1,String.class),
+                        content.get(2,String.class),
+                        content.get(3,Long.class)
+                ));
+            }
+            return new MultiResponseDto<>(themeSearchResponses,page);
         }
     }
     //TH-0011

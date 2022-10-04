@@ -15,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ThemeStoreRepository extends JpaRepository<ThemeStore, Long> {
@@ -22,6 +23,10 @@ public interface ThemeStoreRepository extends JpaRepository<ThemeStore, Long> {
     // TH-0001
     @Query("SELECT COUNT(ts.id) FROM ThemeStore ts WHERE ts.theme.id = :themeId ")
     Long countByThemeId(Long themeId);
+
+    // TH-0009
+    @Query("SELECT COUNT(ts.id) FROM ThemeStore ts WHERE ts.theme.id = :themeId GROUP BY ts.theme.id ")
+    Optional<Long> countStoreByThemeId(Long themeId);
 
     // TH-0002
     @Query("SELECT " +

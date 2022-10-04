@@ -1,26 +1,46 @@
 package com.letsseoul.letsSeoulApp.controller;
 
-import com.letsseoul.letsSeoulApp.dto.LocationDto;
+import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
+import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
+import com.letsseoul.letsSeoulApp.dto.location.DibsPlaceResponseDto;
+import com.letsseoul.letsSeoulApp.dto.location.ReviewPlaceResponseDto;
+import com.letsseoul.letsSeoulApp.service.LocationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Positive;
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1/location")
+@RequestMapping("/api/v1/locations")
+@RequiredArgsConstructor
 public class LocationController {
 
-    //LO-0001 특정 유저 리뷰 장소 조회
-    @GetMapping("/{userId}/review")
-    public ResponseEntity<?> userReviewPlaceSearch(@PathVariable("userId") Long userId){
+    private final LocationService locationService;
 
-        return ResponseEntity.ok().body(LocationDto.userPlaceSearchResponse.of());
+    /**
+     * LO-0001 특정유저 리뷰 장소 조회
+     * 특정 유저가 리뷰를 남긴 장소들을 조회하는 api
+     */
+    @GetMapping("/{userId}/reviews")
+    public ResponseEntity<List<ReviewPlaceResponseDto>> listupReviewPlace(@PathVariable("userId") @Positive Long userId) {
+
+        return ResponseEntity.ok()
+                .body(locationService.listupReviewPlace(userId));
     }
-    //LO-0002 특정유저 찜 장소 조회
-    @GetMapping("/{userId}/wish")
-    public ResponseEntity<?> userReviewDibsSearch(@PathVariable("userId") Long userId){
 
-        return ResponseEntity.ok().body(LocationDto.userPlaceSearchResponse.of());
+    /**
+     * LO-0002 특정유저 찜 장소 조회
+     * 특정 유저가 찜한 장소들을 조회하는 api
+     */
+    @GetMapping("/{userId}/wishes")
+    public ResponseEntity<List<DibsPlaceResponseDto>> listupDibsPlace(@PathVariable("userId") @Positive Long userId) {
+
+        return ResponseEntity.ok()
+                .body(locationService.listupDibsPlace(userId));
     }
 }

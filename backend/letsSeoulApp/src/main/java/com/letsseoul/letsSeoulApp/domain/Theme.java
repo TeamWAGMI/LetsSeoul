@@ -41,6 +41,9 @@ public class Theme {
     @OneToMany(mappedBy = "theme")
     private List<ThemeStore> themeStoreList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "theme")
+    private List<ThemeTag> themeTagList = new ArrayList<>();
+
     public void addThemeStore(ThemeStore themeStore) {
         this.themeStoreList.add(themeStore);
     }
