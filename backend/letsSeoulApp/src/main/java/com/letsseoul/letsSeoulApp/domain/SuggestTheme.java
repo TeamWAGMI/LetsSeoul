@@ -1,7 +1,10 @@
 package com.letsseoul.letsSeoulApp.domain;
 
 import com.letsseoul.letsSeoulApp.config.audit.Auditable;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,19 +14,24 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-public class Tag extends Auditable {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class SuggestTheme extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Integer divnum;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private String status;
+    private String content;
+
+    @Builder
+    public SuggestTheme(Long id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
 
 }

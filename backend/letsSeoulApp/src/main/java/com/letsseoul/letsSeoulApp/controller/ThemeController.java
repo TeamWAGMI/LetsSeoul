@@ -1,7 +1,5 @@
 package com.letsseoul.letsSeoulApp.controller;
 
-
-
 import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
@@ -9,6 +7,7 @@ import com.letsseoul.letsSeoulApp.dto.SingleListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.PopularThemeListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.RecommendedThemeListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.ThemeDto;
+import com.letsseoul.letsSeoulApp.dto.theme.ThemeSearchResponseDto;
 import com.letsseoul.letsSeoulApp.service.ThemeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -125,17 +124,29 @@ public class ThemeController {
 
     /**
      * BE-TH-0009
-     * @param themeSearchGet 검색 파라미터
+     * @param themeSearchPost 검색 파라미터
      */
+
     @GetMapping("/search")
     public ResponseEntity<MultiResponseDto<ThemeDto.ThemeSearchResponse>> themeSearch(@RequestBody ThemeDto.ThemeSearchGet themeSearchGet, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size) {
         return ResponseEntity.ok().body(themeService.themeSearch(themeSearchGet, PageRequest.of(page-1,size)));
     }
 
-    //TH- 0010 테마 등록
-    @PostMapping("/registration")
-    public ResponseEntity<?> attemptThemeRegister(@RequestBody ThemeDto.ThemePost ThemePostDto){
-        return ResponseEntity.ok().body(new HashMap<>(){{put("success",true);}});
+    /**
+     * BE-TH-0010 테마 등록(신규 테마 제안)
+     * @param registThemePost
+     */
+    @PostMapping
+    public ResponseEntity<ThemeDto.RegistThemeResponse> registTheme(@RequestBody ThemeDto.RegistThemePost registThemePost){
+
+        if (!StringUtils.hasText(registThemePost.getThemeTitle())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
+        }
+        else if (!StringUtils.hasText(registThemePost.getThemeContent())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
+        }
+
+        return ResponseEntity.ok().body(themeService.registTheme(registThemePost));
     }
 
     //TH -0011 테마 찜 여부 조회

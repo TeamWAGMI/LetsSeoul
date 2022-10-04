@@ -1,6 +1,7 @@
 package com.letsseoul.letsSeoulApp.dto.theme;
 
 import com.letsseoul.letsSeoulApp.domain.Review;
+import com.letsseoul.letsSeoulApp.domain.SuggestTheme;
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
 import com.letsseoul.letsSeoulApp.dto.PageInfo;
@@ -19,18 +20,25 @@ public class ThemeDto {
 
     @Getter
     @RequiredArgsConstructor
-    public static class ThemePost{
-        private final String themeName;
+    public static class RegistThemePost {
+        private final String themeTitle;
         private final String themeContent;
-    }
 
+        public SuggestTheme toEntity() {
+            return SuggestTheme.builder()
+                    .title(this.themeTitle)
+                    .content(this.themeContent)
+                    .build();
+        }
+    }
     @Getter
     @RequiredArgsConstructor
-    public static class ReviewPatch{
-        private final Long userId;
-        private final Long reviewScore;
-        private final String reviewContent;
-        private final List<String> reviewImages;
+    public static class RegistThemeResponse {
+        private final Boolean success;
+
+        public static RegistThemeResponse of() {
+            return new RegistThemeResponse(true);
+        }
     }
 
 
@@ -52,6 +60,15 @@ public class ThemeDto {
                     "테마이름",
                     0L);
         }
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class ReviewPatch{
+        private final Long userId;
+        private final Long reviewScore;
+        private final String reviewContent;
+        private final List<String> reviewImages;
     }
 
     @Getter
@@ -186,7 +203,7 @@ public class ThemeDto {
     // BE-TH-0009
     @Getter
     @RequiredArgsConstructor
-    public static class ThemeSearchGet {
+    public static class ThemeSearchPost {
         private final String keyword;
         private final String[] who;
         private final String[] what;
