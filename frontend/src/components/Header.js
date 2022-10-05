@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { buttonStyles } from "lib/styles";
 import Button from "./Button";
 import Modal from "./Modal";
 import { useDispatch } from "react-redux";
 import { getPrevPath } from "slice/prevPathSlice";
+import Drawer from "./common/Drawer";
 
 function Header({
   hasBackButton = false,
@@ -15,6 +16,8 @@ function Header({
   storeAddress,
 }) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   const { loginButton, hamburgerButton } = buttonStyles;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,10 +28,29 @@ function Header({
     window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
   };
 
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    }
+    if (isDrawerOpen === true) {
+      mounted.current = true;
+      document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = "";
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+    }
+  }, [isDrawerOpen]);
+
   return (
     <>
       <header
-        className={`sticky top-0 py-[14px] px-[18px] bg-wagmiGreen z-30 ${
+        className={`aboslute sticky top-0 py-[14px] px-[18px] bg-wagmiGreen z-10 ${
           hasBackButton ? "h-[84px]" : "h-[60px]"
         }`}
       >
@@ -68,10 +90,14 @@ function Header({
                 <Button
                   styles={loginButton}
                   name="로그인"
-                  handleButtonClick={() => setIsLoginModalOpen((prev) => !prev)}
+                  handleButtonClick={() => setIsLoginModalOpen(true)}
                 />
               )}
-              <Button styles={hamburgerButton} icon="hamburger" />
+              <Button
+                styles={hamburgerButton}
+                icon="hamburger"
+                handleButtonClick={() => setIsDrawerOpen(true)}
+              />
             </div>
           )}
         </div>
@@ -83,6 +109,7 @@ function Header({
           handleButtonClick={handleLogin}
         />
       )}
+      <Drawer isOpen={isDrawerOpen} handleButtonClick={setIsDrawerOpen} />
     </>
   );
 }
