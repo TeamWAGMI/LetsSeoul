@@ -16,14 +16,14 @@ function RecommendedThemes({ listOfCards }) {
         ref={ref}
         {...events}
       >
-        {listOfCards.map(({ id, emoji, title, count }) => {
+        {listOfCards.map(({ id, emoji, title, storeCount }) => {
           return (
             <Card
               key={id}
               id={id}
               emoji={emoji}
               name={title}
-              option={`${count}개의 추천 장소`}
+              option={`${storeCount}개의 추천 장소`}
               styles={fixedThemeCard}
               path={`/theme/${id}`}
             />
