@@ -16,7 +16,7 @@ public interface FollowStoreRepository extends JpaRepository<FollowStore, Long> 
     Optional<FollowStore> findByUserIdAndStoreId(Long userId, Long storeId);
 
     // LO-0002
-    @Query("SELECT fs " +
+    @Query("SELECT new com.letsseoul.letsSeoulApp.dto.location.DibsPlaceResponseDto(s.id, s.title, count(r.id), s.lat, s.lng) " +
             "FROM FollowStore fs " +
             "LEFT JOIN Store s ON fs.store.id = s.id " +
             "LEFT JOIN ThemeStore ts ON s.id = ts.store.id " +

@@ -3,11 +3,9 @@ package com.letsseoul.letsSeoulApp.controller;
 import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
-import com.letsseoul.letsSeoulApp.dto.SingleListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.PopularThemeListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.RecommendedThemeListResponseDto;
 import com.letsseoul.letsSeoulApp.dto.theme.ThemeDto;
-import com.letsseoul.letsSeoulApp.dto.theme.ThemeSearchResponseDto;
 import com.letsseoul.letsSeoulApp.service.ThemeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +16,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import javax.validation.constraints.Positive;
-import java.util.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -77,7 +73,7 @@ public class ThemeController {
         }
 
         return ResponseEntity.ok()
-                .body(themeService.registThemeReview(3L, themeId, registThemeReviewPost));
+                .body(themeService.registThemeReview(user.getId(), themeId, registThemeReviewPost));
     }
 
 
@@ -86,10 +82,9 @@ public class ThemeController {
      * BE-TH-0009
      * @param themeSearchPost 검색 파라미터
      */
-
-    @GetMapping("/search")
-    public ResponseEntity<MultiResponseDto<ThemeDto.ThemeSearchResponse>> themeSearch(@RequestBody ThemeDto.ThemeSearchGet themeSearchGet, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size) {
-        return ResponseEntity.ok().body(themeService.themeSearch(themeSearchGet, PageRequest.of(page-1,size)));
+    @PostMapping("/search")
+    public ResponseEntity<MultiResponseDto<ThemeDto.ThemeSearchResponse>> themeSearch(@RequestBody ThemeDto.ThemeSearchPost themeSearchPost, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size) {
+        return ResponseEntity.ok().body(themeService.themeSearch(themeSearchPost, PageRequest.of(page-1,size)));
     }
 
     /**
@@ -113,7 +108,7 @@ public class ThemeController {
     @GetMapping("/{themeId}/users/me/follows")
     public ResponseEntity<ThemeDto.checkDibsThemeResponse> checkDibsTheme(@LoginUser SessionUser user,
                                                                           @PathVariable("themeId") Long themeId){
-        return ResponseEntity.ok().body(themeService.checkDibsTheme(1L,themeId));
+        return ResponseEntity.ok().body(themeService.checkDibsTheme(user.getId(),themeId));
     }
 
     /**
@@ -124,7 +119,7 @@ public class ThemeController {
     public ResponseEntity<ThemeDto.RegistDibsThemeResponse> registDibsTheme(
             @LoginUser SessionUser user,
             @PathVariable("themeId") Long themeId) {
-        return ResponseEntity.ok().body(themeService.registDibsTheme(1L,themeId));
+        return ResponseEntity.ok().body(themeService.registDibsTheme(user.getId(),themeId));
     }
 
     //TH -0013 테마 찜 취소
@@ -132,8 +127,10 @@ public class ThemeController {
     public ResponseEntity<ThemeDto.cancelDibsThemeResponse> cancelDibsTheme (
             @LoginUser SessionUser user,
             @PathVariable("themeId") Long themeId){
-        return ResponseEntity.ok().body(themeService.cancelDibsTheme(1L,themeId));
+        return ResponseEntity.ok().body(themeService.cancelDibsTheme(user.getId(),themeId));
     }
+
+    // TH-0015 테마 정보 조회
     @GetMapping("/{themeId}/info")
     public ResponseEntity<ThemeDto.ThemeInfoResponse> viewThemeInformation(@PathVariable("themeId") Long themeId){
         return ResponseEntity.ok().body(themeService.viewThemeInformation(themeId));

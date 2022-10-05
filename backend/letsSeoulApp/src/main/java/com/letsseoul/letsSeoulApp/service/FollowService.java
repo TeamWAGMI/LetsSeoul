@@ -44,13 +44,13 @@ public class FollowService {
 
         User fromUser = userRepository.findById(fromUserId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
         User toUser = userRepository.findById(toUserId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
-        followRepository.delete(followRepository.findByFromUserIdAndToUserId(fromUser, toUser));
+        followRepository.delete(followRepository.findByFromUserIdAndToUserId(fromUser.getId(), toUser.getId()));
         return FollowDto.UnfollowUserResponse.of();
     }
 
       public MultiResponseDto<FollowDto.FollowingListResponse> getFollowerList(Long userId, Pageable pageable){
         User findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
-        Page<FollowUser> followUsers = followRepository.findByFromUserId(findUser,pageable); //팔로워 정보
+        Page<FollowUser> followUsers = followRepository.findByFromUserId(findUser.getId(),pageable); //팔로워 정보
         List<Long> userList = followUsers.stream().map(f -> f.getToUser().getId()).collect(Collectors.toList()); //팔로잉 유저 아이디
         List<User> user = userRepository.findByIdIn(userList,userId);
         List<Long> countList= followRepository.countByToUserIds(userList);
@@ -61,13 +61,15 @@ public class FollowService {
     public FollowDto.CheckFollowing checkFollowing(Long userId, Long followUserId) {
         User fromUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
         User toUser = userRepository.findById(followUserId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
-        return FollowDto.CheckFollowing.of(followRepository.countByFromUserIdAndToUserId(fromUser, toUser));
+        return FollowDto.CheckFollowing.of(followRepository.countByFromUserIdAndToUserId(fromUser.getId(), toUser.getId()));
 
     }
 
     public FollowDto.CountFollowingsAndFollowersResponse countFollowingsAndFollowers(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
-        return FollowDto.CountFollowingsAndFollowersResponse.of(followRepository.countByFromUserId(user), followRepository.countByToUserId(user));
+        System.out.println(followRepository.countByFromUserId(user.getId()));
+        System.out.println(followRepository.countByToUserId(user.getId()));
+        return FollowDto.CountFollowingsAndFollowersResponse.of(followRepository.countByFromUserId(user.getId()), followRepository.countByToUserId(user.getId()));
     }
 
     /*public void test(Long id) {

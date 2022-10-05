@@ -30,11 +30,11 @@ public interface ThemeStoreRepository extends JpaRepository<ThemeStore, Long> {
 
     // TH-0002
     @Query("SELECT " +
-            "new com.letsseoul.letsSeoulApp.dto.theme.PopularThemeListResponseDto(ts.theme.id, t.emoji, t.title, COUNT(ts.id)) " +
-            "FROM ThemeStore ts " +
-            "LEFT JOIN Theme t " +
+            "new com.letsseoul.letsSeoulApp.dto.theme.PopularThemeListResponseDto(t.id, t.emoji, t.title, COUNT(ts.id)) " +
+            "FROM Theme t " +
+            "LEFT JOIN ThemeStore ts " +
             "ON ts.theme.id = t.id " +
-            "GROUP BY ts.theme.id")
+            "GROUP BY t.id ")
     List<PopularThemeListResponseDto> countAllByGroupByThemeId();
 
     @Query("select " +
@@ -53,7 +53,7 @@ public interface ThemeStoreRepository extends JpaRepository<ThemeStore, Long> {
             "left join Review r " +
             "on ts.id=r.themeStore.id and r.status ='E' " +
             "WHERE ts.theme.id = :themeId " +
-            "GROUP BY s.id")
+            "GROUP BY s.id ")
     List<ThemeMapListResponseDto> findByTheme(@Param("themeId") Long themeId);
 
     @Query("select " +

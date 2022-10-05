@@ -67,7 +67,7 @@ public class ThemeDto {
 
         public static ThemeResponse of() {
             return new ThemeResponse(
-                    1L,
+                    1
                     "이모지",
                     "테마이름",
                     0L);

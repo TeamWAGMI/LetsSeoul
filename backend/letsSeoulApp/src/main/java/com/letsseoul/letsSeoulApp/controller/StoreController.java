@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
 import java.util.List;
 import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
@@ -78,7 +77,7 @@ public class StoreController {
     }
 
     //TH-0006 가게 테마 리뷰 조회
-    @GetMapping("/{storeId}/review")
+    @GetMapping("/{storeId}/reviews")
     public ResponseEntity<MultiResponseDto<StoreThemeReviewResponse>> attemptGetStoreThemeReview(
             @PathVariable("storeId") Long storeId,
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -88,10 +87,10 @@ public class StoreController {
 
     //TH-0007 가게 테마 리뷰 수정
     @PatchMapping("/reviews/{reviewId}")
-    public ResponseEntity<StoreDto.UpdateOrDeleteReviewResponse> attemptReviewUpdate(
-                                                 @PathVariable("reviewId") Long reviewId,
-                                                 @RequestBody ThemeDto.ReviewPatch reviewPatch){
-        return ResponseEntity.ok().body(storeService.attemptReviewUpdate(3L,reviewId,reviewPatch));
+    public ResponseEntity<StoreDto.UpdateOrDeleteReviewResponse> attemptReviewUpdate(@LoginUser SessionUser user,
+                                                                                     @PathVariable("reviewId") Long reviewId,
+                                                                                     @RequestBody ThemeDto.ReviewPatch reviewPatch){
+        return ResponseEntity.ok().body(storeService.attemptReviewUpdate(user.getId(), reviewId,reviewPatch));
     }
 
     //TH-0008 가게 테마 리뷰 삭제

@@ -69,27 +69,6 @@ public class UserDto {
         }
     }
 
-    @Getter
-    @RequiredArgsConstructor
-    public static class Response {
-        private final Long userId;
-        private final String emoji;
-        private final String nickname;
-        private final Long reviewCount;
-
-        public static List<Response> of() {
-            List<Response> collect = new ArrayList<>();
-
-            collect.add(new Response(1L, "😀", "서은정", 999L));
-            collect.add(new Response(2L, "😁", "문주성", 200L));
-            collect.add(new Response(3L, "😂", "이윤진", 110L));
-            collect.add(new Response(4L, "🤣", "박정윤", 130L));
-            collect.add(new Response(5L, "😎", "박정수", 106L));
-
-            return collect;
-        }
-    }
-
     //사용자의 찜한 테마목록 response
     @Getter
     @RequiredArgsConstructor

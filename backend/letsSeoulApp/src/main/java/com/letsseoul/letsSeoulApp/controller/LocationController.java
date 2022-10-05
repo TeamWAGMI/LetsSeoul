@@ -1,7 +1,5 @@
 package com.letsseoul.letsSeoulApp.controller;
 
-import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
-import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import com.letsseoul.letsSeoulApp.dto.location.DibsPlaceResponseDto;
 import com.letsseoul.letsSeoulApp.dto.location.ReviewPlaceResponseDto;
 import com.letsseoul.letsSeoulApp.service.LocationService;
