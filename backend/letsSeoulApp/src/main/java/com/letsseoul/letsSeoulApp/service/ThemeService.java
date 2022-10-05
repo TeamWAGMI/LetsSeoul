@@ -29,6 +29,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -75,7 +76,10 @@ public class ThemeService {
      */
     public List<PopularThemeListResponseDto> listupPopularThemes() {
 
-        return themeStoreRepository.countAllByGroupByThemeId();
+        return themeStoreRepository.countAllByGroupByThemeId().stream()
+                .sorted((dto1, dto2) -> (int) (dto2.getCount() - dto1.getCount()))
+                .limit(8)
+                .collect(Collectors.toList());
     }
      /*
      *  TH-0003
@@ -148,6 +152,23 @@ public class ThemeService {
                 .build());
 
         return ThemeDto.RegistThemeReviewResponse.of();
+    }
+
+    /**
+     * TH-0009
+     */
+    public MultiResponseDto<ThemeDto.ThemeSearchResponse> themeSearch(ThemeDto.ThemeSearchPost themeSearchGet, Pageable pageable) {
+        Page<Tuple> dynamicQuery = themeCustomRepository.findDynamicQuery(themeSearchGet.getKeyword(),themeSearchGet.getWho(),themeSearchGet.getWhat(),themeSearchGet.getWhere(),pageable);
+        return  ThemeDto.ThemeSearchResponse.of(dynamicQuery);
+        /*List<Tuple> tupleList = dynamicQuery.getContent();
+        System.out.println("tupleList.get(0).get(3,Long.class) = " + tupleList.get(0).get(3,Long.class));*/
+        //inner class this가되나?
+
+        /*
+         * 1. 페이지네이션
+         * 2. 스토어카운트
+         * 3. responseDto로 받아보기 ,BuilderExpression
+         * */
     }
 
     /**
@@ -279,19 +300,4 @@ public class ThemeService {
 
         return resultDto;
     }*/
-
-
-    public MultiResponseDto<ThemeDto.ThemeSearchResponse> themeSearch(ThemeDto.ThemeSearchPost themeSearchGet, Pageable pageable) {
-        Page<Tuple> dynamicQuery = themeCustomRepository.findDynamicQuery(themeSearchGet.getKeyword(),themeSearchGet.getWho(),themeSearchGet.getWhat(),themeSearchGet.getWhere(),pageable);
-        return  ThemeDto.ThemeSearchResponse.of(dynamicQuery);
-        /*List<Tuple> tupleList = dynamicQuery.getContent();
-        System.out.println("tupleList.get(0).get(3,Long.class) = " + tupleList.get(0).get(3,Long.class));*/
-        //inner class this가되나?
-
-        /*
-        * 1. 페이지네이션
-        * 2. 스토어카운트
-        * 3. responseDto로 받아보기 ,BuilderExpression
-        * */
-    }
 }

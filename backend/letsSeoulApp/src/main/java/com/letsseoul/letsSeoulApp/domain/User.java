@@ -41,6 +41,7 @@ public class User extends Auditable {
         this.origin = origin;
         this.emoji = emoji;
         this.nickname = name;
+        this.introduce = "";
         this.role = role;
         this.status = "E"; // 유저를 생성할 때에는 기본 status값을 E(Enable)로 한다.
     }

@@ -23,7 +23,7 @@ public class UserController {
 
     //US-0001 유저 이미지 변경
     @PatchMapping("/emoji")
-    public ResponseEntity<?> updateUserEmoji(@LoginUser SessionUser user){
+    public ResponseEntity<UserDto.UpdateUserEmojiResponse> updateUserEmoji(@LoginUser SessionUser user){
 
         return ResponseEntity.ok()
                 .body(userService.changeUserEmoji(user.getId()));
@@ -66,6 +66,6 @@ public class UserController {
     //TH- 0014 찜한 테마 목록 조회
     @GetMapping("/me/themes")
     public ResponseEntity<MultiResponseDto<UserDto.DibsTehemeResponse>> viewListOfDibsThemes(@LoginUser SessionUser user, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size){
-        return ResponseEntity.ok().body(userService.viewListDibsThemes(1L, PageRequest.of(page-1,size)));
+        return ResponseEntity.ok().body(userService.viewListDibsThemes(user.getId(), PageRequest.of(page-1,size)));
     }
 }

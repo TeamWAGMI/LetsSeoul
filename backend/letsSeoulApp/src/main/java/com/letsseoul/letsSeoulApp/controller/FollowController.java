@@ -38,7 +38,7 @@ public class FollowController {
      */
     @GetMapping("/{followUserId}/check")
     public ResponseEntity<FollowDto.CheckFollowing> checkFollowing(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
-        return ResponseEntity.ok().body(followService.checkFollowing(1L,followUserId));
+        return ResponseEntity.ok().body(followService.checkFollowing(user.getId(),followUserId));
     }
 
     /**
@@ -48,7 +48,7 @@ public class FollowController {
     @PostMapping("/{followUserId}")
     public ResponseEntity<FollowDto.FollowUserResponse> followUser(@LoginUser SessionUser user, @PathVariable("followUserId") Long followUserId) {
 
-        return ResponseEntity.ok().body(followService.followUser(2L, followUserId));
+        return ResponseEntity.ok().body(followService.followUser(user.getId(), followUserId));
     }
 
     /**
@@ -58,7 +58,7 @@ public class FollowController {
     @DeleteMapping("/{followUserId}")
     public ResponseEntity<FollowDto.UnfollowUserResponse> unfollowUser(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
 
-        return ResponseEntity.ok().body(followService.unfollowUser(1L,followUserId));
+        return ResponseEntity.ok().body(followService.unfollowUser(user.getId(),followUserId));
     }
 
     /**

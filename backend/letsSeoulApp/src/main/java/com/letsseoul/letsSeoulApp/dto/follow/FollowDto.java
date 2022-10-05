@@ -33,7 +33,7 @@ public class FollowDto {
 
         public static CheckFollowing of(Long count) {
             boolean is = false;
-            if(count == 1L ){
+            if(count == 1L){
                 is = true;
             }
             return new CheckFollowing(is);
@@ -62,49 +62,6 @@ public class FollowDto {
         }
     }
 
-    @Getter
-    @RequiredArgsConstructor
-    public static class ThemeSearchResponse<T> {
-        private final List<T> content;
-        private final PageInfo pageInfo;
-
-        @Getter
-        @RequiredArgsConstructor
-        static class PageInfo {
-            private final Integer nowPage;
-            private final Integer nowSize;
-            private final Integer totalPage;
-            private final Long totalSize;
-        }
-
-        @Getter
-        @RequiredArgsConstructor
-        static class ListTheme {
-            private final Long themeId;
-            private final String themeEmoji;
-            private final String themeTitle;
-            private final Integer reviewCount;
-        }
-
-        public static ThemeSearchResponse of() {
-            List<ListTheme> collect = new ArrayList<>();
-            collect.add(new ListTheme(1L, "😀", "테마이름 짓기 어려워요", 100));
-            collect.add(new ListTheme(2L, "😁", "테마이름 어려워요", 200));
-            collect.add(new ListTheme(3L, "😂", "테마이름", 300));
-            collect.add(new ListTheme(4L, "🤣", "짓기 어려워요", 400));
-            collect.add(new ListTheme(5L, "😃", "이름 짓기 어려워요", 110));
-            collect.add(new ListTheme(6L, "😅", "짓기 어려워요", 120));
-            collect.add(new ListTheme(7L, "😆", "어려워요", 130));
-            collect.add(new ListTheme(8L, "😎", "테마이름 짓기", 140));
-            collect.add(new ListTheme(9L, "🤗", "이름 어려워요", 105));
-            collect.add(new ListTheme(0L, "😍", "테마이름 짓기 어려", 106));
-            collect.add(new ListTheme(11L, "🥰", "테마 짓기", 107));
-
-            PageInfo pageInfo = new PageInfo(1, 10, 2, 11L);
-
-            return new ThemeSearchResponse(collect, pageInfo);
-        }
-    }
     // BE-FO-0005
     @Getter
     @RequiredArgsConstructor
