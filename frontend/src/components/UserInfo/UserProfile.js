@@ -12,6 +12,10 @@ import { checkSession } from "lib/utils/checkSession";
 function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   const [isEditable, SetIsEditable] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [followNum, setFollowNum] = useState({
+    numberOfFollower: 0,
+    numberOfFollowing: 0,
+  });
   const navigate = useNavigate();
   const nicknameRef = useRef();
   const { emoji, nickname, introduce } = userProfile;
@@ -29,26 +33,35 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
     nicknameRef.current.focus();
   }, [isEditable]);
 
+  useEffect(() => {
+    axios
+      .get(`/api/v1/follows/${uid}/count`)
+      .then((res) => setFollowNum((prev) => ({ ...prev, ...res.data })));
+  }, [uid]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserProfile((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleEditButton = () => {
-    if (isEditable) {
-      axios
-        .patch(`/api/v1/users`, { nickname, introduce })
-        .then((res) => {
-          setUserProfile((prev) => ({ ...prev, ...res.data }));
-          dispatch(
-            getUserInfo({ userId, userEmoji: emoji, userNickname: nickname })
-          );
-        })
-        .then(() => SetIsEditable((prev) => !prev))
-        .catch((err) => console.error(err.message));
-    } else {
-      SetIsEditable((prev) => !prev);
-    }
+    const nextAPICall = () => {
+      if (isEditable) {
+        axios
+          .patch(`/api/v1/users`, { nickname, introduce })
+          .then((res) => {
+            setUserProfile((prev) => ({ ...prev, ...res.data }));
+            dispatch(
+              getUserInfo({ userId, userEmoji: emoji, userNickname: nickname })
+            );
+          })
+          .then(() => SetIsEditable((prev) => !prev))
+          .catch((err) => console.error(err.message));
+      } else {
+        SetIsEditable((prev) => !prev);
+      }
+    };
+    checkSession(dispatch, nextAPICall);
   };
 
   const handleFollowButton = () => {
@@ -99,7 +112,7 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
           <div className="flex flex-col justify-between mr-3">
             <div className="text-right leading-none whitespace-nowrap">
               <Button
-                num="1111"
+                num={followNum.numberOfFollower}
                 name=" 팔로워"
                 styles={smTextBlackButton}
                 handleButtonClick={() => navigate(`/user/${uid}/followers`)}
@@ -109,7 +122,7 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
           <div className="flex flex-col justify-between">
             <div className="text-right leading-none w-[96.133px]">
               <Button
-                num="1143"
+                num={followNum.numberOfFollowing}
                 name=" 팔로잉"
                 styles={smTextBlackButton}
                 handleButtonClick={() => navigate(`/user/${uid}/followings`)}
