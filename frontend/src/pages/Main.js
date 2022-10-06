@@ -14,6 +14,10 @@ function Main() {
     recommendedCurators: [],
   });
 
+  useEffect(() => {
+    axios.get("/oauth2/users").then((res) => console.log(res));
+  }, []);
+
   const getListsOfCards = () => {
     axios
       .all([

@@ -1,9 +1,31 @@
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
+import { handleLogout } from "slice/isLoginSlice";
+import { removeUserInfo } from "slice/userInfoSlice";
+// import { persistor } from "store/store";
 
 const Drawer = ({ isOpen, handleButtonClick }) => {
   const isLogin = useSelector((state) => state.isLogin.value);
   const userInfo = useSelector((state) => state.userInfo.value);
+  const dispatch = useDispatch();
+
+  // const purge = () => {
+  //   persistor.purge();
+  // };
+
+  const handleLogoutButton = () => {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      axios
+        .post("/oauth2/logout")
+        .then(() => {
+          dispatch(handleLogout());
+          dispatch(removeUserInfo());
+        })
+        .catch((err) => console.error(err.message));
+    }
+  };
 
   return (
     <>
@@ -20,13 +42,23 @@ const Drawer = ({ isOpen, handleButtonClick }) => {
               <div className="py-3">테마지도 모아보기</div>
             </Link>
             {!isLogin ? (
-              <div className="py-3">로그인</div>
+              <div
+                className="py-3 cursor-pointer"
+                onClick={() => dispatch(handleLoginModalOpen(true))}
+              >
+                로그인
+              </div>
             ) : (
               <>
                 <Link to={`/user/${userInfo.userId}`}>
-                  <div className="py-3">마이페이지</div>
+                  <div className="py-3 cursor-pointer">마이페이지</div>
                 </Link>
-                <div className="py-3">로그아웃</div>
+                <div
+                  className="py-3 cursor-pointer"
+                  onClick={handleLogoutButton}
+                >
+                  로그아웃
+                </div>
               </>
             )}
           </div>
