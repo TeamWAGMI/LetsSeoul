@@ -7,6 +7,7 @@ import ProfileInput from "./ProfileInput";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "slice/userInfoSlice";
 import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
+import { checkSession } from "lib/utils/checkSession";
 
 function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   const [isEditable, SetIsEditable] = useState(false);
@@ -59,19 +60,23 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   };
 
   const handleEmojiRefresh = () => {
-    axios
-      .patch("/api/v1/users/emoji")
-      .then((res) => {
-        setUserProfile((prev) => ({ ...prev, emoji: res.data.emoji }));
-        dispatch(
-          getUserInfo({
-            userId,
-            userEmoji: res.data.emoji,
-            userNickname: nickname,
-          })
-        );
-      })
-      .catch((err) => console.error(err.message));
+    const nextAPICall = () => {
+      axios
+        .patch("/api/v1/users/emoji")
+        .then((res) => {
+          setUserProfile((prev) => ({ ...prev, emoji: res.data.emoji }));
+          dispatch(
+            getUserInfo({
+              userId,
+              userEmoji: res.data.emoji,
+              userNickname: nickname,
+            })
+          );
+        })
+        .catch((err) => console.error(err.message));
+    };
+
+    checkSession(dispatch, nextAPICall);
   };
 
   return (
