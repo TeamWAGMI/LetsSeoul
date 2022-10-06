@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -20,10 +21,16 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final HttpSession httpSession;
 
     //US-0001 유저 이미지 변경
     @PatchMapping("/emoji")
-    public ResponseEntity<UserDto.UpdateUserEmojiResponse> updateUserEmoji(@LoginUser SessionUser user){
+    public ResponseEntity<UserDto.UpdateUserEmojiResponse> updateUserEmoji(@LoginUser SessionUser user) {
+
+
+        System.out.println("#$#$#$#$#$#$ : " + user);
+        System.out.println("#$#$#$#$#$#$ : " + httpSession.getAttribute("user"));
+
 
         return ResponseEntity.ok()
                 .body(userService.changeUserEmoji(user.getId()));
