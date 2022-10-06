@@ -40,9 +40,9 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         request.getAttributeNames().asIterator().forEachRemaining(s -> log.info("{} : {}", s, request.getAttribute(s)));
 
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        String queryString = user.getNickname() + "," + user.getUsername() + "," + user.getEmoji();
+        String queryString = user.getNickname() + "," + user.getId() + "," + user.getEmoji();
         String encodeToString = Base64.getEncoder().encodeToString(queryString.getBytes());
-        response.sendRedirect("http://localhost:3000/transition/login?q=" + encodeToString);
+        response.sendRedirect("https://letsseoul.com/transition/login?q=" + encodeToString);
 
         handle(request, response, authentication);
     }
