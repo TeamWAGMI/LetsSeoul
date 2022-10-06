@@ -4,13 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { buttonStyles } from "lib/styles";
 import ProfileInput from "./ProfileInput";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "slice/userInfoSlice";
 
 function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   const [isEditable, SetIsEditable] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const navigate = useNavigate();
   const nicknameRef = useRef();
-  const { emoji, nickname, introduction } = userProfile;
+  const { emoji, nickname, introduce } = userProfile;
+  const dispatch = useDispatch();
 
   const {
     smTextBlackButton,
@@ -32,8 +35,13 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   const handleEditButton = () => {
     if (isEditable) {
       axios
-        .patch(`/api/v1/users/${uid}`, { nickname, introduction })
-        .then((res) => setUserProfile((prev) => ({ ...prev, ...res.data })))
+        .patch(`/api/v1/users`, { nickname, introduce })
+        .then((res) => {
+          setUserProfile((prev) => ({ ...prev, ...res.data }));
+          dispatch(
+            getUserInfo({ userId, userEmoji: emoji, userNickname: nickname })
+          );
+        })
         .then(() => SetIsEditable((prev) => !prev))
         .catch((err) => console.error(err.message));
     } else {
@@ -47,6 +55,22 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
     }
   };
 
+  const handleEmojiRefresh = () => {
+    axios
+      .patch("/api/v1/users/emoji")
+      .then((res) => {
+        setUserProfile((prev) => ({ ...prev, emoji: res.data.emoji }));
+        dispatch(
+          getUserInfo({
+            userId,
+            userEmoji: res.data.emoji,
+            userNickname: nickname,
+          })
+        );
+      })
+      .catch((err) => console.error(err.message));
+  };
+
   return (
     <div className="mb-[30px]">
       <div className="smHeadline">
@@ -55,7 +79,13 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
       <div className="flex justify-between mb-3">
         <div className="bg-white rounded-full w-24 h-24 p-6 relative">
           <span className="text-5xl">{emoji}</span>
-          {uid === userId && <Button icon="refresh" styles={refreshButton} />}
+          {uid === userId && (
+            <Button
+              icon="refresh"
+              styles={refreshButton}
+              handleButtonClick={handleEmojiRefresh}
+            />
+          )}
         </div>
         <div className="flex">
           <div className="flex flex-col justify-between mr-3">
@@ -97,17 +127,17 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
         <ProfileInput
           nicknameRef={nicknameRef}
           name="nickname"
-          maxLength="10"
+          maxLength="15"
           isEditable={isEditable}
           value={nickname}
           handleInputChange={handleInputChange}
-          styles="w-[160px] mb-3"
+          styles="w-[215px] mb-3"
         />
         <ProfileInput
-          name="introduction"
+          name="introduce"
           maxLength="20"
           isEditable={isEditable}
-          value={introduction}
+          value={introduce}
           handleInputChange={handleInputChange}
           styles="w-[280px]"
         />
