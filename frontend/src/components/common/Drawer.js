@@ -1,16 +1,34 @@
-const Drawer = ({ isOpen, handleButtonClick }) => {
-  const list = ["홈", "테마지도 모아보기", "마이페이지", "로그아웃"];
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-  // const list = [{title: "홈", path: "/"}, {title: "테마지도 모아보기", path: "/search"}, {title: "로그인"}, {title: "마이페이지", path: `/`}, "로그아웃"];;
+const Drawer = ({ isOpen, handleButtonClick }) => {
+  const isLogin = useSelector((state) => state.isLogin.value);
+  const userInfo = useSelector((state) => state.userInfo.value);
 
   return (
     <>
       {isOpen ? (
         <div className="delay-700 opacity-1 z-30 absolute w-[60%] right-0 flex justify-center ">
-          <div className="fixed top-[10%] grid grid-cols-1 gap-8">
-            {list.map((page, idx) => (
-              <div key={idx}>{page}</div>
-            ))}
+          <div
+            className="fixed top-[10%] grid grid-cols-1 font-semibold"
+            onClick={() => handleButtonClick(false)}
+          >
+            <Link to="/">
+              <div className="py-3">홈</div>
+            </Link>
+            <Link to="/search">
+              <div className="py-3">테마지도 모아보기</div>
+            </Link>
+            {!isLogin ? (
+              <div className="py-3">로그인</div>
+            ) : (
+              <>
+                <Link to={`/user/${userInfo.userId}`}>
+                  <div className="py-3">마이페이지</div>
+                </Link>
+                <div className="py-3">로그아웃</div>
+              </>
+            )}
           </div>
         </div>
       ) : (
