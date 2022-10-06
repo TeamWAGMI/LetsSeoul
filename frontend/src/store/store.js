@@ -17,6 +17,7 @@ const persistConfig = {
   version: 1,
   storage,
   whitelist: ["isLogin", "userInfo", "prevPath"],
+  blacklist: ["isLoginModalOpen"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

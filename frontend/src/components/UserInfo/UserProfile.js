@@ -6,6 +6,7 @@ import { buttonStyles } from "lib/styles";
 import ProfileInput from "./ProfileInput";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "slice/userInfoSlice";
+import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
 
 function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   const [isEditable, SetIsEditable] = useState(false);
@@ -52,6 +53,8 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   const handleFollowButton = () => {
     if (userId) {
       setIsFollowing((prev) => !prev);
+    } else {
+      dispatch(handleLoginModalOpen(true));
     }
   };
 

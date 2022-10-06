@@ -3,9 +3,10 @@ import { useEffect, useState, useRef } from "react";
 import { buttonStyles } from "lib/styles";
 import Button from "./Button";
 import Modal from "./Modal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPrevPath } from "slice/prevPathSlice";
 import Drawer from "./common/Drawer";
+import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
 
 function Header({
   hasBackButton = false,
@@ -15,15 +16,14 @@ function Header({
   storeName,
   storeAddress,
 }) {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const isLoginModalOpen = useSelector((state) => state.isLoginModalOpen.value);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const { loginButton, hamburgerButton } = buttonStyles;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    setIsLoginModalOpen((prev) => !prev);
+    dispatch(handleLoginModalOpen(false));
     dispatch(getPrevPath(window.location.pathname));
     window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
   };
@@ -90,7 +90,7 @@ function Header({
                 <Button
                   styles={loginButton}
                   name="로그인"
-                  handleButtonClick={() => setIsLoginModalOpen(true)}
+                  handleButtonClick={() => dispatch(handleLoginModalOpen(true))}
                 />
               )}
               <Button
@@ -105,7 +105,7 @@ function Header({
       {isLoginModalOpen && (
         <Modal
           name="카카오로 계속하기"
-          handleModalBg={() => setIsLoginModalOpen((prev) => !prev)}
+          handleModalBg={() => dispatch(handleLoginModalOpen(false))}
           handleButtonClick={handleLogin}
         />
       )}
