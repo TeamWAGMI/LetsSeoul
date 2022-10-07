@@ -100,4 +100,5 @@ const SearchStore = (props) => {
     </div>
   );
 };
+
 export default SearchStore;
