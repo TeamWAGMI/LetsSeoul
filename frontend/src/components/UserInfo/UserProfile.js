@@ -47,7 +47,6 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
     };
     checkSession(dispatch, nextAPICall);
   }, [uid, dispatch]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserProfile((prev) => ({ ...prev, [name]: value }));
