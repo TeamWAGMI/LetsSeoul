@@ -30,8 +30,6 @@ public class SecurityConfig {
 //                .antMatchers("/api/v1/**").hasRole("USER") // 테스트 단계에서만 필요한 주석. 개발 끝나면 인증 필요한 api는 필터에 추가 || @PreAuthorized 추가
 //                .anyRequest().authenticated() // 또는 여기와 같이 authenticated()로 전부 인증을 요청할 수도 있음.
                 .and()
-                .logout().logoutSuccessUrl("/")
-                .and()
                 .logout()
                 .logoutUrl("/oauth2/logout").deleteCookies("JSESSIONID", "remember-me", "SESSION")
                 .logoutSuccessUrl("/")
