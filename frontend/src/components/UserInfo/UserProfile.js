@@ -6,7 +6,6 @@ import { buttonStyles } from "lib/styles";
 import ProfileInput from "./ProfileInput";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "slice/userInfoSlice";
-import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
 import { checkSession } from "lib/utils/checkSession";
 
 function UserProfile({ userId, uid, userProfile, setUserProfile }) {
@@ -37,16 +36,23 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
     axios
       .get(`/api/v1/follows/${uid}/count`)
       .then((res) => setFollowNum((prev) => ({ ...prev, ...res.data })));
-  }, [uid]);
+  }, [uid, isFollowing]);
 
   useEffect(() => {
-    const nextAPICall = () => {
-      axios
-        .get(`/api/v1/follows/${uid}/check`)
-        .then((res) => setIsFollowing(res.data.isFollowing));
-    };
-    checkSession(dispatch, nextAPICall);
-  }, [uid, dispatch]);
+    if (userId) {
+      // 비로그인 유저가 유저 페이지 접속하자마자 로그인 모달이 뜨지 않도록 설정
+      const nextAPICall = () => {
+        axios
+          .get(`/api/v1/follows/${uid}/check`)
+          .then((res) => setIsFollowing(res.data.isFollowing));
+      };
+      checkSession(dispatch, nextAPICall);
+    } else {
+      // 비로그인 유저 디폴트 설정
+      setIsFollowing(false);
+    }
+  }, [uid, dispatch, userId]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserProfile((prev) => ({ ...prev, [name]: value }));
@@ -73,11 +79,16 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   };
 
   const handleFollowButton = () => {
-    if (userId) {
-      setIsFollowing((prev) => !prev);
-    } else {
-      dispatch(handleLoginModalOpen(true));
-    }
+    const nextAPICall = () => {
+      if (isFollowing) {
+        axios.delete(`/api/v1/follows/${uid}`).then(() => {
+          setIsFollowing(false);
+        });
+      } else {
+        axios.post(`/api/v1/follows/${uid}`).then(() => setIsFollowing(true));
+      }
+    };
+    checkSession(dispatch, nextAPICall);
   };
 
   const handleEmojiRefresh = () => {
