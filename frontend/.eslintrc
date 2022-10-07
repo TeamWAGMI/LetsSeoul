@@ -18,7 +18,13 @@
     "tailwind.config.js"
   ],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+
     "react/jsx-filename-extension": 0,
     "no-unused-vars": 1
   }
