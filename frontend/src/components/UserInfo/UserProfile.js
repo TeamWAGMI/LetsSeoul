@@ -39,6 +39,15 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
       .then((res) => setFollowNum((prev) => ({ ...prev, ...res.data })));
   }, [uid]);
 
+  useEffect(() => {
+    const nextAPICall = () => {
+      axios
+        .get(`/api/v1/follows/${uid}/check`)
+        .then((res) => setIsFollowing(res.data.isFollowing));
+    };
+    checkSession(dispatch, nextAPICall);
+  }, [uid, dispatch]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserProfile((prev) => ({ ...prev, [name]: value }));
