@@ -2,7 +2,7 @@ import FollowList from "pages/FollowList";
 import Main from "pages/Main";
 import RequestForm from "pages/RequestForm";
 import ReviewForm from "pages/ReviewForm";
-import Search from "pages/Search";
+import SearchTheme from "pages/SearchTheme";
 import StoreInfo from "pages/StoreInfo";
 import ThemeMap from "pages/ThemeMap";
 import UserInfo from "pages/UserInfo";
@@ -12,7 +12,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginData from "pages/LoginData";
 import Layout1 from "layout/Layout1";
 import Layout2 from "layout/Layout2";
-import LandingPage from "pages/LandingPage";
+import SearchMap from "pages/SearchMap";
 
 const Router = () => {
   return (
@@ -20,7 +20,7 @@ const Router = () => {
       <Routes>
         <Route element={<Layout1 />}>
           <Route index element={<Main />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/search" element={<SearchTheme />} />
           <Route path="/request" element={<RequestForm />} />
           <Route path="/user/:uid" element={<UserInfo />} />
           <Route path="/user/:uid/:follow" element={<FollowList />} />
@@ -32,7 +32,7 @@ const Router = () => {
         <Route path="/store/:sid" element={<StoreInfo />} />
         <Route path="/store/review" element={<ReviewForm />} />
         <Route path="/theme/:tid" element={<ThemeMap />} />
-        <Route path="/theme/search/:tid" element={<LandingPage />} />
+        <Route path="/theme/search/:tid" element={<SearchMap />} />
         <Route path="/transition/login" element={<LoginData />} />
       </Routes>
     </BrowserRouter>

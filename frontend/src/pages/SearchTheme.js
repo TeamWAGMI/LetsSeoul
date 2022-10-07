@@ -10,7 +10,7 @@ import { scrollToTop } from "lib/utils/scrollToTop";
 import { atWhere, doWhat, withWhom } from "static/dummyData";
 import { buttonStyles, cardStyles } from "lib/styles";
 
-function Search() {
+function SearchTheme() {
   const [themeCardsList, setThemeCardsList] = useState([]);
   const [selectedWhom, setSelectedWhom] = useState([]);
   const [selectedWhat, setSelectedWhat] = useState([]);
@@ -109,4 +109,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchTheme;
