@@ -1,4 +1,4 @@
-import Button from "components/Button";
+import Button from "components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { buttonStyles } from "lib/styles";
 

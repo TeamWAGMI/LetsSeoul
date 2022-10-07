@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import Card from "components/Card";
+import Card from "components/common/Card";
 import { useDraggable } from "react-use-draggable-scroll";
 import { cardStyles } from "lib/styles";
 

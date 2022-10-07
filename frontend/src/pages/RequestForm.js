@@ -1,5 +1,5 @@
-import Button from "components/Button";
-import Modal from "components/Modal";
+import Button from "components/common/Button";
+import Alert from "components/common/Alert";
 import { useState } from "react";
 import { buttonStyles } from "lib/styles";
 import axios from "axios";
@@ -74,11 +74,11 @@ function RequestForm() {
           />
         </div>
       </div>
-      {response && <Modal name="성공" handleButtonClick={backToSearchPage} />}
+      {response && <Alert name="성공" handleButtonClick={backToSearchPage} />}
       {response === false && (
-        <Modal name="실패" handleButtonClick={() => setResponse(null)} />
+        <Alert name="실패" handleButtonClick={() => setResponse(null)} />
       )}
-      {error && <Modal name="실패" handleButtonClick={() => setError(null)} />}
+      {error && <Alert name="실패" handleButtonClick={() => setError(null)} />}
     </div>
   );
 }

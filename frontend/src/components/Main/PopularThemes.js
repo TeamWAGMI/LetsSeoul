@@ -1,5 +1,5 @@
-import Button from "components/Button";
-import Card from "components/Card";
+import Button from "components/common/Button";
+import Card from "components/common/Card";
 import { buttonStyles, cardStyles } from "lib/styles";
 import { Link } from "react-router-dom";
 

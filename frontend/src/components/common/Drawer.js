@@ -1,19 +1,34 @@
 import axios from "axios";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
 import { handleLogout } from "slice/isLoginSlice";
 import { removeUserInfo } from "slice/userInfoSlice";
-// import { persistor } from "store/store";
 
 const Drawer = ({ isOpen, handleButtonClick }) => {
   const isLogin = useSelector((state) => state.isLogin.value);
   const userInfo = useSelector((state) => state.userInfo.value);
   const dispatch = useDispatch();
 
-  // const purge = () => {
-  //   persistor.purge();
-  // };
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    }
+    if (isOpen === true) {
+      mounted.current = true;
+      document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = "";
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+    }
+  }, [isOpen]);
 
   const handleLogoutButton = () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
@@ -33,7 +48,7 @@ const Drawer = ({ isOpen, handleButtonClick }) => {
         <div className="delay-700 opacity-1 z-30 absolute w-[60%] right-0 flex justify-center ">
           <div
             className="fixed top-[10%] grid grid-cols-1 font-semibold"
-            onClick={() => handleButtonClick(false)}
+            onClick={() => dispatch(handleButtonClick(false))}
           >
             <Link to="/">
               <div className="py-3">홈</div>
@@ -80,7 +95,7 @@ const Drawer = ({ isOpen, handleButtonClick }) => {
         ></div>
         <div
           className="w-full h-full cursor-pointer"
-          onClick={() => handleButtonClick(false)}
+          onClick={() => dispatch(handleButtonClick(false))}
         ></div>
       </div>
     </>

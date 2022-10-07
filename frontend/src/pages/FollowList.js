@@ -1,5 +1,5 @@
 import axios from "axios";
-import Card from "components/Card";
+import Card from "components/common/Card";
 import { scrollToTop } from "lib/utils/scrollToTop";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";

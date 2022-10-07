@@ -1,16 +1,17 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router";
 import SearchStore from "./SearchStore";
-import Button from "components/Button";
+import Button from "components/common/Button";
 import { buttonStyles } from "lib/styles";
+import MapNav from "components/common/MapNav";
 
 function LandingPage() {
   const [inputText, setInputText] = useState("");
   const [place, setPlace] = useState("");
+  const { state } = useLocation();
   const { searchButton } = buttonStyles;
 
-  //검색하는함수
-
-  console.log("landing");
+  console.log(state);
 
   const onChange = (e) => {
     setInputText(e.target.value);
@@ -28,6 +29,10 @@ function LandingPage() {
 
   return (
     <div className="relative">
+      <MapNav
+        emoji={state.themeInfo.themeEmoji}
+        name={state.themeInfo.themeTitle}
+      />
       <span className="absolute z-30 mt-[385px] ml-7 bg-wagmiLightGreen text-textWhite text-sm font-semibold rounded-lg py-[11px] px-4">
         장소 찾기
       </span>

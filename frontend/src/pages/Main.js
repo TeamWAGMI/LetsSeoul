@@ -5,7 +5,7 @@ import RecommendedThemes from "components/Main/RecommendedThemes";
 import RecommendedCurators from "components/Main/RecommendedCurators";
 import PopularThemes from "components/Main/PopularThemes";
 import SearchThemes from "components/Main/SearchThemes";
-import Footer from "components/Footer";
+import Footer from "components/common/Footer";
 
 function Main() {
   const [listsOfCards, setListsOfCards] = useState({

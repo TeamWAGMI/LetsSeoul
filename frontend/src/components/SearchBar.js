@@ -1,5 +1,5 @@
 import { buttonStyles } from "lib/styles";
-import Button from "./Button";
+import Button from "./common/Button";
 
 const SearchBar = ({ inputKeyword, handleInputChange, handleInputSubmit }) => {
   const { searchButton } = buttonStyles;

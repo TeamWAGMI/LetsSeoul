@@ -1,6 +1,6 @@
-import Button from "components/Button";
-import Card from "components/Card";
-import Header from "components/Header";
+import Button from "components/common/Button";
+import Card from "components/common/Card";
+import Header from "components/common/Header";
 import ImageUpload from "components/ImageUpload";
 import Score from "components/Score";
 // import { useState } from "react";

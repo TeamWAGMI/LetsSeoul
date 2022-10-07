@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
-import { buttonStyles } from "lib/styles";
-import Button from "./Button";
-import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "./Button";
+import Drawer from "./Drawer";
+import Alert from "./Alert";
+import { buttonStyles } from "lib/styles";
 import { getPrevPath } from "slice/prevPathSlice";
-import Drawer from "./common/Drawer";
 import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
+import { handleDrawerOpen } from "slice/isDrawerOpenSlice";
 
 function Header({
   hasBackButton = false,
@@ -17,35 +17,17 @@ function Header({
   storeAddress,
 }) {
   const isLoginModalOpen = useSelector((state) => state.isLoginModalOpen.value);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { loginButton, hamburgerButton } = buttonStyles;
+  const isDrawerOpen = useSelector((state) => state.isDrawerOpen.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { loginButton, hamburgerButton } = buttonStyles;
 
   const handleLogin = () => {
     dispatch(handleLoginModalOpen(false));
     dispatch(getPrevPath(window.location.pathname));
     window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
   };
-
-  const mounted = useRef(false);
-  useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-    }
-    if (isDrawerOpen === true) {
-      mounted.current = true;
-      document.body.style.cssText = `
-      position: fixed; 
-      top: -${window.scrollY}px;
-      overflow-y: scroll;
-      width: 100%;`;
-    } else {
-      const scrollY = document.body.style.top;
-      document.body.style.cssText = "";
-      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
-    }
-  }, [isDrawerOpen]);
 
   return (
     <>
@@ -96,20 +78,20 @@ function Header({
               <Button
                 styles={hamburgerButton}
                 icon="hamburger"
-                handleButtonClick={() => setIsDrawerOpen(true)}
+                handleButtonClick={() => dispatch(handleDrawerOpen(true))}
               />
             </div>
           )}
         </div>
       </header>
       {isLoginModalOpen && (
-        <Modal
+        <Alert
           name="카카오로 계속하기"
           handleModalBg={() => dispatch(handleLoginModalOpen(false))}
           handleButtonClick={handleLogin}
         />
       )}
-      <Drawer isOpen={isDrawerOpen} handleButtonClick={setIsDrawerOpen} />
+      <Drawer isOpen={isDrawerOpen} handleButtonClick={handleDrawerOpen} />
     </>
   );
 }
