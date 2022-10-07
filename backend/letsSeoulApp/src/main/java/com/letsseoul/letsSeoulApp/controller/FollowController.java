@@ -72,7 +72,7 @@ public class FollowController {
             @PathVariable("followUserId") Long followUserId,
             @RequestParam(defaultValue = "1",name ="page") Integer page,
             @RequestParam(defaultValue = "10",name ="page") Integer size) {
-        return ResponseEntity.ok().body( followService.getFollowerList(followUserId, PageRequest.of(page-1,size, Sort.by("createdDatetime").descending())));
+        return ResponseEntity.ok().body(followService.getFollowerList(followUserId, PageRequest.of(page-1,size, Sort.by("createdDatetime").descending())));
     }
 
     /**

@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 
@@ -40,15 +39,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         User user = findOrJoin(attributes);
 
-        System.out.println("########## : " + user.toString());
         httpSession.setAttribute("user", new SessionUser(user));
-        System.out.println("########## : " + httpSession.getAttribute("user"));
 
-
-        return new DefaultOAuth2User(
+        DefaultOAuth2User defaultOAuth2User = new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRole())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
+
+        return defaultOAuth2User;
     }
 
     private User findOrJoin(OAuthAttributes attributes) {
