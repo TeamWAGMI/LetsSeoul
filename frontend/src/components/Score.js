@@ -5,7 +5,7 @@ function Score() {
   const [clicked, setClicked] = useState(null);
 
   return (
-    <span className="inline">
+    <span className="inline cursor-pointer">
       {[1, 2, 3, 4, 5].map((el) => (
         <span
           key={el}
