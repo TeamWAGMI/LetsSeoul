@@ -52,7 +52,7 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
       setIsFollowing(false);
     }
   }, [uid, dispatch, userId]);
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserProfile((prev) => ({ ...prev, [name]: value }));
@@ -88,6 +88,26 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
         axios.post(`/api/v1/follows/${uid}`).then(() => setIsFollowing(true));
       }
     };
+    checkSession(dispatch, nextAPICall);
+  };
+
+  const handleEmojiRefresh = () => {
+    const nextAPICall = () => {
+      axios
+        .patch("/api/v1/users/emoji")
+        .then((res) => {
+          setUserProfile((prev) => ({ ...prev, emoji: res.data.emoji }));
+          dispatch(
+            getUserInfo({
+              userId,
+              userEmoji: res.data.emoji,
+              userNickname: nickname,
+            })
+          );
+        })
+        .catch((err) => console.error(err.message));
+    };
+
     checkSession(dispatch, nextAPICall);
   };
 
