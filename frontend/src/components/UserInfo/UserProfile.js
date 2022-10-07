@@ -40,7 +40,7 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
 
   useEffect(() => {
     if (userId) {
-      // 비로그인 유저가 유저 페이지 접속하자마자 로그인 모달이 뜨지 않도록
+      // 비로그인 유저가 유저 페이지 접속하자마자 로그인 모달이 뜨지 않도록 설정
       const nextAPICall = () => {
         axios
           .get(`/api/v1/follows/${uid}/check`)
@@ -48,11 +48,11 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
       };
       checkSession(dispatch, nextAPICall);
     } else {
-      // 비로그인 유저 디폴트
+      // 비로그인 유저 디폴트 설정
       setIsFollowing(false);
     }
   }, [uid, dispatch, userId]);
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserProfile((prev) => ({ ...prev, [name]: value }));
@@ -88,26 +88,6 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
         axios.post(`/api/v1/follows/${uid}`).then(() => setIsFollowing(true));
       }
     };
-    checkSession(dispatch, nextAPICall);
-  };
-
-  const handleEmojiRefresh = () => {
-    const nextAPICall = () => {
-      axios
-        .patch("/api/v1/users/emoji")
-        .then((res) => {
-          setUserProfile((prev) => ({ ...prev, emoji: res.data.emoji }));
-          dispatch(
-            getUserInfo({
-              userId,
-              userEmoji: res.data.emoji,
-              userNickname: nickname,
-            })
-          );
-        })
-        .catch((err) => console.error(err.message));
-    };
-
     checkSession(dispatch, nextAPICall);
   };
 
