@@ -10,7 +10,7 @@ function UserInfo() {
   const [userProfile, setUserProfile] = useState({
     emoji: "",
     nickname: "",
-    introduction: "",
+    introduce: "",
   });
   const { uid } = useParams();
   const { userId } = useOutletContext();

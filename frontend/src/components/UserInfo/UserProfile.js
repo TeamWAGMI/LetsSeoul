@@ -4,13 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { buttonStyles } from "lib/styles";
 import ProfileInput from "./ProfileInput";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "slice/userInfoSlice";
+import { checkSession } from "lib/utils/checkSession";
 
 function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   const [isEditable, SetIsEditable] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [followNum, setFollowNum] = useState({
+    numberOfFollower: 0,
+    numberOfFollowing: 0,
+  });
   const navigate = useNavigate();
   const nicknameRef = useRef();
-  const { emoji, nickname, introduction } = userProfile;
+  const { emoji, nickname, introduce } = userProfile;
+  const dispatch = useDispatch();
 
   const {
     smTextBlackButton,
@@ -24,27 +32,83 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
     nicknameRef.current.focus();
   }, [isEditable]);
 
+  useEffect(() => {
+    axios
+      .get(`/api/v1/follows/${uid}/count`)
+      .then((res) => setFollowNum((prev) => ({ ...prev, ...res.data })));
+  }, [uid, isFollowing]);
+
+  useEffect(() => {
+    if (userId) {
+      // 비로그인 유저가 유저 페이지 접속하자마자 로그인 모달이 뜨지 않도록 설정
+      const nextAPICall = () => {
+        axios
+          .get(`/api/v1/follows/${uid}/check`)
+          .then((res) => setIsFollowing(res.data.isFollowing));
+      };
+      checkSession(dispatch, nextAPICall);
+    } else {
+      // 비로그인 유저 디폴트 설정
+      setIsFollowing(false);
+    }
+  }, [uid, dispatch, userId]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserProfile((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleEditButton = () => {
-    if (isEditable) {
-      axios
-        .patch(`/api/v1/users/${uid}`, { nickname, introduction })
-        .then((res) => setUserProfile((prev) => ({ ...prev, ...res.data })))
-        .then(() => SetIsEditable((prev) => !prev))
-        .catch((err) => console.error(err.message));
-    } else {
-      SetIsEditable((prev) => !prev);
-    }
+    const nextAPICall = () => {
+      if (isEditable) {
+        axios
+          .patch(`/api/v1/users`, { nickname, introduce })
+          .then((res) => {
+            setUserProfile((prev) => ({ ...prev, ...res.data }));
+            dispatch(
+              getUserInfo({ userId, userEmoji: emoji, userNickname: nickname })
+            );
+          })
+          .then(() => SetIsEditable((prev) => !prev))
+          .catch((err) => console.error(err.message));
+      } else {
+        SetIsEditable((prev) => !prev);
+      }
+    };
+    checkSession(dispatch, nextAPICall);
   };
 
   const handleFollowButton = () => {
-    if (userId) {
-      setIsFollowing((prev) => !prev);
-    }
+    const nextAPICall = () => {
+      if (isFollowing) {
+        axios.delete(`/api/v1/follows/${uid}`).then(() => {
+          setIsFollowing(false);
+        });
+      } else {
+        axios.post(`/api/v1/follows/${uid}`).then(() => setIsFollowing(true));
+      }
+    };
+    checkSession(dispatch, nextAPICall);
+  };
+
+  const handleEmojiRefresh = () => {
+    const nextAPICall = () => {
+      axios
+        .patch("/api/v1/users/emoji")
+        .then((res) => {
+          setUserProfile((prev) => ({ ...prev, emoji: res.data.emoji }));
+          dispatch(
+            getUserInfo({
+              userId,
+              userEmoji: res.data.emoji,
+              userNickname: nickname,
+            })
+          );
+        })
+        .catch((err) => console.error(err.message));
+    };
+
+    checkSession(dispatch, nextAPICall);
   };
 
   return (
@@ -55,13 +119,19 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
       <div className="flex justify-between mb-3">
         <div className="bg-white rounded-full w-24 h-24 p-6 relative">
           <span className="text-5xl">{emoji}</span>
-          {uid === userId && <Button icon="refresh" styles={refreshButton} />}
+          {uid === userId && (
+            <Button
+              icon="refresh"
+              styles={refreshButton}
+              handleButtonClick={handleEmojiRefresh}
+            />
+          )}
         </div>
         <div className="flex">
           <div className="flex flex-col justify-between mr-3">
             <div className="text-right leading-none whitespace-nowrap">
               <Button
-                num="1111"
+                num={followNum.numberOfFollower}
                 name=" 팔로워"
                 styles={smTextBlackButton}
                 handleButtonClick={() => navigate(`/user/${uid}/followers`)}
@@ -71,7 +141,7 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
           <div className="flex flex-col justify-between">
             <div className="text-right leading-none w-[96.133px]">
               <Button
-                num="1143"
+                num={followNum.numberOfFollowing}
                 name=" 팔로잉"
                 styles={smTextBlackButton}
                 handleButtonClick={() => navigate(`/user/${uid}/followings`)}
@@ -97,17 +167,17 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
         <ProfileInput
           nicknameRef={nicknameRef}
           name="nickname"
-          maxLength="10"
+          maxLength="15"
           isEditable={isEditable}
           value={nickname}
           handleInputChange={handleInputChange}
-          styles="w-[160px] mb-3"
+          styles="w-[215px] mb-3"
         />
         <ProfileInput
-          name="introduction"
+          name="introduce"
           maxLength="20"
           isEditable={isEditable}
-          value={introduction}
+          value={introduce}
           handleInputChange={handleInputChange}
           styles="w-[280px]"
         />
