@@ -40,6 +40,12 @@ jobs:
       - name: Install Dependencies
         run: npm install 
 
+      - name: Set .env
+        run: |
+          echo "REACT_APP_KAKAOMAP_API_KEY=${{ secrets.REACT_APP_KAKAOMAP_API_KEY }}" >> .env
+          echo "REACT_APP_SERVER=${{ secrets.REACT_APP_SERVER }}" >> .env
+          cat .env
+
       - name: Build
         run: npm run build
         
