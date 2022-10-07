@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Button from "components/Button";
-import Card from "components/Card";
-import Footer from "components/Footer";
+import Button from "components/common/Button";
+import Card from "components/common/Card";
+import Footer from "components/common/Footer";
 import SearchBar from "components/SearchBar";
 import Tag from "components/Tag";
 import { scrollToTop } from "lib/utils/scrollToTop";
@@ -84,7 +84,7 @@ function Search() {
                   name={themeTitle}
                   option={`${reviewCount}개의 추천 장소`}
                   styles={gridThemeCard}
-                  path={`theme/${themeId}`}
+                  path={`/theme/${themeId}`}
                 />
               )
             )}

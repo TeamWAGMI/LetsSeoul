@@ -1,7 +1,7 @@
 import { buttonStyles } from "lib/styles";
 import Button from "./Button";
 
-function Modal({ name, handleModalBg, handleButtonClick }) {
+function Alert({ name, handleModalBg, handleButtonClick }) {
   const { kakaoLoginButton, mdGreenButton } = buttonStyles;
 
   let firstPar = null;
@@ -52,4 +52,4 @@ function Modal({ name, handleModalBg, handleButtonClick }) {
   );
 }
 
-export default Modal;
+export default Alert;

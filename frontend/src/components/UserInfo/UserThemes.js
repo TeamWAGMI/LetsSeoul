@@ -1,4 +1,4 @@
-import Card from "components/Card";
+import Card from "components/common/Card";
 import { userPicktheme } from "static/dummyData";
 
 function UserThemes({ userId, uid, nickname }) {

@@ -1,4 +1,4 @@
-import Header from "components/Header";
+import Header from "components/common/Header";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 

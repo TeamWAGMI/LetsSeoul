@@ -1,6 +1,6 @@
 import axios from "axios";
-import Card from "components/Card";
-import Header from "components/Header";
+import Card from "components/common/Card";
+import Header from "components/common/Header";
 import Review from "components/Review";
 import { scrollToTop } from "lib/utils/scrollToTop";
 import { useEffect, useState } from "react";

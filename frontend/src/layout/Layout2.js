@@ -1,5 +1,5 @@
 import axios from "axios";
-import MapNav from "components/MapNav";
+import MapNav from "components/common/MapNav";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useLocation, useParams } from "react-router-dom";
