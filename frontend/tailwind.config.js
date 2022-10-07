@@ -19,6 +19,9 @@ module.exports = {
         up: "0 20px 20px rgba(0, 0, 0, 0.25)",
       },
     },
+    screens: {
+      desktop: "500px",
+    },
   },
   plugins: [],
 };
