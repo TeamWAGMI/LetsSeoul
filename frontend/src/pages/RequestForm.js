@@ -6,10 +6,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function RequestForm() {
-  const [request, setRequest] = useState({ themeName: "", themeContent: "" });
+  const [request, setRequest] = useState({ themeTitle: "", themeContent: "" });
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
-  const { themeName, themeContent } = request;
+  const { themeTitle, themeContent } = request;
 
   const navigate = useNavigate();
   const { smGreenButton, smWhiteButton } = buttonStyles;
@@ -24,9 +24,9 @@ function RequestForm() {
   };
 
   const handleRequestSubmit = async () => {
-    if (themeName !== "" && themeContent !== "") {
+    if (themeTitle !== "" && themeContent !== "") {
       try {
-        const res = await axios.post("/api/v1/themes/registration", request);
+        const res = await axios.post("/api/v1/themes", request);
         setResponse(res.data.success);
       } catch (err) {
         setError(err.response.status);
@@ -44,8 +44,8 @@ function RequestForm() {
           className="text-sm w-full"
           type="text"
           placeholder="테마의 이름을 추천해주세요."
-          name="themeName"
-          value={themeName}
+          name="themeTitle"
+          value={themeTitle}
           onChange={(e) => handleRequestChange(e)}
           required
         />
