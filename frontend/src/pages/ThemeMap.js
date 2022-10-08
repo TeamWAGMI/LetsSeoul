@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Button from "components/common/Button";
 import MapNav from "components/common/MapNav";
@@ -9,6 +9,7 @@ import { buttonStyles } from "lib/styles";
 import { checkSession } from "lib/utils/checkSession";
 
 function ThemeMap() {
+  const isLogin = useSelector((state) => state.isLogin.value);
   const [themeInfo, setThemeInfo] = useState({
     themeId: "",
     themeEmoji: "",
@@ -20,6 +21,7 @@ function ThemeMap() {
     level: 9,
   });
   const [storeList, setStoreList] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
   const { tid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,11 +45,46 @@ function ThemeMap() {
       .catch((err) => console.error(err.message));
   }, [tid]);
 
+  useEffect(() => {
+    if (isLogin) {
+      // 비로그인 유저가 유저 페이지 접속하자마자 로그인 모달이 뜨지 않도록 설정
+      const nextAPICall = () => {
+        axios
+          .get(`/api/v1/themes/${tid}/users/me/follows`)
+          .then((res) => {
+            setIsLiked(res.data.isWishing);
+          })
+          .catch((err) => console.error(err.message));
+      };
+      checkSession(dispatch, nextAPICall);
+    } else {
+      // 비로그인 유저 디폴트 설정
+      setIsLiked(false);
+    }
+  }, [isLogin, tid, dispatch]);
+
   const handleRecommendButton = () => {
     const nextCallBack = () => {
       navigate(`/theme/search/${tid}`, { state: { themeInfo } });
     };
     checkSession(dispatch, nextCallBack);
+  };
+
+  const handleLikeButton = () => {
+    const nextAPICall = () => {
+      if (isLiked) {
+        axios
+          .delete(`/api/v1/themes/${tid}/users/me/unwish`)
+          .then(() => setIsLiked(false))
+          .catch((err) => console.error(err.message));
+      } else {
+        axios
+          .post(`/api/v1/themes/${tid}/users/me/wishes`)
+          .then(() => setIsLiked(true))
+          .catch((err) => console.error(err.message));
+      }
+    };
+    checkSession(dispatch, nextAPICall);
   };
 
   return (
@@ -60,7 +97,12 @@ function ThemeMap() {
           handleButtonClick={handleRecommendButton}
         />
       </div>
-      <MapNav emoji={themeInfo.themeEmoji} name={themeInfo.themeTitle} />
+      <MapNav
+        emoji={themeInfo.themeEmoji}
+        name={themeInfo.themeTitle}
+        isLiked={isLiked}
+        handleLikeButtonClick={handleLikeButton}
+      />
       <Map
         center={{ lat: 37.566769, lng: 126.978323 }}
         style={{ width: "100%", height: "100vh" }}
