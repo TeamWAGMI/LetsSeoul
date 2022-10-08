@@ -31,12 +31,11 @@ public class FollowService {
 
         User fromUser = userRepository.findById(fromUserId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
         User toUser = userRepository.findById(toUserId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
-
-        FollowUser followUser = FollowUser.builder()
-                .fromUser(fromUser)
-                .toUser(toUser)
-                .build();
-        followRepository.save(followUser);
+        followRepository.findByFromUserIdAndToUserId(fromUser.getId(),toUser.getId())
+                .orElse(followRepository.save(FollowUser.builder()
+                        .fromUser(fromUser)
+                        .toUser(toUser)
+                        .build()));
         return FollowDto.FollowUserResponse.of();
     }
 
@@ -44,7 +43,8 @@ public class FollowService {
 
         User fromUser = userRepository.findById(fromUserId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
         User toUser = userRepository.findById(toUserId).orElseThrow(() -> new RuntimeException("UserId가 없습니다."));
-        followRepository.delete(followRepository.findByFromUserIdAndToUserId(fromUser.getId(), toUser.getId()));
+        followRepository.findByFromUserIdAndToUserId(fromUser.getId(), toUser.getId())
+                .ifPresent(followRepository::delete);
         return FollowDto.UnfollowUserResponse.of();
     }
 

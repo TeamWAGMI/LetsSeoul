@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FollowRepository extends JpaRepository<FollowUser, Long> {
@@ -19,7 +20,8 @@ public interface FollowRepository extends JpaRepository<FollowUser, Long> {
     /**
      * BE-FO-0005
      */
-    FollowUser findByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
+    //FollowUser findByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
+    Optional<FollowUser> findByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
     Page<FollowUser> findByFromUserId(Long fromUserId,Pageable pageable);
 
     @Query("select count(f) from FollowUser f where f.toUser.id in(:toUserId) group by f.toUser order by f.createdDatetime desc")

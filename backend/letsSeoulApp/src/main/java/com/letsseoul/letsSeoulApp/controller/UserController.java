@@ -71,8 +71,8 @@ public class UserController {
     }
 
     //TH- 0014 찜한 테마 목록 조회
-    @GetMapping("/me/themes")
-    public ResponseEntity<MultiResponseDto<UserDto.DibsTehemeResponse>> viewListOfDibsThemes(@LoginUser SessionUser user, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size){
-        return ResponseEntity.ok().body(userService.viewListDibsThemes(user.getId(), PageRequest.of(page-1,size)));
+    @GetMapping("/{userId}/themes")
+    public ResponseEntity<MultiResponseDto<UserDto.DibsTehemeResponse>> viewListOfDibsThemes(@PathVariable("userId") Long userId, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size){
+        return ResponseEntity.ok().body(userService.viewListDibsThemes(userId, PageRequest.of(page-1,size)));
     }
 }
