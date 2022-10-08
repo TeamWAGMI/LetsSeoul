@@ -126,16 +126,18 @@ public class StoreService {
         }
         review.setContent(reviewPatch.getReviewContent());  //""  << null 검증에 대한 처리 컨트롤러에서 처리
         review.setScore(Math.toIntExact(reviewPatch.getReviewScore())); //1~5 null 그이외에 값이들어오면안되니까;
-
-        Review save = reviewRepository.save(review);
+        reviewRepository.save(review);
         return StoreDto.UpdateOrDeleteReviewResponse.of();
     }
 
     //TH-0008
-    public StoreDto.UpdateOrDeleteReviewResponse attemptReviewDelete(Long reviewId) {
+    public StoreDto.UpdateOrDeleteReviewResponse attemptReviewDelete(Long userId,Long reviewId) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> StoreService.triggerExceptionForIllegalRequest());
+        if(review.getUser().getId() != userId){
+            throw StoreService.triggerExceptionForIllegalRequest();
+        }
         review.setStatus("D");
-        Review save = reviewRepository.save(review);
+        reviewRepository.save(review);
         return StoreDto.UpdateOrDeleteReviewResponse.of();
 
     }

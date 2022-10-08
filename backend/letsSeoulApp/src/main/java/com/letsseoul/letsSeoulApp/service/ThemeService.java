@@ -196,7 +196,12 @@ public class ThemeService {
     public ThemeDto.RegistDibsThemeResponse registDibsTheme(Long userId, Long themeId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저가 없습니다"));
         Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new RuntimeException("테마가 없습니다"));
-        followThemeRepository.save(new FollowTheme(user, theme));
+        followThemeRepository.findByUserAndTheme(user,theme)
+                .orElse(followThemeRepository.save(
+                        FollowTheme.builder()
+                                .theme(theme)
+                                .user(user)
+                        .build()));
         return ThemeDto.RegistDibsThemeResponse.of();
     }
 
@@ -204,8 +209,7 @@ public class ThemeService {
     public ThemeDto.cancelDibsThemeResponse cancelDibsTheme(Long userId, Long themeId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저가 없습니다"));
         Theme theme = themeRepository.findById(themeId).orElseThrow(() -> new RuntimeException("테마가 없습니다"));
-        FollowTheme followTheme = followThemeRepository.findByUserAndTheme(user, theme).orElseThrow(() -> new RuntimeException("찜한 테마가 없습니다"));
-        followThemeRepository.delete(followTheme);
+        followThemeRepository.findByUserAndTheme(user, theme).ifPresent(followThemeRepository::delete);
         return ThemeDto.cancelDibsThemeResponse.of();
     }
 
