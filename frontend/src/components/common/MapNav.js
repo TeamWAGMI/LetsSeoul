@@ -1,17 +1,27 @@
 import { useNavigate } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-// import { handleDrawerOpen } from "slice/isDrawerOpenSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Alert from "components/common/Alert";
 import Button from "./Button";
-// import Drawer from "./common/Drawer";
+import { handleLogin } from "slice/isLoginSlice";
+import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
 
 // user, theme : emoji, name
 function MapNav({ isUsers, emoji, name, isLiked, handleLikeButtonClick }) {
-  // const isDrawerOpen = useSelector((state) => state.isDrawerOpen.value);
-  // const dispatch = useDispatch();
+  const isLoginModalOpen = useSelector((state) => state.isLoginModalOpen.value);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
     <nav className="relative">
+      {isLoginModalOpen && (
+        <div className="absolute">
+          <Alert
+            name="카카오로 계속하기"
+            handleModalBg={() => dispatch(handleLoginModalOpen(false))}
+            handleButtonClick={handleLogin}
+          />
+        </div>
+      )}
       <div className="absolute top-3 z-10 flex bg-white rounded-tr-lg rounded-br-lg drop-shadow-md">
         <Button
           styles="px-[14px] py-3 border-r-[1px] border-borderGray leading-none"
@@ -42,8 +52,7 @@ function MapNav({ isUsers, emoji, name, isLiked, handleLikeButtonClick }) {
         styles="absolute top-3 right-0 z-30 h-12 px-[14px] bg-bgGray rounded-tl-lg rounded-bl-lg drop-shadow-md "
         icon="hamburger_gray"
         handleButtonClick={() => dispatch(handleDrawerOpen(true))}
-      />
-      <Drawer isOpen={isDrawerOpen} handleButtonClick={handleDrawerOpen} /> */}
+      />*/}
     </nav>
   );
 }

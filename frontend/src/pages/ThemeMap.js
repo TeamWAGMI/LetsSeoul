@@ -1,10 +1,12 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import Button from "components/common/Button";
 import MapNav from "components/common/MapNav";
-import { buttonStyles } from "lib/styles";
-import React, { useEffect, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
-import { useNavigate, useParams } from "react-router-dom";
+import { buttonStyles } from "lib/styles";
+import { checkSession } from "lib/utils/checkSession";
 
 function ThemeMap() {
   const [themeInfo, setThemeInfo] = useState({
@@ -14,6 +16,7 @@ function ThemeMap() {
   });
   const { tid } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { lgGreenSemiRoundButton } = buttonStyles;
 
   useEffect(() => {
@@ -22,6 +25,13 @@ function ThemeMap() {
       .then((res) => setThemeInfo(res.data));
   }, [tid]);
 
+  const handleRecommendButton = () => {
+    const nextCallBack = () => {
+      navigate(`/theme/search/${tid}`, { state: { themeInfo } });
+    };
+    checkSession(dispatch, nextCallBack);
+  };
+
   return (
     <>
       <div className="sticky z-10 desktop:top-[90%] desktop:ml-[61%] top-[90%] ml-[50%] h-0 cursor-pointer">
@@ -29,9 +39,7 @@ function ThemeMap() {
           name="장소 추천하기"
           emoji="📌"
           styles={`${lgGreenSemiRoundButton} py-4`}
-          handleButtonClick={() =>
-            navigate(`/theme/search/${tid}`, { state: { themeInfo } })
-          }
+          handleButtonClick={handleRecommendButton}
         />
       </div>
       <MapNav emoji={themeInfo.themeEmoji} name={themeInfo.themeTitle} />

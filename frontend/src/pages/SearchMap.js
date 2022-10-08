@@ -70,14 +70,24 @@ function SearchMap() {
     map.setBounds(bounds);
   };
 
-  function displayPagination(pagination) {
+  const displayPagination = (pagination) => {
     const { ...rest } = pagination;
     let pages = [];
     for (let i = 1; i <= pagination.last; i++) {
       pages.push(i);
     }
     setPagination({ ...rest, pages });
-  }
+  };
+
+  const handleRegistrationButton = (marker) => {
+    const navigateState = { ...marker, themeInfo: state.themeInfo };
+    if (window.confirm("이 장소에 대한 리뷰를 등록 하시겠습니까?")) {
+      navigate("/store/review", {
+        state: navigateState,
+      });
+    }
+    return;
+  };
 
   return (
     <div className="relative w-full h-[100vh]">
@@ -131,7 +141,7 @@ function SearchMap() {
                   </span>
                   <div
                     className="px-[18px] py-1 mt-4 border border-borderGray text-sm font-light text-center item-center text-textDarkGray rounded-md"
-                    onClick={() => navigate("/store/review", { state: marker })}
+                    onClick={() => handleRegistrationButton(marker)}
                   >
                     등록하기
                   </div>
