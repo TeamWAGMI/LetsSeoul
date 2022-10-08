@@ -2,14 +2,20 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Alert from "components/common/Alert";
 import Button from "./Button";
-import { handleLogin } from "slice/isLoginSlice";
 import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
+import { getPrevPath } from "slice/prevPathSlice";
 
 // user, theme : emoji, name
 function MapNav({ isUsers, emoji, name, isLiked, handleLikeButtonClick }) {
   const isLoginModalOpen = useSelector((state) => state.isLoginModalOpen.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleLogin = () => {
+    dispatch(handleLoginModalOpen(false));
+    dispatch(getPrevPath(window.location.pathname));
+    window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
+  };
 
   return (
     <nav className="relative">

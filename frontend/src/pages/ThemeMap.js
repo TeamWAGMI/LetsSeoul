@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import Button from "components/common/Button";
 import MapNav from "components/common/MapNav";
-import { Map } from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { buttonStyles } from "lib/styles";
 import { checkSession } from "lib/utils/checkSession";
 
@@ -14,15 +14,33 @@ function ThemeMap() {
     themeEmoji: "",
     themeTitle: "",
   });
+  const [mapOption, setMapOption] = useState({
+    centerLat: 37.566769,
+    centerLng: 126.978323,
+    level: 9,
+  });
+  const [storeList, setStoreList] = useState([]);
   const { tid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { lgGreenSemiRoundButton } = buttonStyles;
 
+  console.log(mapOption);
+
   useEffect(() => {
     axios
-      .get(`/api/v1/themes/${tid}/info`)
-      .then((res) => setThemeInfo(res.data));
+      .all([
+        axios.get(`/api/v1/themes/${tid}/info`),
+        axios.get(`/api/v1/themes/${tid}`),
+      ])
+      .then(
+        axios.spread((res1, res2) => {
+          setThemeInfo(res1.data);
+          setMapOption(res2.data.mapInfo);
+          setStoreList(res2.data.stores);
+        })
+      )
+      .catch((err) => console.error(err.message));
   }, [tid]);
 
   const handleRecommendButton = () => {
@@ -47,7 +65,14 @@ function ThemeMap() {
         center={{ lat: 37.566769, lng: 126.978323 }}
         style={{ width: "100%", height: "100vh" }}
         level={9}
-      ></Map>
+      >
+        {storeList.map((store) => (
+          <MapMarker
+            key={store.storeId}
+            position={{ lat: store.lat, lng: store.lng }}
+          />
+        ))}
+      </Map>
     </>
   );
 }
