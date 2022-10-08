@@ -95,7 +95,9 @@ public class StoreController {
 
     //TH-0008 가게 테마 리뷰 삭제
     @DeleteMapping("/reviews/{reviewId}")
-    public ResponseEntity<StoreDto.UpdateOrDeleteReviewResponse> attemptReviewDelete(@PathVariable("reviewId") Long reviewId){
-        return ResponseEntity.ok().body(storeService.attemptReviewDelete(reviewId));
+    public ResponseEntity<StoreDto.UpdateOrDeleteReviewResponse> attemptReviewDelete(
+            @LoginUser SessionUser user,
+            @PathVariable("reviewId") Long reviewId){
+        return ResponseEntity.ok().body(storeService.attemptReviewDelete(user.getId(), reviewId));
     }
 }

@@ -26,12 +26,6 @@ public class UserController {
     //US-0001 유저 이미지 변경
     @PatchMapping("/emoji")
     public ResponseEntity<UserDto.UpdateUserEmojiResponse> updateUserEmoji(@LoginUser SessionUser user) {
-
-
-        System.out.println("#$#$#$#$#$#$ : " + user);
-        System.out.println("#$#$#$#$#$#$ : " + httpSession.getAttribute("user"));
-
-
         return ResponseEntity.ok()
                 .body(userService.changeUserEmoji(user.getId()));
     }
@@ -65,7 +59,6 @@ public class UserController {
      */
     @GetMapping("/curators")
     public ResponseEntity<List<CuratorListResponseDto>> getCuratorsList(){
-
         return ResponseEntity.ok()
                 .body(userService.listupCurators());
     }
