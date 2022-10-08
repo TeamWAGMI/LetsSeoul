@@ -60,7 +60,7 @@ public class ThemeController {
      * BE-TH-0004 테마 리뷰 등록
      * @param themeId
      */
-    @PostMapping("/{themeId}/stores/{storeId}")
+    @PostMapping("/{themeId}")
     public ResponseEntity<ThemeDto.RegistThemeReviewResponse> registThemeReview(@LoginUser SessionUser user,
                                             @PathVariable("themeId") @Positive Long themeId,
                                             @RequestBody ThemeDto.RegistThemeReviewPost registThemeReviewPost) {
