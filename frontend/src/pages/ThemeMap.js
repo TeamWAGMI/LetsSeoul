@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import Button from "components/common/Button";
 import MapNav from "components/common/MapNav";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { buttonStyles } from "lib/styles";
 import { checkSession } from "lib/utils/checkSession";
 
@@ -67,10 +67,27 @@ function ThemeMap() {
         level={9}
       >
         {storeList.map((store) => (
-          <MapMarker
-            key={store.storeId}
-            position={{ lat: store.lat, lng: store.lng }}
-          />
+          <div key={store.storeId}>
+            <MapMarker position={{ lat: store.lat, lng: store.lng }} />
+            <CustomOverlayMap
+              position={{ lat: store.lat, lng: store.lng }}
+              yAnchor={1.9}
+              xAnchor={0.5}
+            >
+              <div className="relative bg-white rounded-3xl py-3 px-8 text-center shadow-xl shadow-black-10">
+                <Link to={`/store/${store.storeId}`}>
+                  <div className="font-semibold text-wagmiGreen hover:underline leading-none mb-2">
+                    {store.storeTitle}
+                  </div>
+                </Link>
+                <div className="text-[0.5rem] leading-none">
+                  <span className="text-wagmiLightGreen mr-1">♥️</span>
+                  <span className="text-textDarkGray">{store.reviewCount}</span>
+                </div>
+              </div>
+              <div className="absolute border border-t-[10px] border-t-white bottom-[-10px] border-x-transparent border-x-[10px] border-b-transparent border-b-0 w-fit left-[calc(50%-10px)]"></div>
+            </CustomOverlayMap>
+          </div>
         ))}
       </Map>
     </>
