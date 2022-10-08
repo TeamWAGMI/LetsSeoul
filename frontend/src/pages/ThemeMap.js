@@ -5,7 +5,6 @@ import axios from "axios";
 import Button from "components/common/Button";
 import MapNav from "components/common/MapNav";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { buttonStyles } from "lib/styles";
 import { checkSession } from "lib/utils/checkSession";
 
