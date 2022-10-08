@@ -82,10 +82,13 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
     const nextAPICall = () => {
       if (isFollowing) {
         axios.delete(`/api/v1/follows/${uid}`).then(() => {
-          setIsFollowing(false);
+          setIsFollowing(false).catch((err) => console.error(err.message));
         });
       } else {
-        axios.post(`/api/v1/follows/${uid}`).then(() => setIsFollowing(true));
+        axios
+          .post(`/api/v1/follows/${uid}`)
+          .then(() => setIsFollowing(true))
+          .catch((err) => console.error(err.message));
       }
     };
     checkSession(dispatch, nextAPICall);
