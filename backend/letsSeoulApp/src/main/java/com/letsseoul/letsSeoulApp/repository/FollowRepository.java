@@ -24,7 +24,7 @@ public interface FollowRepository extends JpaRepository<FollowUser, Long> {
     Optional<FollowUser> findByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
     Page<FollowUser> findByFromUserId(Long fromUserId,Pageable pageable);
 
-    @Query("select count(f) from FollowUser f where f.toUser.id in(:toUserId) group by f.toUser order by f.createdDatetime desc")
+    @Query("select count(f) from FollowUser f where f.toUser.id in(:toUserId) group by f.toUser,f.createdDatetime order by f.createdDatetime desc")
     List<Long> countByToUserIds(List<Long> toUserId);
 
     Long countByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
