@@ -68,8 +68,7 @@ public class FollowController {
      */
     @GetMapping("/{followUserId}/followings")
     public ResponseEntity<MultiResponseDto<FollowDto.FollowingListResponse>> getFollowingList(
-            @LoginUser SessionUser user,
-            @PathVariable("followUserId") Long followUserId,
+            @PathVariable("followUserId") @Positive(message = "잘못된 회원 정보입니다.") Long followUserId,
             @RequestParam(defaultValue = "1",name ="page") Integer page,
             @RequestParam(defaultValue = "10",name ="page") Integer size) {
         return ResponseEntity.ok().body(followService.getFollowerList(followUserId, PageRequest.of(page-1,size, Sort.by("createdDatetime").descending())));

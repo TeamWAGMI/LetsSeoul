@@ -17,7 +17,7 @@ public interface FollowThemeRepository extends JpaRepository<FollowTheme,Long> {
 
     List<FollowTheme> findByUser(User user);
 
-    @Query("select count(f) from FollowTheme f where f.theme.id in(:themeId) group by f.theme.id order by f.createdDatetime desc")
+    @Query("select count(f) from FollowTheme f where f.theme.id in(:themeId) group by f.theme.id,f.createdDatetime order by f.createdDatetime desc")
     List<Long> countByThemeIds(List<Long> themeId);
     Page<FollowTheme> findByUser(User user, Pageable pageable);
     //Page<FollowTheme> countByTheme(Theme theme);
