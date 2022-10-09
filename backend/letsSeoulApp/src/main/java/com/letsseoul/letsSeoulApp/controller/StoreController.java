@@ -71,7 +71,7 @@ public class StoreController {
 
 
     //th-0005  가게 테마 조회
-    @GetMapping("/{storeId}/themeList")
+    @GetMapping("/{storeId}/themes")
     public ResponseEntity<List<StoreThemeResponse>> attemptGetStoreTheme(@PathVariable("storeId") Long storeId){
         return ResponseEntity.ok().body(storeService.attemptGetStoreTheme(storeId));
     }
