@@ -1,7 +1,18 @@
+import axios from "axios";
 import Card from "components/common/Card";
+import { useEffect, useState } from "react";
 import { userPicktheme } from "static/dummyData";
 
 function UserThemes({ userId, uid, nickname }) {
+  const [wishThemes, setWishThemes] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/v1/users/${uid}/themes`)
+      .then((res) => setWishThemes(res.data.content))
+      .catch((err) => console.error(err.message));
+  }, [uid]);
+
   return (
     <div>
       <div className="smHeadline">
@@ -10,18 +21,18 @@ function UserThemes({ userId, uid, nickname }) {
         }개`}
       </div>
       <ul className="grid gap-2">
-        {userPicktheme.map(({ id, themeEmoji, themeName, reviewCount }) => {
+        {wishThemes.map(({ themeId, themeEmoji, themeName, dibsCount }) => {
           return (
             <Card
-              key={id}
-              id={id}
+              key={themeId}
+              id={themeId}
               emoji={themeEmoji}
               name={themeName}
-              option={reviewCount}
+              option={dibsCount}
               option2="♥️"
               isOneLine={true}
               isFull={true}
-              path={`/theme/${id}`}
+              path={`/theme/${themeId}`}
             />
           );
         })}

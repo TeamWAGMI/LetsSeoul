@@ -6,7 +6,7 @@ import { handleLoginModalOpen } from "slice/isLoginModalOpenSlice";
 import { getPrevPath } from "slice/prevPathSlice";
 
 // user, theme : emoji, name
-function MapNav({ isUsers, emoji, name, isLiked, handleLikeButtonClick }) {
+function MapNav({ isUsers, emoji, name, isWished, handleWishButtonClick }) {
   const isLoginModalOpen = useSelector((state) => state.isLoginModalOpen.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,11 +45,11 @@ function MapNav({ isUsers, emoji, name, isLiked, handleLikeButtonClick }) {
           {!isUsers && (
             <span
               className={`cursor-pointer ml-3 ${
-                isLiked ? "text-heartRed" : "text-textDarkGray"
+                isWished ? "text-heartRed" : "text-textDarkGray"
               }`}
-              onClick={handleLikeButtonClick}
+              onClick={handleWishButtonClick}
             >
-              {isLiked ? "♥️" : "♡"}
+              {isWished ? "♥️" : "♡"}
             </span>
           )}
         </div>

@@ -21,7 +21,7 @@ function ThemeMap() {
     level: 9,
   });
   const [storeList, setStoreList] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isWished, setIsWished] = useState(false);
   const { tid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,14 +52,14 @@ function ThemeMap() {
         axios
           .get(`/api/v1/themes/${tid}/users/me/follows`)
           .then((res) => {
-            setIsLiked(res.data.isWishing);
+            setIsWished(res.data.isWishing);
           })
           .catch((err) => console.error(err.message));
       };
       checkSession(dispatch, nextAPICall);
     } else {
       // 비로그인 유저 디폴트 설정
-      setIsLiked(false);
+      setIsWished(false);
     }
   }, [isLogin, tid, dispatch]);
 
@@ -70,17 +70,17 @@ function ThemeMap() {
     checkSession(dispatch, nextCallBack);
   };
 
-  const handleLikeButton = () => {
+  const handleWishButton = () => {
     const nextAPICall = () => {
-      if (isLiked) {
+      if (isWished) {
         axios
           .delete(`/api/v1/themes/${tid}/users/me/unwish`)
-          .then(() => setIsLiked(false))
+          .then(() => setIsWished(false))
           .catch((err) => console.error(err.message));
       } else {
         axios
           .post(`/api/v1/themes/${tid}/users/me/wishes`)
-          .then(() => setIsLiked(true))
+          .then(() => setIsWished(true))
           .catch((err) => console.error(err.message));
       }
     };
@@ -100,8 +100,8 @@ function ThemeMap() {
       <MapNav
         emoji={themeInfo.themeEmoji}
         name={themeInfo.themeTitle}
-        isLiked={isLiked}
-        handleLikeButtonClick={handleLikeButton}
+        isWished={isWished}
+        handleWishButtonClick={handleWishButton}
       />
       <Map
         center={{ lat: 37.566769, lng: 126.978323 }}
