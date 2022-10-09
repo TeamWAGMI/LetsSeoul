@@ -111,6 +111,7 @@ public class ThemeController {
         return ResponseEntity.ok().body(themeService.checkDibsTheme(user.getId(),themeId));
     }
 
+
     /**
      * BE-TH-0012 테마찜 등록
      * @param themeId
