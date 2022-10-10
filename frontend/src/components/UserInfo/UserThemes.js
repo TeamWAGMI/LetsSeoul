@@ -1,7 +1,6 @@
 import axios from "axios";
 import Card from "components/common/Card";
 import { useEffect, useState } from "react";
-import { userPicktheme } from "static/dummyData";
 
 function UserThemes({ userId, uid, nickname }) {
   const [wishThemes, setWishThemes] = useState([]);
@@ -17,7 +16,7 @@ function UserThemes({ userId, uid, nickname }) {
     <div>
       <div className="smHeadline">
         {`${uid === userId ? "내가 찜한 테마 " : `${nickname}님이 찜한 테마`} ${
-          userPicktheme.length
+          wishThemes.length
         }개`}
       </div>
       <ul className="grid gap-2">

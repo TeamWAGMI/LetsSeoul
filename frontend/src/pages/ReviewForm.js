@@ -84,7 +84,7 @@ function ReviewForm() {
               <ImageUpload id="file_2" />
               <ImageUpload id="file_3" />
             </div> */}
-            <div className="bg-white rounded-lg border border-borderGray p-[13px] w-full text-sm">
+            <div className="bg-white rounded-lg border border-borderGray p-[13px] w-full text-sm focus-within:ring focus-within:ring-wagmiLightGreen">
               <textarea
                 className="text-sm w-full h-60 resize-none"
                 name="content"

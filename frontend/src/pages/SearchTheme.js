@@ -12,6 +12,7 @@ import { buttonStyles, cardStyles } from "lib/styles";
 
 function SearchTheme() {
   const [themeCardsList, setThemeCardsList] = useState([]);
+  const [pageInfo, setPageInfo] = useState([]);
   const [selectedWhom, setSelectedWhom] = useState([]);
   const [selectedWhat, setSelectedWhat] = useState([]);
   const [selectedWhere, setSelectedWhere] = useState([]);
@@ -33,10 +34,13 @@ function SearchTheme() {
       where: selectedWhere,
     };
 
-    axios
-      .post(`/api/v1/themes/search`, data)
-      .then((res) => setThemeCardsList(res.data.content));
+    axios.post(`api/v1/themes/search`, data).then((res) => {
+      setThemeCardsList(res.data.content);
+      setPageInfo(res.data.pageInfo);
+    });
   }, [selectedWhom, selectedWhat, selectedWhere, submitKeyword]);
+
+  console.log(pageInfo);
 
   return (
     <>
@@ -70,9 +74,9 @@ function SearchTheme() {
         </div>
         <div className="mb-[30px]">
           <div className="mb-3 font-semibold text-sm leading-none">
-            {themeCardsList.length === 0
+            {pageInfo.totalCount === 0
               ? "검색된 테마가 없습니다. "
-              : `${themeCardsList.length}개의 테마를 찾았어요.`}
+              : `${pageInfo.totalCount}개의 테마를 찾았어요.`}
           </div>
           <ul className="grid grid-cols-2 gap-[11px]">
             {themeCardsList.map(

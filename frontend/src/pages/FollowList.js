@@ -6,8 +6,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function Follow() {
   const [followNums, setFollowNums] = useState({
-    numberOfFollowing: "",
-    numberOfFollower: "",
+    numberOfFollowing: 0,
+    numberOfFollower: 0,
   });
   const [followList, setFollowList] = useState([]);
   const navigate = useNavigate();
@@ -30,10 +30,10 @@ function Follow() {
       try {
         if (follow === "followers") {
           const res1 = await axios.get(`/api/v1/follows/${uid}/followers`);
-          setFollowList(res1.data);
+          setFollowList(res1.data.content);
         } else if (follow === "followings") {
           const res2 = await axios.get(`/api/v1/follows/${uid}/followings`);
-          setFollowList(res2.data);
+          setFollowList(res2.data.content);
         }
         const res = await axios.get(`/api/v1/follows/${uid}/count`);
         const { numberOfFollower, numberOfFollowing } = res.data;

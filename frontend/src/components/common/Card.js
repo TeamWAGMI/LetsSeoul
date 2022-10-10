@@ -13,13 +13,11 @@ function Card({
 }) {
   return (
     <Link to={path} key={id}>
-      <li className={`${styles} text-sm`}>
+      <li
+        className={`${styles} rounded-lg text-sm hover:shadow-md active:shadow-md`}
+      >
         {isOneLine ? (
-          <div
-            className={`bg-white p-3 rounded-lg ${
-              isFull ? null : "inline-block"
-            }`}
-          >
+          <div className={`bg-white p-3 ${isFull ? null : "inline-block"}`}>
             <span>{emoji}</span>
             <span className="ml-2">{name}</span>
             <span className="float-right">

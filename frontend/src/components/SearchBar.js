@@ -5,7 +5,7 @@ const SearchBar = ({ inputKeyword, handleInputChange, handleInputSubmit }) => {
   const { searchButton } = buttonStyles;
 
   return (
-    <div className="flex justify-between items-center p-[13px] bg-white border border-borderGray rounded-lg text-sm">
+    <div className="flex justify-between items-center p-[13px] bg-white border border-borderGray rounded-lg text-sm focus-within:ring focus-within:ring-wagmiLightGreen">
       <input
         className="grow"
         placeholder="테마를 키워드로 검색해보세요."
