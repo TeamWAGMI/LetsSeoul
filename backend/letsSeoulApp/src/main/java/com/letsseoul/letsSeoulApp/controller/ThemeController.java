@@ -84,6 +84,7 @@ public class ThemeController {
      */
     @PostMapping("/search")
     public ResponseEntity<MultiResponseDto<ThemeDto.ThemeSearchResponse>> themeSearch(@RequestBody ThemeDto.ThemeSearchPost themeSearchPost, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size) {
+
         return ResponseEntity.ok().body(themeService.themeSearch(themeSearchPost, PageRequest.of(page-1,size)));
     }
 

@@ -3,7 +3,9 @@ package com.letsseoul.letsSeoulApp.repository;
 
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -46,7 +48,7 @@ public class ThemeCustomRepositoryImpl implements ThemeCustomRepository {
                 builder.or(tag.title.eq(w));
             }
         }
-            List<Tuple> fetch = queryFactory.select(
+        JPQLQuery<Tuple> fetch = queryFactory.select(
                     theme.id,
                     theme.emoji,
                     theme.title,
@@ -60,10 +62,9 @@ public class ThemeCustomRepositoryImpl implements ThemeCustomRepository {
                     .groupBy(theme.id)
                     .orderBy(themeStore.theme.id.count().desc())
                     .offset(pageable.getOffset())
-                    .limit(pageable.getPageSize())
-                    .fetch();
+                    .limit(pageable.getPageSize());
 
-            return new PageImpl<>(fetch, pageable, fetch.size());
+            return new PageImpl<>(fetch.fetch(), pageable, fetch.fetchCount());
         }
     }
 

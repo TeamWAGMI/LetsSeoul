@@ -159,6 +159,9 @@ public class ThemeService {
      */
     public MultiResponseDto<ThemeDto.ThemeSearchResponse> themeSearch(ThemeDto.ThemeSearchPost themeSearchGet, Pageable pageable) {
         Page<Tuple> dynamicQuery = themeCustomRepository.findDynamicQuery(themeSearchGet.getKeyword(),themeSearchGet.getWho(),themeSearchGet.getWhat(),themeSearchGet.getWhere(),pageable);
+        System.out.println("dynamicQuery.getTotalElements() = " + dynamicQuery.getTotalElements());
+        System.out.println("dynamicQuery.getTotalPages() = " + dynamicQuery.getTotalPages());
+        
         return  ThemeDto.ThemeSearchResponse.of(dynamicQuery);
         /*List<Tuple> tupleList = dynamicQuery.getContent();
         System.out.println("tupleList.get(0).get(3,Long.class) = " + tupleList.get(0).get(3,Long.class));*/
