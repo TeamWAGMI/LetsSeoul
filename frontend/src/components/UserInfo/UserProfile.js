@@ -59,6 +59,10 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
   };
 
   const handleEditButton = () => {
+    if (nickname.length < 1) {
+      return window.alert("닉네임을 입력해주세요.");
+    }
+
     const nextAPICall = () => {
       if (isEditable) {
         axios
@@ -166,11 +170,12 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         <ProfileInput
           nicknameRef={nicknameRef}
           name="nickname"
           maxLength="15"
+          plceholder="닉네임을 입력해주세요."
           isEditable={isEditable}
           value={nickname}
           handleInputChange={handleInputChange}
@@ -180,6 +185,7 @@ function UserProfile({ userId, uid, userProfile, setUserProfile }) {
           name="introduce"
           maxLength="20"
           isEditable={isEditable}
+          placeholder="한 줄 소개를 입력해주세요."
           value={introduce}
           handleInputChange={handleInputChange}
           styles="w-[280px]"

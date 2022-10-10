@@ -2,6 +2,7 @@ function ProfileInput({
   nicknameRef = null,
   name,
   maxLength,
+  placeholder,
   isEditable,
   value,
   handleInputChange,
@@ -14,7 +15,8 @@ function ProfileInput({
       name={name}
       type="text"
       maxLength={maxLength}
-      className={`h-[34px] rounded-lg p-[10px] text-sm leading-none bg-white ${styles} ${
+      placeholder={placeholder}
+      className={`h-[34px] rounded-lg p-[10px] leading-none bg-white ${styles} ${
         isEditable ? "focus:ring focus:ring-wagmiLightGreen" : null
       }`}
       value={value}
