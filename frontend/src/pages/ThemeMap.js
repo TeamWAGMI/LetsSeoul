@@ -123,7 +123,7 @@ function ThemeMap() {
                   </div>
                 </Link>
                 <div className="text-[0.5rem] leading-none">
-                  <span className="text-wagmiLightGreen mr-1">♥️</span>
+                  <span className="text-wagmiLightGreen mr-1">♥</span>
                   <span className="text-textDarkGray">{store.reviewCount}</span>
                 </div>
               </div>

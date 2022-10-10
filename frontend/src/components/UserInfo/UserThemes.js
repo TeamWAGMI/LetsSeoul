@@ -28,7 +28,7 @@ function UserThemes({ userId, uid, nickname }) {
               emoji={themeEmoji}
               name={themeName}
               option={dibsCount}
-              option2="♥️"
+              option2="♥"
               isOneLine={true}
               isFull={true}
               path={`/theme/${themeId}`}

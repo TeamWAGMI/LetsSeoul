@@ -1,7 +1,10 @@
+import axios from "axios";
 import { buttonStyles } from "lib/styles";
 import { getConvertedDate } from "lib/utils/getConvertedDate";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "./common/Button";
+import { checkSession } from "lib/utils/checkSession";
 
 function Review({
   userId,
@@ -12,9 +15,30 @@ function Review({
   content,
   createdAt,
   modifiedAt,
+  storeReviews,
+  setStoreReviews,
 }) {
+  const userInfo = useSelector((state) => state.userInfo.value);
+  const dispatch = useDispatch();
   const { mdTextGrayButton } = buttonStyles;
   const convertedDate = getConvertedDate(createdAt);
+
+  const handleDeleteButtonClick = () => {
+    const notDeletedReviews = storeReviews.filter(
+      (review) => review.reviewId !== reviewId
+    );
+
+    const nextAPICall = () => {
+      if (window.confirm("리뷰를 삭제하시겠습니까?")) {
+        axios
+          .delete(`/api/v1/stores/reviews/${reviewId}`)
+          .then(() => setStoreReviews(notDeletedReviews))
+          .catch((err) => console.error(err.message));
+      }
+    };
+
+    checkSession(dispatch, nextAPICall);
+  };
 
   return (
     <li
@@ -38,11 +62,17 @@ function Review({
             <span className="text-textGray ml-1">(수정됨)</span>
           )}
         </div>
-        <div>
-          <Button styles={mdTextGrayButton} name="수정" />
-          <span className="border" />
-          <Button styles={mdTextGrayButton} name="삭제" />
-        </div>
+        {parseInt(userInfo.userId) === userId && (
+          <div>
+            <Button styles={mdTextGrayButton} name="수정" />
+            <span className="border" />
+            <Button
+              styles={mdTextGrayButton}
+              name="삭제"
+              handleButtonClick={handleDeleteButtonClick}
+            />
+          </div>
+        )}
       </div>
     </li>
   );
