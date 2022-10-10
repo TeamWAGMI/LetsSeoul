@@ -13,10 +13,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function ReviewForm() {
   const [review, setReview] = useState({ content: "", score: null });
-  const { state } = useLocation();
-  const navigate = useNavigate();
-  const { smGreenButton, smWhiteButton } = buttonStyles;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { smGreenButton, smWhiteButton } = buttonStyles;
   // const [imageSrc, setImageSrc] = useState("");
   // const handleChangeImage = (e) => {
   //   const file = URL.createObjectURL(e.target.files[0]);
