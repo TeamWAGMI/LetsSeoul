@@ -1,11 +1,12 @@
 import { Map, CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk";
 import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import MapNav from "components/common/MapNav";
 import Button from "components/common/Button";
 import { checkSession } from "lib/utils/checkSession";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { scrollToTop } from "lib/utils/scrollToTop";
 const { kakao } = window;
 
 function SearchMap() {
@@ -29,6 +30,7 @@ function SearchMap() {
   const ps = new kakao.maps.services.Places();
 
   useEffect(() => {
+    scrollToTop();
     if (isLogin) {
       // 비로그인 유저가 유저 페이지 접속하자마자 로그인 모달이 뜨지 않도록 설정
       const nextAPICall = () => {

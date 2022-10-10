@@ -7,6 +7,7 @@ import MapNav from "components/common/MapNav";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { buttonStyles } from "lib/styles";
 import { checkSession } from "lib/utils/checkSession";
+import { scrollToTop } from "lib/utils/scrollToTop";
 
 function ThemeMap() {
   const isLogin = useSelector((state) => state.isLogin.value);
@@ -30,6 +31,7 @@ function ThemeMap() {
   console.log(mapOption);
 
   useEffect(() => {
+    scrollToTop();
     axios
       .all([
         axios.get(`/api/v1/themes/${tid}/info`),
