@@ -39,7 +39,7 @@ function RequestForm() {
       <div className="font-semibold text-center mb-6">
         새로운 테마를 등록하고 싶으신가요?
       </div>
-      <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5">
+      <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5 focus-within:ring focus-within:ring-wagmiLightGreen">
         <input
           className="text-sm w-full"
           type="text"
@@ -50,7 +50,7 @@ function RequestForm() {
           required
         />
       </div>
-      <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5">
+      <div className="bg-white rounded-lg border border-borderGray p-[13px] mb-5 focus-within:ring focus-within:ring-wagmiLightGreen">
         <textarea
           className="text-sm w-full h-60 resize-none"
           name="themeContent"

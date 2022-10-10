@@ -1,11 +1,16 @@
 import { Map, CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk";
-import { useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useState, useRef, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MapNav from "components/common/MapNav";
 import Button from "components/common/Button";
+import { checkSession } from "lib/utils/checkSession";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 const { kakao } = window;
 
 function SearchMap() {
+  const isLogin = useSelector((state) => state.isLogin.value);
+  const [isWished, setIsWished] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
   const [keyword, setKeyWord] = useState("");
@@ -16,10 +21,47 @@ function SearchMap() {
     lng: 126.978323,
   });
   const ref = useRef();
-  const { state } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { state } = useLocation();
+  const { tid } = useParams();
 
   const ps = new kakao.maps.services.Places();
+
+  useEffect(() => {
+    if (isLogin) {
+      // 비로그인 유저가 유저 페이지 접속하자마자 로그인 모달이 뜨지 않도록 설정
+      const nextAPICall = () => {
+        axios
+          .get(`/api/v1/themes/${tid}/users/me/follows`)
+          .then((res) => {
+            setIsWished(res.data.isWishing);
+          })
+          .catch((err) => console.error(err.message));
+      };
+      checkSession(dispatch, nextAPICall);
+    } else {
+      // 비로그인 유저 디폴트 설정
+      setIsWished(false);
+    }
+  }, [isLogin, tid, dispatch]);
+
+  const handleWishButtonClick = () => {
+    const nextAPICall = () => {
+      if (isWished) {
+        axios
+          .delete(`/api/v1/themes/${tid}/users/me/unwish`)
+          .then(() => setIsWished(false))
+          .catch((err) => console.error(err.message));
+      } else {
+        axios
+          .post(`/api/v1/themes/${tid}/users/me/wishes`)
+          .then(() => setIsWished(true))
+          .catch((err) => console.error(err.message));
+      }
+    };
+    checkSession(dispatch, nextAPICall);
+  };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -80,10 +122,9 @@ function SearchMap() {
   };
 
   const handleRegistrationButton = (marker) => {
-    const navigateState = { ...marker, themeInfo: state.themeInfo };
     if (window.confirm("이 장소에 대한 리뷰를 등록 하시겠습니까?")) {
       navigate("/store/review", {
-        state: navigateState,
+        state: { ...marker, themeInfo: state.themeInfo },
       });
     }
     return;
@@ -94,6 +135,8 @@ function SearchMap() {
       <MapNav
         emoji={state.themeInfo.themeEmoji}
         name={state.themeInfo.themeTitle}
+        isWished={isWished}
+        handleWishButtonClick={handleWishButtonClick}
       />
       <Map // 로드뷰를 표시할 Container
         center={center}
@@ -103,24 +146,26 @@ function SearchMap() {
       >
         <menu
           ref={ref}
-          className="absolute bottom-0 left-0 right-0 h-2/5 max-w-[300px] w-full bg-white rounded-t-lg mx-auto z-[99] px-4 pt-4 overflow-y-auto no-scrollbar"
+          className="absolute bottom-0 left-0 right-0 h-2/5 max-w-[300px] w-full bg-white rounded-t-lg mx-auto z-[99] px-4 overflow-y-auto no-scrollbar"
         >
-          <form
-            onSubmit={handleSearchSubmit}
-            className="sticky top-0 left-0 right-0 w-full p-2 mb-3 flex justify-between z-[100] bg-white border border-borderGray rounded-lg"
-          >
-            <input
-              className="pr-[13px] grow text-sm"
-              placeholder="추천할 장소를 검색해보세요."
-              onChange={(e) => setKeyWord(e.target.value)}
-              value={keyword}
-            />
-            <Button
-              styles="flex items-center p-2 m-[-8px]"
-              icon="search"
-              handleButtonClick={handleSearchSubmit}
-            />
-          </form>
+          <div className="sticky top-0 left-0 right-0 w-full py-4 z-[100] bg-white">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="p-2 flex justify-between border border-borderGray rounded-lg"
+            >
+              <input
+                className="pr-[13px] grow text-sm"
+                placeholder="추천할 장소를 검색해보세요."
+                onChange={(e) => setKeyWord(e.target.value)}
+                value={keyword}
+              />
+              <Button
+                styles="flex items-center p-2 m-[-8px]"
+                icon="search"
+                handleButtonClick={handleSearchSubmit}
+              />
+            </form>
+          </div>
           <ul className="cursor-pointer">
             {markers.map((marker) => (
               <li

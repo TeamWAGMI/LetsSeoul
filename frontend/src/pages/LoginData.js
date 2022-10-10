@@ -9,7 +9,7 @@ function LoginData() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const redirectPath = useSelector((state) => state.prevPath.value);
-
+  const isLogin = useSelector((state) => state.isLogin.value);
   const getUserData = (userData) => ({
     userId: userData[1],
     userNickname: userData[0],
@@ -17,8 +17,8 @@ function LoginData() {
   });
 
   useEffect(() => {
-    if (window.location.search) {
-      dispatch(
+    const userInfo = async () => {
+      await dispatch(
         getUserInfo(
           getUserData(
             decodeURIComponent(
@@ -27,10 +27,11 @@ function LoginData() {
           )
         )
       );
-      dispatch(handleLogin());
-    }
-    navigate(redirectPath);
-  }, [dispatch, navigate, redirectPath]);
+      await dispatch(handleLogin());
+    };
+    userInfo();
+    if (isLogin) navigate(redirectPath, { replace: true });
+  }, [isLogin, dispatch, navigate, redirectPath]);
 
   return <></>;
 }

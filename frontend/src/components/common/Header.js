@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "./Button";
 import Drawer from "./Drawer";
@@ -20,13 +20,16 @@ function Header({
   const isDrawerOpen = useSelector((state) => state.isDrawerOpen.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { loginButton, hamburgerButton } = buttonStyles;
 
   const handleLogin = () => {
     dispatch(handleLoginModalOpen(false));
-    dispatch(getPrevPath(window.location.pathname));
-    window.location.href = `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`;
+    dispatch(getPrevPath(location.pathname));
+    window.location.replace(
+      `${process.env.REACT_APP_SERVER}/oauth2/authorization/kakao`
+    );
   };
 
   return (
@@ -45,9 +48,9 @@ function Header({
             />
           )}
           <div
-            className={`text-white w-min whitespace-nowrap ${
+            className={`text-white w-min ${
               hasBackButton
-                ? "grow text-center flex flex-col justify-around pr-[28px]"
+                ? "grow text-center flex flex-col justify-around"
                 : "basis-3/4"
             }`}
           >
@@ -62,7 +65,11 @@ function Header({
               </Link>
             )}
           </div>
-          {!hasBackButton && (
+          {hasBackButton ? (
+            <div className="w-[28px] flex justify-center items-center text-heartRed">
+              ♥️
+            </div>
+          ) : (
             <div className="basis-1/4 flex justify-end items-center py-[4px]">
               {isLogin ? (
                 <Link to={`/user/${userId}`}>

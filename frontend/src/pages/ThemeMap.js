@@ -63,14 +63,14 @@ function ThemeMap() {
     }
   }, [isLogin, tid, dispatch]);
 
-  const handleRecommendButton = () => {
+  const handleRecommendButtonClick = () => {
     const nextCallBack = () => {
       navigate(`/theme/search/${tid}`, { state: { themeInfo } });
     };
     checkSession(dispatch, nextCallBack);
   };
 
-  const handleWishButton = () => {
+  const handleWishButtonClick = () => {
     const nextAPICall = () => {
       if (isWished) {
         axios
@@ -94,14 +94,14 @@ function ThemeMap() {
           name="장소 추천하기"
           emoji="📌"
           styles={`${lgGreenSemiRoundButton} py-4`}
-          handleButtonClick={handleRecommendButton}
+          handleButtonClick={handleRecommendButtonClick}
         />
       </div>
       <MapNav
         emoji={themeInfo.themeEmoji}
         name={themeInfo.themeTitle}
         isWished={isWished}
-        handleWishButtonClick={handleWishButton}
+        handleWishButtonClick={handleWishButtonClick}
       />
       <Map
         center={{ lat: 37.566769, lng: 126.978323 }}
