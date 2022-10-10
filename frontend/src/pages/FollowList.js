@@ -79,7 +79,7 @@ function Follow() {
                 emoji={emoji}
                 name={nickname}
                 option={followerCount}
-                option2="♥️"
+                option2="♥"
                 isOneLine={true}
                 isFull={true}
                 path={path}

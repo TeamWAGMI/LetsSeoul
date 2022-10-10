@@ -151,7 +151,7 @@ function SearchMap() {
           <div className="sticky top-0 left-0 right-0 w-full py-4 z-[100] bg-white">
             <form
               onSubmit={handleSearchSubmit}
-              className="p-2 flex justify-between border border-borderGray rounded-lg"
+              className="p-2 flex justify-between border border-borderGray rounded-lg focus-within:ring focus-within:ring-wagmiLightGreen"
             >
               <input
                 className="pr-[13px] grow text-sm"

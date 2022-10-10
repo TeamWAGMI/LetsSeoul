@@ -42,5 +42,5 @@ export const cardStyles = {
     "flex flex-col items-center justify-center shrink-0 w-[162px] h-[114px] bg-white rounded-lg p-3",
   lgThemeCard: "bg-white rounded-lg p-3 text-center mb-3",
   gridThemeCard:
-    "flex flex-col items-center justify-center bg-white rounded-lg min-h-[114px] p-3",
+    "flex flex-col items-center justify-center bg-white rounded-lg min-h-[114px] h-full p-3",
 };

@@ -14,14 +14,20 @@ function Card({
   return (
     <Link to={path} key={id}>
       <li
-        className={`${styles} rounded-lg text-sm hover:shadow-md active:shadow-md`}
+        className={`${styles} ${
+          isOneLine ? null : "hover:shadow-md active:shadow-md"
+        } text-sm`}
       >
         {isOneLine ? (
-          <div className={`bg-white p-3 ${isFull ? null : "inline-block"}`}>
+          <div
+            className={`bg-white p-3 rounded-lg hover:shadow-md active:shadow-md ${
+              isFull ? null : "inline-block"
+            }`}
+          >
             <span>{emoji}</span>
             <span className="ml-2">{name}</span>
             <span className="float-right">
-              {option2 === "♥️" ? (
+              {option2 === "♥" ? (
                 <span className="text-heartRed mr-2">{option2}</span>
               ) : null}
               <span>{option}</span>

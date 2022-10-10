@@ -52,7 +52,7 @@ function MapNav({ isUsers, emoji, name, isWished, handleWishButtonClick }) {
               }`}
               onClick={handleWishButtonClick}
             >
-              {isWished ? "♥️" : "♡"}
+              {isWished ? "♥" : "♡"}
             </span>
           )}
         </div>

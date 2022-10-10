@@ -15,6 +15,9 @@ function Header({
   userEmoji,
   storeName,
   storeAddress,
+  hasWishButton = false,
+  isWished,
+  handleWishButtonClick,
 }) {
   const isLoginModalOpen = useSelector((state) => state.isLoginModalOpen.value);
   const isDrawerOpen = useSelector((state) => state.isDrawerOpen.value);
@@ -65,11 +68,19 @@ function Header({
               </Link>
             )}
           </div>
-          {hasBackButton ? (
-            <div className="w-[28px] flex justify-center items-center text-heartRed">
-              ♥️
+          {/* back 버튼, wish(찜) 버튼 유무에 따라 분기 */}
+          {!hasWishButton && hasBackButton && <div className="w-[28px]" />}
+          {hasWishButton && (
+            <div
+              className={`w-[28px] flex justify-center items-center cursor-pointer ${
+                isWished ? "text-heartRed" : "text-white"
+              }`}
+              onClick={handleWishButtonClick}
+            >
+              {isWished ? "♥" : "♡"}
             </div>
-          ) : (
+          )}
+          {!hasBackButton && !hasWishButton && (
             <div className="basis-1/4 flex justify-end items-center py-[4px]">
               {isLogin ? (
                 <Link to={`/user/${userId}`}>
