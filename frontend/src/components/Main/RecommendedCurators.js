@@ -2,9 +2,10 @@ import React, { useRef } from "react";
 import Card from "components/common/Card";
 import { useDraggable } from "react-use-draggable-scroll";
 import { cardStyles } from "lib/styles";
+import FixedCard from "lib/skeleton/FixedCard";
 
-function RecommendedCurators({ listOfCards }) {
-  const { fixedThemeCard } = cardStyles;
+function RecommendedCurators({ listOfCards, isLoading }) {
+  const { fixedCard } = cardStyles;
   const ref = useRef(null);
   const { events } = useDraggable(ref);
 
@@ -16,17 +17,21 @@ function RecommendedCurators({ listOfCards }) {
         ref={ref}
         {...events}
       >
-        {listOfCards.map(({ userId, emoji, nickname, reviewCount }) => (
-          <Card
-            key={userId}
-            id={userId}
-            emoji={emoji}
-            name={nickname}
-            option={`${reviewCount}개의 장소 추천중`}
-            styles={fixedThemeCard}
-            path={`/user/${userId}`}
-          />
-        ))}
+        {!isLoading
+          ? listOfCards.map(({ userId, emoji, nickname, reviewCount }) => (
+              <Card
+                key={userId}
+                id={userId}
+                emoji={emoji}
+                name={nickname}
+                option={`${reviewCount}개의 장소 추천중`}
+                styles={fixedCard}
+                path={`/user/${userId}`}
+              />
+            ))
+          : new Array(5)
+              .fill(0)
+              .map((_, idx) => <FixedCard key={idx} id={idx} />)}
       </ul>
     </div>
   );

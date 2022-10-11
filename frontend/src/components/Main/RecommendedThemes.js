@@ -2,9 +2,10 @@ import React, { useRef } from "react";
 import Card from "components/common/Card";
 import { useDraggable } from "react-use-draggable-scroll";
 import { cardStyles } from "lib/styles";
+import FixedCard from "lib/skeleton/FixedCard";
 
-function RecommendedThemes({ listOfCards }) {
-  const { fixedThemeCard } = cardStyles;
+function RecommendedThemes({ listOfCards, isLoading }) {
+  const { fixedCard } = cardStyles;
   const ref = useRef(null);
   const { events } = useDraggable(ref);
 
@@ -16,19 +17,23 @@ function RecommendedThemes({ listOfCards }) {
         ref={ref}
         {...events}
       >
-        {listOfCards.map(({ id, emoji, title, storeCount }) => {
-          return (
-            <Card
-              key={id}
-              id={id}
-              emoji={emoji}
-              name={title}
-              option={`${storeCount}개의 추천 장소`}
-              styles={fixedThemeCard}
-              path={`/theme/${id}`}
-            />
-          );
-        })}
+        {!isLoading
+          ? listOfCards.map(({ id, emoji, title, storeCount }) => {
+              return (
+                <Card
+                  key={id}
+                  id={id}
+                  emoji={emoji}
+                  name={title}
+                  option={`${storeCount}개의 추천 장소`}
+                  styles={fixedCard}
+                  path={`/theme/${id}`}
+                />
+              );
+            })
+          : new Array(5)
+              .fill(0)
+              .map((_, idx) => <FixedCard key={idx} id={idx} />)}
       </ul>
     </div>
   );

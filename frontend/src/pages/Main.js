@@ -13,6 +13,7 @@ function Main() {
     popularThemes: [],
     recommendedCurators: [],
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get("/oauth2/users").then((res) => console.log(res));
@@ -35,6 +36,7 @@ function Main() {
           }));
         })
       )
+      .then(() => setIsLoading(false))
       .catch((err) => console.error(err.message));
   };
 
@@ -47,9 +49,18 @@ function Main() {
     <>
       <div className="padding-container">
         <SearchThemes />
-        <RecommendedThemes listOfCards={listsOfCards.recommendedThemes} />
-        <PopularThemes listOfCards={listsOfCards.popularThemes} />
-        <RecommendedCurators listOfCards={listsOfCards.recommendedCurators} />
+        <RecommendedThemes
+          listOfCards={listsOfCards.recommendedThemes}
+          isLoading={isLoading}
+        />
+        <PopularThemes
+          listOfCards={listsOfCards.popularThemes}
+          isLoading={isLoading}
+        />
+        <RecommendedCurators
+          listOfCards={listsOfCards.recommendedCurators}
+          isLoading={isLoading}
+        />
       </div>
       <Footer />
     </>
