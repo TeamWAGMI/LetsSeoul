@@ -121,7 +121,7 @@ public class StoreService {
 
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> StoreService.triggerExceptionForIllegalRequest());
         //리뷰아이디와 세션아이디가 다르다면 fail
-        if(review.getUser().getId().equals(userId)){
+        if(!review.getUser().getId().equals(userId)){
             throw StoreService.triggerExceptionForIllegalRequest();
         }
         review.setContent(reviewPatch.getReviewContent());  //""  << null 검증에 대한 처리 컨트롤러에서 처리
@@ -133,7 +133,7 @@ public class StoreService {
     //TH-0008
     public StoreDto.UpdateOrDeleteReviewResponse attemptReviewDelete(Long userId,Long reviewId) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> StoreService.triggerExceptionForIllegalRequest());
-        if(review.getUser().getId().equals(userId)){
+        if(!review.getUser().getId().equals(userId)){
             throw StoreService.triggerExceptionForIllegalRequest();
         }
         review.setStatus("D");

@@ -219,16 +219,7 @@ public class ThemeDto {
         private final String themeTitle;
         private final Long reviewCount;
 
-        public static MultiResponseDto<ThemeSearchResponse> of(Page<Tuple> page) {
-            List<ThemeSearchResponse> themeSearchResponses =new ArrayList<>();
-            for(Tuple content:page.getContent()){
-                themeSearchResponses.add(new ThemeSearchResponse(
-                        content.get(0,Long.class),
-                        content.get(1,String.class),
-                        content.get(2,String.class),
-                        content.get(3,Long.class)
-                ));
-            }
+        public static MultiResponseDto<ThemeSearchResponse> of(Page<Tuple> page,List<ThemeSearchResponse> themeSearchResponses) {
             return new MultiResponseDto<>(themeSearchResponses,page);
         }
     }

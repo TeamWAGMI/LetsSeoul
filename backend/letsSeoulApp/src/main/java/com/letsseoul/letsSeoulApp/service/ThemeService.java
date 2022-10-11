@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -158,11 +159,18 @@ public class ThemeService {
      * TH-0009
      */
     public MultiResponseDto<ThemeDto.ThemeSearchResponse> themeSearch(ThemeDto.ThemeSearchPost themeSearchGet, Pageable pageable) {
-        Page<Tuple> dynamicQuery = themeCustomRepository.findDynamicQuery(themeSearchGet.getKeyword(),themeSearchGet.getWho(),themeSearchGet.getWhat(),themeSearchGet.getWhere(),pageable);
-        System.out.println("dynamicQuery.getTotalElements() = " + dynamicQuery.getTotalElements());
-        System.out.println("dynamicQuery.getTotalPages() = " + dynamicQuery.getTotalPages());
-        
-        return  ThemeDto.ThemeSearchResponse.of(dynamicQuery);
+        Page<Tuple> dynamicQuery = themeCustomRepository.findDynamicQuery(themeSearchGet,pageable);
+        List<ThemeDto.ThemeSearchResponse> themeSearchResponses =new ArrayList<>();
+        for(Tuple content:dynamicQuery.getContent()){
+            themeSearchResponses.add(new ThemeDto.ThemeSearchResponse(
+                    content.get(0,Long.class),
+                    content.get(1,String.class),
+                    content.get(2,String.class),
+                    themeCustomRepository.findReviewCount(content.get(0,Long.class))
+            ));
+        }
+        //List<ThemeDto.ThemeSearchResponse> response = themeSearchResponses.stream().sorted((o1, o2) -> (int) (o1.getReviewCount() - o2.getThemeId())).collect(Collectors.toList());
+        return  ThemeDto.ThemeSearchResponse.of(dynamicQuery,themeSearchResponses);
         /*List<Tuple> tupleList = dynamicQuery.getContent();
         System.out.println("tupleList.get(0).get(3,Long.class) = " + tupleList.get(0).get(3,Long.class));*/
         //inner class this가되나?

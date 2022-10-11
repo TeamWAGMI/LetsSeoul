@@ -2,10 +2,12 @@ package com.letsseoul.letsSeoulApp.repository;
 
 
 import com.letsseoul.letsSeoulApp.domain.Theme;
+import com.letsseoul.letsSeoulApp.dto.theme.ThemeDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import static com.letsseoul.letsSeoulApp.domain.QTheme.theme;
 import static com.letsseoul.letsSeoulApp.domain.QTag.tag;
 import static com.letsseoul.letsSeoulApp.domain.QThemeTag.themeTag;
+import static com.letsseoul.letsSeoulApp.domain.QReview.review;
 import static com.letsseoul.letsSeoulApp.domain.QThemeStore.themeStore;
 import java.util.List;
 
@@ -27,45 +30,55 @@ public class ThemeCustomRepositoryImpl implements ThemeCustomRepository {
     }
 
     @Override
-    public Page<Tuple> findDynamicQuery(String keyword, String[] who, String[] what, String[] where, Pageable pageable) {
+    public Page<Tuple> findDynamicQuery(ThemeDto.ThemeSearchPost themeSearchGet, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (!keyword.equals("")) {
-            builder.or(theme.title.contains(keyword));
+        if (!themeSearchGet.getKeyword().equals("")) {
+            builder.or(theme.title.contains(themeSearchGet.getKeyword()));
         }
 
-        if (who != null) {
-            for (String w : who) {
+        if (themeSearchGet.getWho() != null) {
+            for (String w : themeSearchGet.getWho()) {
                 builder.or(tag.title.eq(w));
             }
         }
-        if (what != null) {
-            for (String w : what) {
+        if (themeSearchGet.getWhat() != null) {
+            for (String w : themeSearchGet.getWhat()) {
                 builder.or(tag.title.eq(w));
             }
         }
-        if (where != null) {
-            for (String w : where) {
+        if (themeSearchGet.getWhere() != null) {
+            for (String w : themeSearchGet.getWhere()) {
                 builder.or(tag.title.eq(w));
             }
         }
         JPQLQuery<Tuple> fetch = queryFactory.select(
                     theme.id,
                     theme.emoji,
-                    theme.title,
-                    themeStore.theme.id.count().as("cnt")
+                    theme.title
                     )
                     .from(theme)
                     .innerJoin(themeTag).on(theme.id.eq(themeTag.theme.id))
                     .innerJoin(tag).on(tag.id.eq(themeTag.tag.id))
                     .leftJoin(themeStore).on(themeStore.theme.id.eq(theme.id))
+                    .leftJoin(review).on(themeStore.id.eq(review.themeStore.id).and(review.status.eq("E")))
                     .where(builder)
                     .groupBy(theme.id)
-                    .orderBy(themeStore.theme.id.count().desc())
+                    .orderBy(themeStore.id.count().desc())
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize());
-
-            return new PageImpl<>(fetch.fetch(), pageable, fetch.fetchCount());
+        List<Tuple> fetch1 = fetch.fetch();
+        return new PageImpl<>(fetch1, pageable, fetch.fetchCount());
         }
+
+    @Override
+    public Long findReviewCount(Long themeId) {
+        List<Long> e = queryFactory.select(review.count())
+                .from(review)
+                .innerJoin(themeStore)
+                .on(themeStore.id.eq(review.themeStore.id).and(review.status.eq("E")))
+                .where(themeStore.theme.id.eq(themeId)).fetch();
+        return e.get(0);
     }
+}
 
 
