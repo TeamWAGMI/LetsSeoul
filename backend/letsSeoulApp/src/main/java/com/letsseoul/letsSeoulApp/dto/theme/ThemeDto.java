@@ -142,29 +142,39 @@ public class ThemeDto {
     @Getter
     @RequiredArgsConstructor
     public static class ThemeMapListResponse {
-        private final mapInfoResponse mapInfo;
+        private final MapInfoResponse mapInfo;
         private final List<ThemeMapListResponseDto> stores;
         @Getter
         @RequiredArgsConstructor
-        static class mapInfoResponse{
-            private final float centerLat;
-            private final float centerLng;
+        static class MapInfoResponse {
+            private final Double centerLat;
+            private final Double centerLng;
             private final Integer level;
         }
         public static ThemeMapListResponse of(List<ThemeMapListResponseDto> themeStoreList) { // 어떻게 객체탐색을 해서 응답을 구성할 지 구체적인 구현이 필요
-            /*
-            * 1. 서비스부분에서 계산
-            * 2. dto부분에서 계산
-            *
-            * */
-            // 현재는 일단 임의의 값들을 넣는다.
+            // centerLat/Lng & level 구하기
+            /* 한국 위도 범위 33~43, 124~132. 넉넉히 +-1씩 잡는다. */
+            Double maxLat = 32.0D;
+            Double minLat = 44.0D;
+            Double maxLng = 123.0D;
+            Double minLng = 131.0D;
+            for (ThemeMapListResponseDto t : themeStoreList) {
+                Double nowLat = Double.valueOf(t.getLat());
+                Double nowLng = Double.valueOf(t.getLng());
+
+                maxLat = Math.max(nowLat, maxLat);
+                minLat = Math.min(nowLat, minLat);
+                maxLng = Math.max(nowLng, maxLng);
+                minLng = Math.min(nowLng, minLng);
+            }
+            Double centerLat = minLat + (maxLat - minLat) / 2;
+            Double centerLng = minLng + (maxLng - minLng) / 2;
+            Integer level = 6; //임시값
 
             //위에서 나온값을 토대로 해당 값 세팅
-            mapInfoResponse mapInfoResponse = new mapInfoResponse(1,1,1);
+            MapInfoResponse mapInfoResponse = new MapInfoResponse(centerLat, centerLng, level);
 
-            ThemeMapListResponse themeMapListResponse = new ThemeMapListResponse(mapInfoResponse,themeStoreList);
-
-            return themeMapListResponse;
+            return new ThemeMapListResponse(mapInfoResponse,themeStoreList);
         }
     }
 
