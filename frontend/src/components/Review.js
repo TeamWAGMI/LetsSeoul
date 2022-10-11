@@ -17,6 +17,7 @@ function Review({
   modifiedAt,
   storeReviews,
   setStoreReviews,
+  handleEditButtonClick,
 }) {
   const userInfo = useSelector((state) => state.userInfo.value);
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ function Review({
         </span>
       </div>
       <div className="py-2">{content}</div>
-      <div className="flex justify-between text-xs">
+      <div className="flex justify-between text-xs text-textDarkGray">
         <div className="py-2">
           <span>{convertedDate}</span>
           {createdAt !== modifiedAt && (
@@ -64,7 +65,13 @@ function Review({
         </div>
         {parseInt(userInfo.userId) === userId && (
           <div>
-            <Button styles={mdTextGrayButton} name="수정" />
+            <Button
+              styles={mdTextGrayButton}
+              name="수정"
+              handleButtonClick={() =>
+                handleEditButtonClick({ userId, reviewId, score, content })
+              }
+            />
             <span className="border" />
             <Button
               styles={mdTextGrayButton}

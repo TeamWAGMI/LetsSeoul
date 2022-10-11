@@ -4,7 +4,7 @@ import Header from "components/common/Header";
 import Review from "components/Review";
 import { scrollToTop } from "lib/utils/scrollToTop";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useDispatch, useSelector } from "react-redux";
 import { checkSession } from "lib/utils/checkSession";
@@ -22,8 +22,9 @@ function StoreInfo() {
   const [storeReviews, setStoreReviews] = useState([]);
   // const [pageInfo, setPageInfo] = useState([]);
   const [isWished, setIsWished] = useState(false);
-  const { sid } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { sid } = useParams();
 
   useEffect(() => {
     scrollToTop();
@@ -78,6 +79,16 @@ function StoreInfo() {
     checkSession(dispatch, nextAPICall);
   };
 
+  const handleEditButtonClick = (reviewData) => {
+    const data = {
+      ...reviewData,
+      sid,
+      storeName: storeInfo.name,
+      storeAddress: storeInfo.address,
+    };
+    navigate("/store/review/edit", { state: data });
+  };
+
   return (
     <>
       <Header
@@ -100,6 +111,7 @@ function StoreInfo() {
                   emoji={emoji}
                   name={title}
                   isOneLine={true}
+                  path={`/theme/${id}`}
                 />
               );
             })}
@@ -148,6 +160,7 @@ function StoreInfo() {
                     modifiedAt={modifiedDatetime}
                     storeReviews={storeReviews}
                     setStoreReviews={setStoreReviews}
+                    handleEditButtonClick={handleEditButtonClick}
                   />
                 );
               }

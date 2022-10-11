@@ -7,7 +7,7 @@ import Footer from "components/common/Footer";
 import SearchBar from "components/SearchBar";
 import Tag from "components/Tag";
 import { scrollToTop } from "lib/utils/scrollToTop";
-import { atWhere, doWhat, withWhom } from "static/dummyData";
+import { atWhere, doWhat, withWhom } from "static/tagContents";
 import { buttonStyles, cardStyles } from "lib/styles";
 import GridThemeCard from "../lib/skeleton/GridThemeCard";
 
