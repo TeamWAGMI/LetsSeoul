@@ -87,9 +87,10 @@ public class StoreController {
 
     //TH-0007 가게 테마 리뷰 수정
     @PatchMapping("/reviews/{reviewId}")
-    public ResponseEntity<StoreDto.UpdateOrDeleteReviewResponse> attemptReviewUpdate(@LoginUser SessionUser user,
-                                                                                     @PathVariable("reviewId") Long reviewId,
-                                                                                     @RequestBody ThemeDto.ReviewPatch reviewPatch){
+    public ResponseEntity<StoreDto.UpdateOrDeleteReviewResponse> attemptReviewUpdate(
+            @LoginUser SessionUser user,
+            @PathVariable("reviewId") Long reviewId,
+            @RequestBody ThemeDto.ReviewPatch reviewPatch){
         return ResponseEntity.ok().body(storeService.attemptReviewUpdate(user.getId(), reviewId,reviewPatch));
     }
 
