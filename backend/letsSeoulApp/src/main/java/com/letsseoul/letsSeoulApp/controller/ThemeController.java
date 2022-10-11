@@ -73,7 +73,7 @@ public class ThemeController {
         }
 
         return ResponseEntity.ok()
-                .body(themeService.registThemeReview(user.getId(), themeId, registThemeReviewPost));
+                .body(themeService.registThemeReview(1L, themeId, registThemeReviewPost));
     }
 
 
