@@ -71,7 +71,6 @@ function Follow() {
       <div className="padding-container">
         <ul className="grid gap-2">
           {followList.map(({ userId, emoji, nickname, followerCount }) => {
-            const path = `/user/${userId}`;
             return (
               <Card
                 key={userId}
@@ -82,7 +81,7 @@ function Follow() {
                 option2="♥"
                 isOneLine={true}
                 isFull={true}
-                path={path}
+                path={`/user/${userId}`}
               />
             );
           })}

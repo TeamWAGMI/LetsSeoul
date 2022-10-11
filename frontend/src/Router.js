@@ -7,6 +7,7 @@ import UserInfo from "pages/UserInfo";
 import FollowList from "pages/FollowList";
 import RequestForm from "pages/RequestForm";
 import ReviewForm from "pages/ReviewForm";
+import EditForm from "pages/EditForm";
 import StoreInfo from "pages/StoreInfo";
 import ThemeMap from "pages/ThemeMap";
 import SearchMap from "pages/SearchMap";
@@ -31,6 +32,7 @@ const Router = () => {
         </Route>
         <Route path="/store/:sid" element={<StoreInfo />} />
         <Route path="/store/review" element={<ReviewForm />} />
+        <Route path="/store/review/edit" element={<EditForm />} />
         <Route path="/theme/:tid" element={<ThemeMap />} />
         <Route path="/theme/search/:tid" element={<SearchMap />} />
         <Route path="/transition/login" element={<LoginData />} />
