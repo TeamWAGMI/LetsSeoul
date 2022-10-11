@@ -9,15 +9,24 @@ import Tag from "components/Tag";
 import { scrollToTop } from "lib/utils/scrollToTop";
 import { atWhere, doWhat, withWhom } from "static/dummyData";
 import { buttonStyles, cardStyles } from "lib/styles";
+import GridThemeCard from "../lib/skeleton/GridThemeCard";
 
 function SearchTheme() {
   const [themeCardsList, setThemeCardsList] = useState([]);
-  const [pageInfo, setPageInfo] = useState([]);
+  const [pageInfo, setPageInfo] = useState({
+    nowPage: 1,
+    nowCount: 0,
+    totalPage: 1,
+    totalCount: 0,
+    isFirst: true,
+    hasNext: false,
+  });
   const [selectedWhom, setSelectedWhom] = useState([]);
   const [selectedWhat, setSelectedWhat] = useState([]);
   const [selectedWhere, setSelectedWhere] = useState([]);
   const [inputKeyword, setInputKeyword] = useState("");
   const [submitKeyword, setSubmitKeyword] = useState("");
+  const [isLoaing, setIsLoading] = useState(true);
 
   const { gridThemeCard } = cardStyles;
   const { mdGreenButton } = buttonStyles;
@@ -34,13 +43,15 @@ function SearchTheme() {
       where: selectedWhere,
     };
 
-    axios.post(`api/v1/themes/search`, data).then((res) => {
-      setThemeCardsList(res.data.content);
-      setPageInfo(res.data.pageInfo);
-    });
+    axios
+      .post(`api/v1/themes/search`, data)
+      .then((res) => {
+        setThemeCardsList(res.data.content);
+        setPageInfo((prev) => ({ ...prev, ...res.data.pageInfo }));
+      })
+      .then(() => setIsLoading(false))
+      .catch((err) => console.error(err.message));
   }, [selectedWhom, selectedWhat, selectedWhere, submitKeyword]);
-
-  console.log(pageInfo);
 
   return (
     <>
@@ -79,19 +90,23 @@ function SearchTheme() {
               : `${pageInfo.totalCount}개의 테마를 찾았어요.`}
           </div>
           <ul className="grid grid-cols-2 gap-[11px]">
-            {themeCardsList.map(
-              ({ themeId, themeEmoji, themeTitle, reviewCount }) => (
-                <Card
-                  key={themeId}
-                  id={themeId}
-                  emoji={themeEmoji}
-                  name={themeTitle}
-                  option={`${reviewCount}개의 추천 장소`}
-                  styles={gridThemeCard}
-                  path={`/theme/${themeId}`}
-                />
-              )
-            )}
+            {!isLoaing
+              ? themeCardsList.map(
+                  ({ themeId, themeEmoji, themeTitle, reviewCount }) => (
+                    <Card
+                      key={themeId}
+                      id={themeId}
+                      emoji={themeEmoji}
+                      name={themeTitle}
+                      option={`${reviewCount}개의 추천 장소`}
+                      styles={gridThemeCard}
+                      path={`/theme/${themeId}`}
+                    />
+                  )
+                )
+              : new Array(10)
+                  .fill(0)
+                  .map((_, idx) => <GridThemeCard key={idx} id={idx} />)}
           </ul>
         </div>
         <div>
