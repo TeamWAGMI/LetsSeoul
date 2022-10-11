@@ -1,18 +1,18 @@
-import FollowList from "pages/FollowList";
-import Main from "pages/Main";
-import RequestForm from "pages/RequestForm";
-import ReviewForm from "pages/ReviewForm";
-import SearchTheme from "pages/SearchTheme";
-import StoreInfo from "pages/StoreInfo";
-import ThemeMap from "pages/ThemeMap";
-import UserInfo from "pages/UserInfo";
-import UserPickMap from "pages/UserPickMap";
-import UserWishMap from "pages/UserWishMap";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginData from "pages/LoginData";
 import Layout1 from "layout/Layout1";
 import Layout2 from "layout/Layout2";
+import Main from "pages/Main";
+import SearchTheme from "pages/SearchTheme";
+import UserInfo from "pages/UserInfo";
+import FollowList from "pages/FollowList";
+import RequestForm from "pages/RequestForm";
+import ReviewForm from "pages/ReviewForm";
+import StoreInfo from "pages/StoreInfo";
+import ThemeMap from "pages/ThemeMap";
 import SearchMap from "pages/SearchMap";
+import UserPickMap from "pages/UserPickMap";
+import UserWishMap from "pages/UserWishMap";
+import LoginData from "pages/LoginData";
 
 const Router = () => {
   return (
