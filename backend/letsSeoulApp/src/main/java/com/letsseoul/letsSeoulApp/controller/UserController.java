@@ -8,10 +8,8 @@ import com.letsseoul.letsSeoulApp.dto.user.UserDto;
 import com.letsseoul.letsSeoulApp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Positive;
 import java.util.List;
 

@@ -9,7 +9,6 @@ import com.letsseoul.letsSeoulApp.dto.theme.ThemeDto;
 import com.letsseoul.letsSeoulApp.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.letsseoul.letsSeoulApp.config.auth.LoginUser;

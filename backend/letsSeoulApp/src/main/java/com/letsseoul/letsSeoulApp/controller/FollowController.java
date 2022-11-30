@@ -10,7 +10,6 @@ import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
