@@ -10,6 +10,8 @@ import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
 //import com.letsseoul.letsSeoulApp.dto.theme.ThemeSearchResponseDto;
 import com.letsseoul.letsSeoulApp.repository.*;
 import com.querydsl.core.Tuple;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -116,6 +118,12 @@ public class ThemeService {
     public ThemeDto.RegistThemeReviewResponse registThemeReview(Long userId,
                                                                 Long themeId,
                                                                 ThemeDto.RegistThemeReviewPost registThemeReviewPost) {
+
+        // 하루(24시간 내)에 등록할 수 있는 리뷰의 개수는 최대 5개이다.
+        if (5 < reviewRepository.countByUserIdAndCreatedDatetimeIsAfter(
+                userId, LocalDateTime.now().minusDays(1L))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "리뷰는 하루에 다섯 개 까지만 등록 가능합니다.");
+        }
 
         //별점 검증
         //theme 조회

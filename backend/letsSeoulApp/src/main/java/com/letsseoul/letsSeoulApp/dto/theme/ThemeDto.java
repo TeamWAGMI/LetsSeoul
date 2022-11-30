@@ -1,8 +1,5 @@
 package com.letsseoul.letsSeoulApp.dto.theme;
 
-
-
-
 import com.letsseoul.letsSeoulApp.domain.SuggestTheme;
 import com.letsseoul.letsSeoulApp.domain.Theme;
 import com.letsseoul.letsSeoulApp.dto.MultiResponseDto;
@@ -13,7 +10,6 @@ import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class ThemeDto {
 

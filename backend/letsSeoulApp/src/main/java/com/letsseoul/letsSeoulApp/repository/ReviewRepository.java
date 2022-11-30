@@ -2,6 +2,7 @@ package com.letsseoul.letsSeoulApp.repository;
 
 import com.letsseoul.letsSeoulApp.domain.Review;
 import com.letsseoul.letsSeoulApp.dto.location.ReviewPlaceResponseDto;
+import java.time.LocalDateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "GROUP BY s.id ")
     List<ReviewPlaceResponseDto> findReviewPlaceByUserId(Long userId);
 
+    Long countByUserIdAndCreatedDatetimeIsAfter(Long userId, LocalDateTime minusDays);
 }
