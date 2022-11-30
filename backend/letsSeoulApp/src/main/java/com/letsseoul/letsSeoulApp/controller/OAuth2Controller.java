@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class OAuth2Controller {
 
     @GetMapping("/oauth2/users")
-    public ResponseEntity<SessionUser> oauthLoginSuccess(@LoginUser SessionUser user) {
+    public SessionUser oauthLoginSuccess(@LoginUser SessionUser user) {
 
-        return ResponseEntity.ok().body(user);
+        return user;
     }
 }

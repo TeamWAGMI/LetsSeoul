@@ -30,9 +30,9 @@ public class StoreController {
      * 단일한 특정 가게 정보를 조회하는 기능
      */
     @GetMapping("/{storeId}")
-    public ResponseEntity<StoreDto.StoreInfoResponse> getStoreInfo(@PathVariable("storeId") @Positive Long storeId) {
+    public StoreDto.StoreInfoResponse getStoreInfo(@PathVariable("storeId") @Positive Long storeId) {
 
-        return ResponseEntity.ok().body(storeService.getStoreInfo(storeId));
+        return storeService.getStoreInfo(storeId);
     }
 
     /**
@@ -40,11 +40,10 @@ public class StoreController {
      * 특정 가게를 특정 회원이 찜하고 있는지 여부를 조회하는 기능
      */
     @GetMapping("/{storeId}/follows")
-    public ResponseEntity<StoreDto.CheckDibsResponse> checkStoreDibs(@LoginUser SessionUser user,
+    public StoreDto.CheckDibsResponse checkStoreDibs(@LoginUser SessionUser user,
                                                                      @PathVariable("storeId") @Positive Long storeId) {
 
-        return ResponseEntity.ok()
-                .body(storeService.checkStoreDibs(user.getId(), storeId));
+        return storeService.checkStoreDibs(user.getId(), storeId);
     }
 
     /**
@@ -52,53 +51,51 @@ public class StoreController {
      * 특정 가게를 찜 목록에 등록하는 기능
      */
     @PostMapping("/{storeId}/wishes")
-    public ResponseEntity<StoreDto.RegistDibsResponse> registStoreDibs(@LoginUser SessionUser user,
+    public StoreDto.RegistDibsResponse registStoreDibs(@LoginUser SessionUser user,
                                                                        @PathVariable("storeId") @Positive Long storeId) {
-        return ResponseEntity.ok()
-                .body(storeService.registStoreDibs(user.getId(), storeId));
+        return storeService.registStoreDibs(user.getId(), storeId);
     }
     /**
      * ST-0004 가게찜 취소
      * 특정 가게를 찜 목록에서 삭제하는 기능
      */
     @DeleteMapping("/{storeId}/wishes")
-    public ResponseEntity<StoreDto.DeleteDibsResponse> deleteStoreDibs(@LoginUser SessionUser user,
+    public StoreDto.DeleteDibsResponse deleteStoreDibs(@LoginUser SessionUser user,
                                                                        @PathVariable("storeId") @Positive Long storeId) {
 
-        return ResponseEntity.ok()
-                .body(storeService.deleteStoreDibs(user.getId(), storeId));
+        return storeService.deleteStoreDibs(user.getId(), storeId);
     }
 
 
     //th-0005  가게 테마 조회
     @GetMapping("/{storeId}/themes")
-    public ResponseEntity<List<StoreThemeResponse>> attemptGetStoreTheme(@PathVariable("storeId") Long storeId){
-        return ResponseEntity.ok().body(storeService.attemptGetStoreTheme(storeId));
+    public List<StoreThemeResponse> attemptGetStoreTheme(@PathVariable("storeId") Long storeId){
+        return storeService.attemptGetStoreTheme(storeId);
     }
 
     //TH-0006 가게 테마 리뷰 조회
     @GetMapping("/{storeId}/reviews")
-    public ResponseEntity<MultiResponseDto<StoreThemeReviewResponse>> attemptGetStoreThemeReview(
+    public MultiResponseDto<StoreThemeReviewResponse> attemptGetStoreThemeReview(
             @PathVariable("storeId") Long storeId,
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size){
-        return ResponseEntity.ok().body(storeService.attemptGetStoreThemeReview(storeId, PageRequest.of(page-1,size)));
+        return storeService.attemptGetStoreThemeReview(storeId, PageRequest.of(page-1,size));
     }
 
     //TH-0007 가게 테마 리뷰 수정
     @PatchMapping("/reviews/{reviewId}")
-    public ResponseEntity<StoreDto.UpdateOrDeleteReviewResponse> attemptReviewUpdate(
+    public StoreDto.UpdateOrDeleteReviewResponse attemptReviewUpdate(
             @LoginUser SessionUser user,
             @PathVariable("reviewId") Long reviewId,
             @RequestBody ThemeDto.ReviewPatch reviewPatch){
-        return ResponseEntity.ok().body(storeService.attemptReviewUpdate(user.getId(), reviewId,reviewPatch));
+        return storeService.attemptReviewUpdate(user.getId(), reviewId,reviewPatch);
     }
 
     //TH-0008 가게 테마 리뷰 삭제
     @DeleteMapping("/reviews/{reviewId}")
-    public ResponseEntity<StoreDto.UpdateOrDeleteReviewResponse> attemptReviewDelete(
+    public StoreDto.UpdateOrDeleteReviewResponse attemptReviewDelete(
             @LoginUser SessionUser user,
             @PathVariable("reviewId") Long reviewId){
-        return ResponseEntity.ok().body(storeService.attemptReviewDelete(user.getId(), reviewId));
+        return storeService.attemptReviewDelete(user.getId(), reviewId);
     }
 }

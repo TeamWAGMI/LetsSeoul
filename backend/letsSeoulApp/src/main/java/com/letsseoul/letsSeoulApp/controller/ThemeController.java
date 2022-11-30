@@ -31,20 +31,18 @@ public class ThemeController {
      * BE-TH-0001 추천 테마 목록 조회
      */
     @GetMapping("/recommends")
-    public ResponseEntity<List<RecommendedThemeListResponseDto>> getRecommendedThemeList() {
+    public List<RecommendedThemeListResponseDto> getRecommendedThemeList() {
 
-        return ResponseEntity.ok()
-                .body(themeService.listupRecommendedThemes());
+        return themeService.listupRecommendedThemes();
     }
 
     /**
      * BE-TH-0002 인기 테마 목록 조회
      */
     @GetMapping("/populars")
-    public ResponseEntity<List<PopularThemeListResponseDto>> getPopularThemeList() {
+    public List<PopularThemeListResponseDto> getPopularThemeList() {
 
-        return ResponseEntity.ok()
-                .body(themeService.listupPopularThemes());
+        return themeService.listupPopularThemes();
     }
 
     /**
@@ -52,8 +50,8 @@ public class ThemeController {
      * @param themeId
      */
     @GetMapping("/{themeId}")
-    public ResponseEntity<ThemeDto.ThemeMapListResponse> themeMapList(@PathVariable("themeId") Long themeId) {
-        return ResponseEntity.ok().body(themeService.themeMapList(themeId));
+    public ThemeDto.ThemeMapListResponse themeMapList(@PathVariable("themeId") Long themeId) {
+        return themeService.themeMapList(themeId);
     }
 
     /**
@@ -61,7 +59,7 @@ public class ThemeController {
      * @param themeId
      */
     @PostMapping("/{themeId}")//hotfix
-    public ResponseEntity<ThemeDto.RegistThemeReviewResponse> registThemeReview(@LoginUser SessionUser user,
+    public ThemeDto.RegistThemeReviewResponse registThemeReview(@LoginUser SessionUser user,
                                             @PathVariable("themeId") @Positive Long themeId,
                                             @RequestBody ThemeDto.RegistThemeReviewPost registThemeReviewPost) {
 
@@ -72,8 +70,7 @@ public class ThemeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
         }
 
-        return ResponseEntity.ok()
-                .body(themeService.registThemeReview(user.getId(), themeId, registThemeReviewPost));
+        return themeService.registThemeReview(user.getId(), themeId, registThemeReviewPost);
     }
 
 
@@ -83,9 +80,9 @@ public class ThemeController {
      * @param themeSearchPost 검색 파라미터
      */
     @PostMapping("/search")
-    public ResponseEntity<MultiResponseDto<ThemeDto.ThemeSearchResponse>> themeSearch(@RequestBody ThemeDto.ThemeSearchPost themeSearchPost, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size) {
+    public MultiResponseDto<ThemeDto.ThemeSearchResponse> themeSearch(@RequestBody ThemeDto.ThemeSearchPost themeSearchPost, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size) {
 
-        return ResponseEntity.ok().body(themeService.themeSearch(themeSearchPost, PageRequest.of(page-1,size)));
+        return themeService.themeSearch(themeSearchPost, PageRequest.of(page-1,size));
     }
 
     /**
@@ -93,7 +90,7 @@ public class ThemeController {
      * @param registThemePost
      */
     @PostMapping
-    public ResponseEntity<ThemeDto.RegistThemeResponse> registTheme(@RequestBody ThemeDto.RegistThemePost registThemePost){
+    public ThemeDto.RegistThemeResponse registTheme(@RequestBody ThemeDto.RegistThemePost registThemePost){
 
         if (!StringUtils.hasText(registThemePost.getThemeTitle())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
@@ -102,14 +99,14 @@ public class ThemeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
         }
 
-        return ResponseEntity.ok().body(themeService.registTheme(registThemePost));
+        return themeService.registTheme(registThemePost);
     }
 
     //TH -0011 테마 찜 여부 조회
     @GetMapping("/{themeId}/users/me/follows")
-    public ResponseEntity<ThemeDto.checkDibsThemeResponse> checkDibsTheme(@LoginUser SessionUser user,
+    public ThemeDto.checkDibsThemeResponse checkDibsTheme(@LoginUser SessionUser user,
                                                                           @PathVariable("themeId") Long themeId){
-        return ResponseEntity.ok().body(themeService.checkDibsTheme(user.getId(),themeId));
+        return themeService.checkDibsTheme(user.getId(),themeId);
     }
 
 
@@ -118,24 +115,24 @@ public class ThemeController {
      * @param themeId
      */
     @PostMapping("/{themeId}/users/me/wishes")
-    public ResponseEntity<ThemeDto.RegistDibsThemeResponse> registDibsTheme(
+    public ThemeDto.RegistDibsThemeResponse registDibsTheme(
             @LoginUser SessionUser user,
             @PathVariable("themeId") Long themeId) {
-        return ResponseEntity.ok().body(themeService.registDibsTheme(user.getId(),themeId));
+        return themeService.registDibsTheme(user.getId(),themeId);
     }
 
     //TH -0013 테마 찜 취소
     @DeleteMapping("/{themeId}/users/me/unwish")
-    public ResponseEntity<ThemeDto.cancelDibsThemeResponse> cancelDibsTheme (
+    public ThemeDto.cancelDibsThemeResponse cancelDibsTheme (
             @LoginUser SessionUser user,
             @PathVariable("themeId") Long themeId){
-        return ResponseEntity.ok().body(themeService.cancelDibsTheme(user.getId(),themeId));
+        return themeService.cancelDibsTheme(user.getId(),themeId);
     }
 
     // TH-0015 테마 정보 조회
     @GetMapping("/{themeId}/info")
-    public ResponseEntity<ThemeDto.ThemeInfoResponse> viewThemeInformation(@PathVariable("themeId") Long themeId){
-        return ResponseEntity.ok().body(themeService.viewThemeInformation(themeId));
+    public ThemeDto.ThemeInfoResponse viewThemeInformation(@PathVariable("themeId") Long themeId){
+        return themeService.viewThemeInformation(themeId);
     }
     
 }
