@@ -8,10 +8,8 @@ import com.letsseoul.letsSeoulApp.dto.user.UserDto;
 import com.letsseoul.letsSeoulApp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -21,25 +19,22 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final HttpSession httpSession;
 
     //US-0001 유저 이미지 변경
     @PatchMapping("/emoji")
-    public ResponseEntity<UserDto.UpdateUserEmojiResponse> updateUserEmoji(@LoginUser SessionUser user) {
-        return ResponseEntity.ok()
-                .body(userService.changeUserEmoji(user.getId()));
+    public UserDto.UpdateUserEmojiResponse updateUserEmoji(@LoginUser SessionUser user) {
+        return userService.changeUserEmoji(user.getId());
     }
     /**
      * US-0002 유저 정보 변경
      * 기능 요약: 유저의 닉네임, 한줄 소개를 변경해주는 api
      */
     @PatchMapping
-    public ResponseEntity<UserDto.UpdateUserInfomationResponse> updateUserInfomation(
+    public UserDto.UpdateUserInfomationResponse updateUserInfomation(
             @LoginUser SessionUser user,
             @RequestBody UserDto.UpdateUserInfomationPatch updateUserInfomationPatch){
 
-        return ResponseEntity.ok()
-                .body(userService.changeUserInfo(user.getId(), updateUserInfomationPatch));
+        return userService.changeUserInfo(user.getId(), updateUserInfomationPatch);
     }
 
     /**
@@ -47,25 +42,23 @@ public class UserController {
      * 해당 유저의 정보(닉네임, 이모지, 한줄소개)를 조회하는 api
      */
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDto.SearchUserInformationResponse> searchUserInformation(
+    public UserDto.SearchUserInformationResponse searchUserInformation(
             @PathVariable("userId") @Positive(message = "잘못된 유저 정보입니다.") Long userId) {
 
-        return ResponseEntity.ok()
-                .body(userService.searchUserInfo(userId));
+        return userService.searchUserInfo(userId);
     }
 
     /**
      * CU-0001 (추천)큐레이터 목록 조회
      */
     @GetMapping("/curators")
-    public ResponseEntity<List<CuratorListResponseDto>> getCuratorsList(){
-        return ResponseEntity.ok()
-                .body(userService.listupCurators());
+    public List<CuratorListResponseDto> getCuratorsList(){
+        return userService.listupCurators();
     }
 
     //TH- 0014 찜한 테마 목록 조회
     @GetMapping("/{userId}/themes")
-    public ResponseEntity<MultiResponseDto<UserDto.DibsTehemeResponse>> viewListOfDibsThemes(@PathVariable("userId") Long userId, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size){
-        return ResponseEntity.ok().body(userService.viewListDibsThemes(userId, PageRequest.of(page-1,size)));
+    public MultiResponseDto<UserDto.DibsTehemeResponse> viewListOfDibsThemes(@PathVariable("userId") Long userId, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "10") Integer size){
+        return userService.viewListDibsThemes(userId, PageRequest.of(page-1,size));
     }
 }

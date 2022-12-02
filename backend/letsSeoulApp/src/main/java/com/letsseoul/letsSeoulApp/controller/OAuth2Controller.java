@@ -4,7 +4,6 @@ import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class OAuth2Controller {
 
     @GetMapping("/oauth2/users")
-    public ResponseEntity<SessionUser> oauthLoginSuccess(@LoginUser SessionUser user) {
+    public SessionUser oauthLoginSuccess(@LoginUser SessionUser user) {
 
-        return ResponseEntity.ok().body(user);
+        return user;
     }
 }

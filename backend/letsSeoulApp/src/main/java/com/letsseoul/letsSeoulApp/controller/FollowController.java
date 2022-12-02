@@ -10,7 +10,6 @@ import com.letsseoul.letsSeoulApp.config.auth.LoginUser;
 import com.letsseoul.letsSeoulApp.config.auth.dto.SessionUser;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,8 +27,8 @@ public class FollowController {
      * @param userId
      */
     @GetMapping("/{userId}/count")
-    public ResponseEntity<FollowDto.CountFollowingsAndFollowersResponse> countFollowingsAndFollowers(@PathVariable("userId") Long userId) {
-        return ResponseEntity.ok().body(followService.countFollowingsAndFollowers(userId));
+    public FollowDto.CountFollowingsAndFollowersResponse countFollowingsAndFollowers(@PathVariable("userId") Long userId) {
+        return followService.countFollowingsAndFollowers(userId);
     }
 
     /**
@@ -37,8 +36,8 @@ public class FollowController {
      * @param followUserId
      */
     @GetMapping("/{followUserId}/check")
-    public ResponseEntity<FollowDto.CheckFollowing> checkFollowing(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
-        return ResponseEntity.ok().body(followService.checkFollowing(user.getId(),followUserId));
+    public FollowDto.CheckFollowing checkFollowing(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
+        return followService.checkFollowing(user.getId(),followUserId);
     }
 
     /**
@@ -46,9 +45,9 @@ public class FollowController {
      * @param followUserId
      */
     @PostMapping("/{followUserId}")
-    public ResponseEntity<FollowDto.FollowUserResponse> followUser(@LoginUser SessionUser user, @PathVariable("followUserId") Long followUserId) {
+    public FollowDto.FollowUserResponse followUser(@LoginUser SessionUser user, @PathVariable("followUserId") Long followUserId) {
 
-        return ResponseEntity.ok().body(followService.followUser(user.getId(), followUserId));
+        return followService.followUser(user.getId(), followUserId);
     }
 
     /**
@@ -56,9 +55,9 @@ public class FollowController {
      * @param followUserId
      */
     @DeleteMapping("/{followUserId}")
-    public ResponseEntity<FollowDto.UnfollowUserResponse> unfollowUser(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
+    public FollowDto.UnfollowUserResponse unfollowUser(@LoginUser SessionUser user,@PathVariable("followUserId") Long followUserId) {
 
-        return ResponseEntity.ok().body(followService.unfollowUser(user.getId(),followUserId));
+        return followService.unfollowUser(user.getId(),followUserId);
     }
 
     /**
@@ -67,11 +66,11 @@ public class FollowController {
      * @param followUserId
      */
     @GetMapping("/{followUserId}/followings")
-    public ResponseEntity<MultiResponseDto<FollowDto.FollowingListResponse>> getFollowingList(
+    public MultiResponseDto<FollowDto.FollowingListResponse> getFollowingList(
             @PathVariable("followUserId") @Positive(message = "잘못된 회원 정보입니다.") Long followUserId,
             @RequestParam(defaultValue = "1",name ="page") Integer page,
             @RequestParam(defaultValue = "10",name ="page") Integer size) {
-        return ResponseEntity.ok().body(followService.getFollowerList(followUserId, PageRequest.of(page-1,size, Sort.by("createdDatetime").descending())));
+        return followService.getFollowerList(followUserId, PageRequest.of(page-1,size, Sort.by("createdDatetime").descending()));
     }
 
     /**
@@ -79,7 +78,7 @@ public class FollowController {
      * @param followUserId
      */
     @GetMapping("/{followUserId}/followers")
-    public ResponseEntity<MultiResponseDto<FollowerResponseDto>> getFollowerList(
+    public MultiResponseDto<FollowerResponseDto> getFollowerList(
             @PathVariable("followUserId") @Positive(message = "잘못된 회원 정보입니다.") Long followUserId,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size) {
@@ -102,9 +101,7 @@ public class FollowController {
             size = 20;
         }
 
-        MultiResponseDto<FollowerResponseDto> followerList = followService.getFollowerList(followUserId, page, size);
-
-        return ResponseEntity.ok().body(followerList);
+        return followService.getFollowerList(followUserId, page, size);
     }
 
 }

@@ -4,7 +4,6 @@ import com.letsseoul.letsSeoulApp.dto.location.DibsPlaceResponseDto;
 import com.letsseoul.letsSeoulApp.dto.location.ReviewPlaceResponseDto;
 import com.letsseoul.letsSeoulApp.service.LocationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +24,9 @@ public class LocationController {
      * 특정 유저가 리뷰를 남긴 장소들을 조회하는 api
      */
     @GetMapping("/{userId}/reviews")
-    public ResponseEntity<List<ReviewPlaceResponseDto>> listupReviewPlace(@PathVariable("userId") @Positive Long userId) {
+    public List<ReviewPlaceResponseDto> listupReviewPlace(@PathVariable("userId") @Positive Long userId) {
 
-        return ResponseEntity.ok()
-                .body(locationService.listupReviewPlace(userId));
+        return locationService.listupReviewPlace(userId);
     }
 
     /**
@@ -36,9 +34,8 @@ public class LocationController {
      * 특정 유저가 찜한 장소들을 조회하는 api
      */
     @GetMapping("/{userId}/wishes")
-    public ResponseEntity<List<DibsPlaceResponseDto>> listupDibsPlace(@PathVariable("userId") @Positive Long userId) {
+    public List<DibsPlaceResponseDto> listupDibsPlace(@PathVariable("userId") @Positive Long userId) {
 
-        return ResponseEntity.ok()
-                .body(locationService.listupDibsPlace(userId));
+        return locationService.listupDibsPlace(userId);
     }
 }
