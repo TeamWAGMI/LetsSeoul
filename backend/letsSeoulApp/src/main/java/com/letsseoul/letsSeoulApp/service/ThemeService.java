@@ -59,19 +59,18 @@ public class ThemeService {
      */
     public List<RecommendedThemeListResponseDto> listupRecommendedThemes() {
 
-        List<Hottheme> hotthemes = hotthemeRepository.findAll();
-        List<RecommendedThemeListResponseDto> hotthemeDtoList = new ArrayList<>();
+        List<Hottheme> hotThemes = hotthemeRepository.findAll();
+        List<RecommendedThemeListResponseDto> hotThemeDtoList = new ArrayList<>();
 
-        hotthemes.forEach(hottheme -> {
-            Theme theme = themeRepository.findById(hottheme.getThemeId())
-                    .orElseThrow(ThemeService::triggerExceptionForIllegalRequest);
-            hotthemeDtoList.add(new RecommendedThemeListResponseDto(theme.getId(), theme.getEmoji(), theme.getTitle()));
-        });
+        hotThemes.forEach(hotTheme ->
+            themeRepository.findById(hotTheme.getThemeId())
+                    .ifPresent(t -> hotThemeDtoList.add(
+                            new RecommendedThemeListResponseDto(t.getId(), t.getEmoji(), t.getTitle()))));
 
-        hotthemeDtoList.forEach(rTheme -> rTheme.setStoreCount(
+        hotThemeDtoList.forEach(rTheme -> rTheme.setStoreCount(
                 themeStoreRepository.countByThemeId(rTheme.getId())));
 
-        return hotthemeDtoList;
+        return hotThemeDtoList;
     }
 
     /**
@@ -192,7 +191,7 @@ public class ThemeService {
 
     /**
      * TH-0010
-     * @param registThemePost
+     * @param registThemePost 테마 등록 입력폼
      */
     public ThemeDto.RegistThemeResponse registTheme(ThemeDto.RegistThemePost registThemePost) {
 
