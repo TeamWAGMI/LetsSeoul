@@ -195,9 +195,7 @@ public class ThemeService {
      */
     public ThemeDto.RegistThemeResponse registTheme(ThemeDto.RegistThemePost registThemePost) {
 
-        if (null == suggestThemeRepository.save(registThemePost.toEntity())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "잘못된 요청입니다.");
-        }
+        suggestThemeRepository.save(registThemePost.toEntity());
 
         return ThemeDto.RegistThemeResponse.of();
     }
